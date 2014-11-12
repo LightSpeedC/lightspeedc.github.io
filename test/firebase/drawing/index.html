@@ -6,16 +6,20 @@
   <link rel="stylesheet" type="text/css" href="../css/example.css">
 </head>
 <body>
-<a href="index.html">[Drawing]</a>
+<a href="../chat/index.html">(Chat)</a>
+<a href="index.html"><b>[Drawing]</b></a>
+<br/>
+リアルタイム白板共有アプリです。<br/>
+みんなで落書きできます。
 <br/>
 <div id="colorholder"></div>
 <div>
-  <canvas id="drawing-canvas" width="480" height="420"></canvas>
+  <canvas id="drawing-canvas" width="600" height="480"></canvas>
 </div>
 <script>
   $(document).ready(function () {
     //Set up some globals
-    var pixSize = 8, lastPoint = null, currentColor = "000", mouseDown = 0;
+    var pixSize = 6, lastPoint = null, currentColor = "000", mouseDown = 0;
 
     //Create a reference to the pixel data for our drawing.
     var pixelDataRef = new Firebase('https://lightspeedc-demo-drawing.firebaseio-demo.com/');
