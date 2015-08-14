@@ -1,0 +1,26 @@
+{
+  "name": "lightspeedc.github.io",
+  "version": "0.0.0",
+  "description": "http://lightspeedc.github.io/",
+  "main": "app.js",
+  "private": true,
+  "dependencies": {
+    "express": "^4.13.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "homepage": "https://github.com/LightSpeedC/lightspeedc.github.io#readme",
+  "bugs": {
+    "url": "https://github.com/LightSpeedC/lightspeedc.github.io/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "LightSpeedC/lightspeedc.github.io"
+  },
+  "keywords": [
+    "lightspeedc"
+  ],
+  "author": "LightSpeedC",
+  "license": "MIT"
+}
