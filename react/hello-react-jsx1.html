@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><title>React example</title></head>
+<body>
+<div id="test">loading...</div>
+<script src="/react/js/react.min.js"></script>
+<script src="/react/js/JSXTransformer.js"></script>
+<!--
+<script src="http://fb.me/react-0.12.2.min.js"></script>
+<script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+-->
+<script type="text/jsx">
+(function () {
+
+  // Hello コンポーネント
+  var Hello = React.createClass({
+    render: function() {
+      return <div>Hello {this.props.name}</div>;
+    }
+  });
+
+  // Hello コンポーネントと、物理DOMを接続する
+  React.render(<Hello name="React" />,
+    document.getElementById("test"));
+
+})();
+</script>
+</body>
+</html>

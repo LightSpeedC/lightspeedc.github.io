@@ -1,7 +1,18 @@
 [
-  {"title": "LightSpeedC.github.io",                   "url": "https://lightspeedc.github.io/"},
-  {"title": "View the Project on GitHub LightSpeedC",  "url": "https://github.com/LightSpeedC"},
-  {"title": "View On GitHub",                          "url": "https://github.com/LightSpeedC/lightspeedc.github.io"},
-  {"title": "MUI example",                             "url": "/public/mui-ex.html"},
-  {"title": "MDL example",                             "url": "/public/mdl-ex.html"}
+	{"title": "LightSpeedC.github.io",
+		"url": "https://lightspeedc.github.io/"},
+	{"title": ["View the Project on GitHub ", {"tag": "b", "children": "LightSpeedC"}],
+		"url": "https://github.com/LightSpeedC"},
+	{"title": ["View On ", {"tag": "b", "children": "GitHub"}],
+		"url": "https://github.com/LightSpeedC/lightspeedc.github.io"},
+	{"title": "React no JSX",
+		"url": "/react/hello-react-wo-jsx.html"},
+	{"title": "React JSX 1",
+		"url": "/react/hello-react-jsx1.html"},
+	{"title": "React JSX 2",
+		"url": "/react/hello-react-jsx2.html"},
+	{"title": "MUI example",
+		"url": "/mui/mui-ex.html"},
+	{"title": "MDL example",
+		"url": "/mdl/mdl-ex.html"}
 ]
