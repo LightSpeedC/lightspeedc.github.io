@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge, Chrome=1">
 <meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="max-age=0">
 <meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
 <title>LightSpeedC</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -48,12 +50,30 @@
 <script>
 
 this.indexComponent = function () {
+	if (!location.search)
+		return location.search = new Date - 0, null;
+
+	// DEBUGモード
+	var debugMode = m.prop(false);
+	var debugView = [];
+	function debugLog() {
+		debugView.push(m('div', [].slice.call(arguments).join(' ')));
+		if (debugView.length > 20) debugView.shift();
+	}
+	debugLog('debug');
+	debugLog(JSON.stringify(location, null, '  '));
+	var d = new Date;
+	debugLog(d);
+	for (var i in d)
+		debugLog('date.', i);
+
 	//コンポーネント定義
 	var indexComponent = {
+
 		//コントローラ
 		controller: function () {
 			//データをサーバーから取得する
-			var list = m.request({method: 'GET', url: 'index.json'});
+			var list = m.request({method: 'GET', url: 'index.json?' + (new Date - 0)});
 
 			this.view = function (ctrl) {
 				return m('div', mui_cls('panel'),
@@ -61,9 +81,11 @@ this.indexComponent = function () {
 					list().map(function (item) {
 						return m('div', {},
 							m('a', mui_cls('btn', 'default', 'raised', {href: item.url}), item.title));
-					})
+					}),
+					m('input[type=checkbox]', m_on('click', 'checked', debugMode)), 'dbg',
+					!debugMode() ? [] : m('pre', {style: {backgroundColor: 'lightgray'}}, debugView)
 				);
-			}
+			};
 		},
 		//ビュー
 		view: function (ctrl) {
@@ -71,6 +93,7 @@ this.indexComponent = function () {
 		}
 	};
 
+	// MUI CSS style className
 	function mui_cls(elem) {
 		var attr = typeof arguments[arguments.length - 1] === 'object' ?
 			arguments[--arguments.length] : {};
@@ -79,12 +102,18 @@ this.indexComponent = function () {
 		return attr;
 	}
 
+	// HTML要素のイベントと値にプロパティを接続するユーティリティ
+	function m_on(eventName, propName, propFunc, attrs) {
+		attrs = attrs || {};
+		attrs['on' + eventName] = m.withAttr(propName, propFunc);
+		attrs[propName] = propFunc();
+		return attrs;
+	}
+
 	return indexComponent;
 }();
 
-//window.onload = function () {
-m.mount($indexElement, indexComponent);
-//};
+if (indexComponent) m.mount($indexElement, indexComponent);
 
 </script>
 </html>
