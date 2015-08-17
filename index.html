@@ -28,11 +28,11 @@
 </h1>
 <p>LightSpeedC pages</p>
 <p class="view">
-<a class="mui-btn mui-btn-default mui-btn-raised" href="https://github.com/LightSpeedC">View the Project on GitHub <strong>LightSpeedC</strong></a>
+<a class="mui-btn mui-btn-default mui-btn-raised" href="https://github.com/LightSpeedC">View the Project on GitHub <b>LightSpeedC</b></a>
 </p>
 <ul>
 <li>
-<a class="mui-btn mui-btn-default mui-btn-raised" href="https://github.com/LightSpeedC/lightspeedc.github.io">View On <strong>GitHub</strong></a>
+<a class="mui-btn mui-btn-default mui-btn-raised" href="https://github.com/LightSpeedC/lightspeedc.github.io">View On <b>GitHub</b></a>
 </li>
 <li>
 <a class="mui-btn mui-btn-accent mui-btn-raised" href="/mui/mui-ex.html">MUI example</a>
@@ -47,37 +47,44 @@
 </body>
 <script>
 
-//コンポーネント定義
-var indexComponent = {
-	//コントローラ
-	controller: function () {
-		//データをサーバーから取得する
-		this.list = m.request({method: 'GET', url: 'index.json'});
-	},
-	//ビュー
-	view: function (ctrl) {
-		return m('div', mui_cls('panel'),
-			m('ul',
-				ctrl.list().map(function (item) {
-					return m('li', {},
-						m('a', mui_cls('btn', 'default', 'raised', {href: item.url}), item.title));
-				})
-			)
-		);
+this.indexComponent = function () {
+	//コンポーネント定義
+	var indexComponent = {
+		//コントローラ
+		controller: function () {
+			//データをサーバーから取得する
+			var list = m.request({method: 'GET', url: 'index.json'});
+
+			this.view = function (ctrl) {
+				return m('div', mui_cls('panel'),
+					!list() ? [] :
+					list().map(function (item) {
+						return m('div', {},
+							m('a', mui_cls('btn', 'default', 'raised', {href: item.url}), item.title));
+					})
+				);
+			}
+		},
+		//ビュー
+		view: function (ctrl) {
+			return ctrl.view(ctrl);
+		}
+	};
+
+	function mui_cls(elem) {
+		var attr = typeof arguments[arguments.length - 1] === 'object' ?
+			arguments[--arguments.length] : {};
+		elem = 'mui-' + elem;
+		attr.className = [elem].concat([].slice.call(arguments, 1).map(function (e) { return elem + '-' + e; })).join(' ');
+		return attr;
 	}
-};
 
-function mui_cls(elem) {
-  var attr = typeof arguments[arguments.length - 1] === 'object' ?
-      arguments[--arguments.length] : {};
-  elem = 'mui-' + elem;
-  attr.className = [elem].concat([].slice.call(arguments, 1).map(function (e) { return elem + '-' + e; })).join(' ');
-  return attr;
-}
+	return indexComponent;
+}();
 
-window.onload = function () {
-	m.mount($indexElement, indexComponent);
-};
+//window.onload = function () {
+m.mount($indexElement, indexComponent);
+//};
 
 </script>
 </html>
