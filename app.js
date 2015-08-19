@@ -1,11 +1,16 @@
 (function () {
 	'use strict';
+	var fs = require('fs');
 	var url = require('url');
 	var path = require('path');
 	var port = process.argv[2] || process.env.PORT || 3000;
 	console.log('port:', port);
 	var express = require('express'), app = express();
-	['js', 'css', 'mui', 'mdl', 'mithril', 'react', 'public'].forEach(
+	fs.readdirSync('.').filter(function (file) {
+		return !file.startsWith('.') &&
+			file !== 'node_modules' &&
+			fs.statSync(file).isDirectory();
+	}).forEach(
 		function (dir) {
 			app.use('/' + dir, express.static(dir));
 		});
