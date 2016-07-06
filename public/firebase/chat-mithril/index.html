@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<meta charset="utf-8">
+<head>
+  <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+  <script src="https://cdn.jsdelivr.net/mithril/0.2.5/mithril.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/example.css">
+</head>
+<body>
+<a href="index.html"><b>[Chat-mithril]</b></a>
+<a href="../chat/index.html">(Chat-jQuery)</a>
+<a href="../drawing/index.html">(Drawing)</a>
+<br/>
+<input type="text" id="$nameInput" placeholder="Name">
+<input type="text" id="$messageInput" placeholder="Message...">
+<br/>
+リアルタイム・チャットです。<br/>
+2人以上や、2つのウィンドウで試すと面白いよ。<br/>
+試しに何か書き込んでみてください。
+<hr/>
+<div id="$messagesDiv"></div>
+<hr/>
+DB: <a href="https://lightspeedc-demo-chat.firebaseio-demo.com/">lightspeedc-demo-chat</a>
+<br/>
+Firebase Tutorial: <a href="https://www.firebase.com/tutorial/">5分でできるチュートリアルより</a>
+</body>
+<script>
+void function () {
+  var mainAppMessages = [];
+  var nameInput = $nameInput;
+  var messageInput = $messageInput;
+  var mainApp = {view: function () {
+    return mainAppMessages.map(function (msg) {
+      return m('div', m('em', msg.name + ': '),
+        msg.text /*, m('font[color=gray][size=2]', msg.key)*/);
+    });
+  }};
+  m.mount($messagesDiv, mainApp);
+
+  // Get a reference to the root of the chat data.
+  var messagesRef = new Firebase('https://lightspeedc-demo-chat.firebaseio-demo.com/');
+
+  // When the user presses enter on the message input, write the message to firebase.
+  messageInput.onkeypress = function (ev) {
+    if ((ev || event).keyCode === 13) {
+      messagesRef.push({name:nameInput.value, text:messageInput.value});
+      messageInput.value = '';
+    }
+  };
+
+  // Add a callback that is triggered for each chat message.
+  messagesRef.limitToLast(10).on('child_added', function (snapshot) {
+    var message = snapshot.val();
+    message.key = snapshot.key();
+    mainAppMessages.push(message);
+    m.redraw();
+  });
+} ();
+</script>
+</html>
