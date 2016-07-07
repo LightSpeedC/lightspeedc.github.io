@@ -1,0 +1,157 @@
+<!doctype html>
+<meta charset="UTF-8">
+<!--<script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>-->
+<link rel="stylesheet" type="text/css" href="../css/example.css">
+<script src="../js/firebase-2.3.2.min.js"></script>
+<script src="../js/mithril.min.js"></script>
+<!--[if IE]><script src="../js/es5-shim.min.js"></script><![endif]-->
+<style>.todo-done { color: gray; text-decoration: line-through; }</style>
+<body>
+<a href="../chat-mithril/index.html">(Chat-mithril)</a>
+<a href="../chat/index.html">(Chat-jQuery)</a>
+<a href="../drawing/index.html">(Drawing)</a>
+<a href="index.html"><b>[ToDo-Mithril]</b></a>
+<br/>
+<h3>やることリスト管理 (Mithril + Firebase)</h3>
+<div id="$todoApp"></div>
+</body>
+<script>
+void function () {
+	'use strict';
+
+	var todoAttrs = {todoList:[]};
+	var FIREBASE_URL = 'https://lightspeedc-demo-todo.firebaseio-demo.com/';
+
+	var todoFirebaseTasksRef = new Firebase(FIREBASE_URL + 'tasks');
+	todoFirebaseTasksRef.on('child_added', function (snapshot) {
+		var task = snapshot.val();
+		task.key = snapshot.key();
+		todoAttrs.taskList.unshift(newTaskCompo(task));
+		m.redraw(true);
+	});
+	todoFirebaseTasksRef.on('child_changed', function (snapshot) {
+		var task = snapshot.val();
+		var key = snapshot.key();
+		todoAttrs.taskList.forEach(function (x) {
+			if (key === x.task.key) {
+				x.task.title = task.title;
+				x.task.done = task.done;
+			}
+		});
+		m.redraw(true);
+	});
+	todoFirebaseTasksRef.on('child_removed', function (snapshot) {
+		var key = snapshot.key();
+		todoAttrs.taskList = todoAttrs.taskList.filter(function (x) {
+			return key !== x.task.key;
+		});
+		m.redraw(true);
+	});
+
+	function fn() {} // dummy function
+
+	var inputCompo = { // component: input
+		controller: function (args) {
+			var ctrl, $input;
+			function inConfig(elem, isInit) {
+				($input = elem).onkeypress = function (ev) {
+					if ((ev || event).keyCode === 13) {
+						(args.onenter || fn)(ev, args.value = $input.value);
+						m.redraw(true); return false;
+					}
+				};
+				elem.focus();
+			}
+			function on(cb) {
+				return function (ev) { cb(ev, args.value = $input.value); }
+			}
+			return ctrl = {args:args, attrs:{size:60, config:inConfig,
+				onchange:on(args.onchange || fn),
+				onblur:on(args.onblur || fn),
+				autofocus:args.autofocus, placeholder:args.placeholder}};
+		},
+		view: function (ctrl) {
+			ctrl.attrs.value = ctrl.args.value;
+			return m('input', ctrl.attrs);
+		}
+	};
+
+	var taskCompo = { // component: task
+		controller: function (task) {
+			var ctrl, inCtrl, inAttrs = {onchange:inChange, onblur:inChange, onenter:inChange};
+			function inChange(e, value) {
+				if (value) {
+					task.title = value;
+					new Firebase(FIREBASE_URL + 'tasks/' + task.key + '/title').set(task.title);
+				}
+				ctrl.editMode = false;
+			}
+			function inCompo() {
+				inAttrs.value = task.title;
+				if (!inCtrl) inCtrl = new (inputCompo.controller)(inAttrs);
+				return (inputCompo.view)(inCtrl); // m(inputCompo, inAttrs);
+			}
+			function enterEdit() { ctrl.editMode = true; }
+			function checkClick() {
+				task.done = !task.done;
+				new Firebase(FIREBASE_URL + 'tasks/' + task.key + '/done').set(task.done);
+			}
+			return ctrl = {task:task, editMode:false, inCompo:inCompo,
+				enterEdit:enterEdit, checkClick:checkClick};
+		},
+		view: function (ctrl) {
+			var task = ctrl.task;
+			return m('div', {}, ctrl.editMode ? ctrl.inCompo() :
+				m('span' + (task.done ? '.todo-done' : ''),
+					{ondblclick:ctrl.enterEdit},
+					m('input[type=checkbox]', {checked:task.done,
+						onclick:ctrl.checkClick}),
+						task.title,
+						m('font[size=1][color=lightgray]', ' ' + task.key)
+				)
+			);
+		}
+	};
+
+	function newTaskCompo(task) {
+		return {task:task, compo:m('div', {key:task.key}, m(taskCompo, task))};
+	}
+
+	var todoApp = {
+		controller: function (attrs) {
+			var taskList = attrs.taskList = attrs.taskList || [];
+			var ctrl, inAttrs = {autofocus:true, value:'',
+					onchange:inChange, onblur:inChange, onenter:addClick,
+					placeholder:'タスクを入力してください'};
+			function addClick(e, value) {
+				if (typeof value === 'string') inAttrs.value = value;
+				if (!inAttrs.value) return;
+				todoFirebaseTasksRef.push({title:inAttrs.value, done:false});
+				inAttrs.value = '';
+			}
+			function inChange(e, value) {
+				if (typeof value === 'string') inAttrs.value = value;
+			}
+			function removeClick() {
+				attrs.taskList = attrs.taskList.filter(function (x) {
+					if (x.task.done) new Firebase(FIREBASE_URL + 'tasks/' + x.task.key).remove();
+					return !x.task.done;
+				});
+			}
+			return ctrl = {attrs:attrs, inAttrs:inAttrs, addClick:addClick, removeClick:removeClick};
+		},
+		view: function (ctrl) {
+			return [m('div', {key:'input'}, m(inputCompo, ctrl.inAttrs),
+						m('button', {onclick:ctrl.addClick}, '追加')),
+					m('div', m('font[color=gray]', '※↓タスク名をダブルクリックすると編集できます')),
+					ctrl.attrs.taskList.map(function (x) { return x.compo; }),
+					m('div', {key:'remove'}, 'チェックされているタスクを',
+						m('button', {onclick:ctrl.removeClick}, '削除')),
+					m('div', m('font[color=gray]', '※DBはここです→ ',
+						m('a', {href:FIREBASE_URL}, FIREBASE_URL)))];
+		}
+	};
+
+	m.mount($todoApp, m(todoApp, todoAttrs));
+} ();
+</script>
