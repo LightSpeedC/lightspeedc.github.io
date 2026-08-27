@@ -53,4 +53,4 @@ node app 8080
 
 ## リポジトリ
 
-https://github.com/LightSpeedC/lightspeedc.github.io
+https://github.com/LightSpeedC/lightspeedc.github.io#readme
