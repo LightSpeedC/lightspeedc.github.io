@@ -1,118 +1,253 @@
 <!doctype html>
-<html>
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=Edge, Chrome=1">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Cache-Control" content="max-age=0">
-<meta http-equiv="Cache-Control" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LightSpeedC</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<!--[if IE]><script src="/js/es5-shim.min.js"></script><![endif]-->
-<!-- load MUI -->
-<link href="/mui/css/mui.min.css" rel="stylesheet" type="text/css"/>
-<script src="/mui/js/mui.min.js"></script>
-<link href="/css/local-green.css" rel="stylesheet" type="text/css"/>
-<!-- load Mithril.js -->
-<script src="/mithril/js/mithril.min.js"></script>
+<style>
+:root {
+	--navy1: #12224d;
+	--navy2: #2f5fbf;
+	--ink: #1c2330;
+	--ink-soft: #4a5568;
+	--line: #d9dfe8;
+	--code-bg: #f4f6fa;
+	--accent: var(--navy1);
+	--accent2: var(--navy2);
+	--soft: #f2f5fb;
+}
+
+.ch01 { --accent: hsl(280, 78%, 25%); --accent2: hsl(280, 58%, 65%); --soft: hsl(280, 28%, 95%); }
+.ch02 { --accent: hsl(140, 78%, 25%); --accent2: hsl(140, 58%, 65%); --soft: hsl(140, 28%, 95%); }
+.ch03 { --accent: hsl(0, 78%, 25%);   --accent2: hsl(0, 58%, 65%);   --soft: hsl(0, 28%, 95%); }
+
+* { box-sizing: border-box; }
+
+body {
+	margin: 0;
+	background: #ffffff;
+	color: var(--ink);
+	font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", Meiryo, sans-serif;
+	font-size: 15.5px;
+	line-height: 1.85;
+}
+
+/* タイトルバー */
+.titlebar {
+	background: linear-gradient(135deg, var(--navy1), var(--navy2));
+	color: #fff;
+	padding: 34px 30px 30px;
+}
+.titlebar .inner {
+	max-width: 1400px;
+	margin: 0 auto;
+}
+.titlebar h1 {
+	font-size: 2.1em;
+	margin: 0 0 6px;
+	color: #fff;
+}
+.titlebar .sub {
+	margin: 0;
+	font-size: 1.02em;
+	color: #d5e0f5;
+}
+.titlebar .date {
+	margin: 10px 0 0;
+	font-size: 0.86em;
+	color: #b9c8e6;
+}
+
+/* 本文 */
+.wrap {
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: 0 30px;
+}
+
+/* 目次 */
+.toc {
+	margin: 34px 0;
+}
+.toc h2 {
+	font-size: 1.15em;
+	margin: 0 0 12px;
+	padding: 6px 12px;
+	color: var(--accent);
+	background: linear-gradient(90deg, var(--soft), #fff);
+	border-left: 6px solid var(--accent);
+}
+.toc ol {
+	list-style: none;
+	counter-reset: toc;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+}
+.toc li {
+	counter-increment: toc;
+}
+.toc a {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: normal;
+	width: 310px;
+	max-width: 100%;
+	padding: 9px 14px;
+	border-radius: 8px;
+	background: linear-gradient(100deg, var(--accent), var(--accent2));
+	color: #fff;
+	text-decoration: none;
+	font-size: 0.95em;
+	line-height: 1.5;
+}
+.toc a::before {
+	content: counter(toc) ". ";
+	font-weight: bold;
+}
+
+/* 章 */
+section {
+	background: linear-gradient(180deg, var(--soft), #fff 55%);
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	padding: 4px 26px 26px;
+	margin: 34px 0;
+}
+section h1 {
+	font-size: 1.55em;
+	margin: 26px 0 20px;
+	padding: 14px 20px;
+	color: #fff;
+	background: linear-gradient(100deg, var(--accent), var(--accent2));
+	border-radius: 8px;
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+}
+section h2 {
+	font-size: 1.16em;
+	margin: 30px 0 12px;
+	padding: 6px 12px;
+	color: var(--accent);
+	background: linear-gradient(90deg, var(--soft), #fff);
+	border-left: 6px solid var(--accent);
+}
+section h2 a {
+	color: var(--accent);
+	text-decoration: none;
+}
+section h2 a:hover {
+	text-decoration: underline;
+}
+p {
+	margin: 0 0 12px;
+}
+.desc {
+	color: var(--ink-soft);
+	margin: 0 0 12px;
+}
+.links {
+	margin: 0 0 22px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+/* GitHub バッジ */
+.ghbadge {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	padding: 5px 13px;
+	border-radius: 6px;
+	background: linear-gradient(100deg, #24292f, #57606a);
+	color: #fff;
+	text-decoration: none;
+	font-size: 0.86em;
+	line-height: 1.6;
+	white-space: nowrap;
+}
+.ghbadge:hover {
+	background: linear-gradient(100deg, #3a424b, #6e7781);
+}
+.ghbadge svg {
+	width: 15px;
+	height: 15px;
+	fill: #fff;
+	flex-shrink: 0;
+}
+</style>
 </head>
 <body>
-<div class="mui-container">
-<div class="mui-panel">
-<h1>
-<a class="mui-btn mui-btn-primary mui-btn-raised" href="https://lightspeedc.github.io/">LightSpeedC.github.io</a>
-</h1>
-<div>
-<a class="mui-btn mui-btn-primary mui-btn-raised" href="https://github.com/LightSpeedC/lightspeedc.github.io">https://github.com/LightSpeedC/lightspeedc.github.io</a>
+
+<div class="titlebar">
+	<div class="inner">
+		<h1>LightSpeedC</h1>
+		<p class="sub">公開資料とリポジトリの一覧</p>
+		<p class="date">📅 作成: 2026-08-27 / 更新: 2026-08-27</p>
+	</div>
 </div>
-<p>LightSpeedC pages</p>
-<p class="view">
-<a class="mui-btn mui-btn-default mui-btn-raised" href="https://github.com/LightSpeedC">View the Project on GitHub <b>LightSpeedC</b></a>
-</p>
-<div>
-<a class="mui-btn mui-btn-default mui-btn-raised" href="https://github.com/LightSpeedC/lightspeedc.github.io">View On <b>GitHub</b></a>
+
+<div class="wrap">
+
+	<nav class="toc">
+		<h2>目次</h2>
+		<ol>
+			<li class="ch01"><a href="#docs">公開資料</a></li>
+			<li class="ch02"><a href="#author">作者</a></li>
+			<li class="ch03"><a href="#repo">このリポジトリ</a></li>
+		</ol>
+	</nav>
+
+	<section class="ch01" id="docs">
+		<h1>公開資料</h1>
+
+		<h2><a href="/20260822-powershell-pwsh-learn/">PowerShell 学習資料</a></h2>
+		<p class="links">
+			<a class="ghbadge" href="https://github.com/LightSpeedC/20260822-powershell-pwsh-learn#readme"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
+		</p>
+
+		<h2><a href="/20260824-dos-command-learn/">DOSコマンド勉強会 資料</a></h2>
+		<p class="desc">DOSコマンド（バッチファイル）勉強会の資料。JS/Java/C# 経験者向けの全3回シリーズ、逆引き付録、テンプレート、動作確認済みサンプル。</p>
+		<p class="links">
+			<a class="ghbadge" href="https://github.com/LightSpeedC/20260824-dos-command-learn#readme"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
+		</p>
+
+		<h2><a href="/20260824-node-deno-bun-compare/">Node.js / Deno / Bun 比較検証</a></h2>
+		<p class="desc">Node.js 26 / Deno 2.9 / Bun 1.4 を Windows 11 上で比較したベンチマーク一式（計画書・計測スクリプト・実測結果・レポート）</p>
+		<p class="links">
+			<a class="ghbadge" href="https://github.com/LightSpeedC/20260824-node-deno-bun-compare#readme"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
+		</p>
+
+		<h2><a href="/20260824-local-llm-llama-cp/">ローカルLLM 実行環境</a></h2>
+		<p class="desc">VRAM 4GB のノートPCで llama.cpp を動かすための実行計画と実測記録</p>
+		<p class="links">
+			<a class="ghbadge" href="https://github.com/LightSpeedC/20260824-local-llm-llama-cp#readme"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
+		</p>
+	</section>
+
+	<section class="ch02" id="author">
+		<h1>作者</h1>
+		<p>LightSpeedC の GitHub アカウントです。公開しているリポジトリの一覧はこちらから参照できます。</p>
+		<p class="links">
+			<a class="ghbadge" href="https://github.com/LightSpeedC"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>LightSpeedC</a>
+			<a class="ghbadge" href="https://github.com/LightSpeedC?tab=repositories"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>リポジトリ一覧</a>
+		</p>
+	</section>
+
+	<section class="ch03" id="repo">
+		<h1>このリポジトリ</h1>
+		<p>このページ自体のソースを公開しているリポジトリです。</p>
+		<p class="links">
+			<a class="ghbadge" href="https://github.com/LightSpeedC/lightspeedc.github.io#readme"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>lightspeedc.github.io</a>
+		</p>
+	</section>
+
 </div>
-<div>
-<a class="mui-btn mui-btn-accent mui-btn-raised" href="/mui/mui-ex.html">MUI example</a>
-</div>
-<div>
-<a class="mui-btn mui-btn-accent mui-btn-raised" href="/mdl/mdl-ex.html">MDL example</a>
-</div>
-</div>
-<div id="$indexElement"></div>	
-</div>
+
 </body>
-
-<script>var msie = false;</script>
-<!--[if IE]><script>var msie = true;</script><![endif]-->
-<script>if (msie && !location.search) location.search = new Date - 0, null;</script>
-
-<script>
-
-this.indexComponent = function () {
-	// DEBUGモード
-	var debugMode = m.prop(false);
-	var debugView = [];
-	function debugLog() {
-		debugView.push(m('div', [].slice.call(arguments).join(' ')));
-		if (debugView.length > 20) debugView.shift();
-	}
-	debugLog('debug');
-	debugLog(JSON.stringify(location, null, '  '));
-	var d = new Date;
-	debugLog(d);
-	for (var i in d)
-		debugLog('date.', i);
-
-	//コンポーネント定義
-	var indexComponent = {
-
-		//コントローラ
-		controller: function () {
-			//データをサーバーから取得する
-			var list = m.request({method: 'GET', url: 'index.json' + (msie ? '?' + (new Date - 0) : '')});
-
-			this.view = function (ctrl) {
-				return m('div', mui_cls('panel'),
-					!list() ? [] :
-					list().map(function (item) {
-						return m('div', {},
-							m('a', mui_cls('btn', 'default', 'raised', {href: item.url}), item.title));
-					}),
-					m('input[type=checkbox]', m_on('click', 'checked', debugMode)), 'dbg',
-					!debugMode() ? [] : m('pre', {style: {backgroundColor: 'lightgray'}}, debugView)
-				);
-			};
-		},
-		//ビュー
-		view: function (ctrl) {
-			return ctrl.view(ctrl);
-		}
-	};
-
-	// MUI CSS style className
-	function mui_cls(elem) {
-		var attr = typeof arguments[arguments.length - 1] === 'object' ?
-			arguments[--arguments.length] : {};
-		elem = 'mui-' + elem;
-		attr.className = [elem].concat([].slice.call(arguments, 1).map(function (e) { return elem + '-' + e; })).join(' ');
-		return attr;
-	}
-
-	// HTML要素のイベントと値にプロパティを接続するユーティリティ
-	function m_on(eventName, propName, propFunc, attrs) {
-		attrs = attrs || {};
-		attrs['on' + eventName] = m.withAttr(propName, propFunc);
-		attrs[propName] = propFunc();
-		return attrs;
-	}
-
-	return indexComponent;
-}();
-
-if (indexComponent) m.mount($indexElement, indexComponent);
-
-</script>
 </html>
