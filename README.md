@@ -5,8 +5,8 @@ LightSpeedC の GitHub Pages リポジトリです。
 
 ## 公開URL
 
-- http://lightspeedc.com/ — カスタムドメイン
-- http://lightspeedc.github.io/ — 上記へリダイレクトされます
+- https://lightspeedc.com/ — カスタムドメイン
+- https://lightspeedc.github.io/ — 上記へリダイレクトされます
 
 ## フォルダ構成
 
