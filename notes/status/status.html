@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>lightspeedc.com 構成と作業状況</title>
+<style>
+:root {
+	--navy1: #12224d;
+	--navy2: #2f5fbf;
+	--ink: #1c2330;
+	--ink-soft: #4a5568;
+	--line: #d9dfe8;
+	--code-bg: #f4f6fa;
+	--accent: var(--navy1);
+	--accent2: var(--navy2);
+	--soft: #f2f5fb;
+}
+
+.ch01 { --accent: hsl(280, 78%, 25%); --accent2: hsl(280, 58%, 65%); --soft: hsl(280, 28%, 95%); }
+.ch02 { --accent: hsl(224, 78%, 25%); --accent2: hsl(224, 58%, 65%); --soft: hsl(224, 28%, 95%); }
+.ch03 { --accent: hsl(168, 78%, 25%); --accent2: hsl(168, 58%, 65%); --soft: hsl(168, 28%, 95%); }
+.ch04 { --accent: hsl(112, 78%, 25%); --accent2: hsl(112, 58%, 65%); --soft: hsl(112, 28%, 95%); }
+.ch05 { --accent: hsl(56, 78%, 25%);  --accent2: hsl(56, 58%, 65%);  --soft: hsl(56, 28%, 95%); }
+.ch06 { --accent: hsl(0, 78%, 25%);   --accent2: hsl(0, 58%, 65%);   --soft: hsl(0, 28%, 95%); }
+
+* { box-sizing: border-box; }
+
+body {
+	margin: 0;
+	background: #ffffff;
+	color: var(--ink);
+	font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", Meiryo, sans-serif;
+	font-size: 15.5px;
+	line-height: 1.85;
+}
+
+/* タイトルバー */
+.titlebar {
+	background: linear-gradient(135deg, var(--navy1), var(--navy2));
+	color: #fff;
+	padding: 34px 30px 30px;
+}
+.titlebar .inner {
+	max-width: 1400px;
+	margin: 0 auto;
+}
+.titlebar h1 {
+	font-size: 2.1em;
+	margin: 0 0 6px;
+	color: #fff;
+}
+.titlebar .sub {
+	margin: 0;
+	font-size: 1.02em;
+	color: #d5e0f5;
+}
+.titlebar .date {
+	margin: 10px 0 0;
+	font-size: 0.86em;
+	color: #b9c8e6;
+}
+.titlebar code {
+	background: rgba(255, 255, 255, 0.16);
+	color: #fff;
+	border: none;
+	padding: 1px 6px;
+	border-radius: 4px;
+}
+
+/* 本文 */
+.wrap {
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: 0 30px;
+}
+
+/* 目次 */
+.toc {
+	margin: 34px 0;
+}
+.toc h2 {
+	font-size: 1.15em;
+	margin: 0 0 12px;
+	padding: 6px 12px;
+	color: var(--accent);
+	background: linear-gradient(90deg, var(--soft), #fff);
+	border-left: 6px solid var(--accent);
+}
+.toc ol {
+	list-style: none;
+	counter-reset: toc;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+}
+.toc li {
+	counter-increment: toc;
+}
+.toc a {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: normal;
+	width: 205px;
+	max-width: 100%;
+	padding: 9px 14px;
+	border-radius: 8px;
+	background: linear-gradient(100deg, var(--accent), var(--accent2));
+	color: #fff;
+	text-decoration: none;
+	font-size: 0.95em;
+	line-height: 1.5;
+}
+.toc a::before {
+	content: counter(toc) ". ";
+	font-weight: bold;
+}
+
+/* 章 */
+section {
+	background: linear-gradient(180deg, var(--soft), #fff 55%);
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	padding: 4px 26px 26px;
+	margin: 34px 0;
+}
+section h1 {
+	font-size: 1.55em;
+	margin: 26px 0 20px;
+	padding: 14px 20px;
+	color: #fff;
+	background: linear-gradient(100deg, var(--accent), var(--accent2));
+	border-radius: 8px;
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+}
+section h1 code {
+	background: rgba(255, 255, 255, 0.16);
+	color: #fff;
+	border: none;
+}
+section h2 {
+	font-size: 1.16em;
+	margin: 30px 0 12px;
+	padding: 6px 12px;
+	color: var(--accent);
+	background: linear-gradient(90deg, var(--soft), #fff);
+	border-left: 6px solid var(--accent);
+}
+h3 {
+	display: inline-block;
+	font-size: 1.03em;
+	margin: 20px 0 8px;
+	padding-bottom: 3px;
+	color: var(--accent);
+	border-bottom: 2px dotted var(--accent2);
+}
+p {
+	margin: 0 0 12px;
+}
+
+/* コード */
+code {
+	background: var(--code-bg);
+	border: 1px solid var(--line);
+	color: #17335f;
+	padding: 1px 5px;
+	border-radius: 4px;
+	font-size: 0.92em;
+}
+pre {
+	background: linear-gradient(180deg, var(--soft), #fff);
+	border: 1px solid var(--line);
+	border-left: 5px solid var(--accent2);
+	border-radius: 0 8px 8px 0;
+	padding: 13px 16px;
+	overflow-x: auto;
+	margin: 0 0 16px;
+	line-height: 1.65;
+}
+pre code {
+	background: none;
+	border: none;
+	padding: 0;
+	color: var(--ink);
+	font-size: 0.95em;
+}
+
+/* 表 */
+.tablewrap {
+	overflow-x: auto;
+	margin: 0 0 18px;
+}
+table {
+	border-collapse: collapse;
+	border-radius: 8px;
+	overflow: hidden;
+	box-shadow: 0 2px 7px rgba(0, 0, 0, 0.09);
+	width: 100%;
+}
+th {
+	background: linear-gradient(100deg, var(--accent), var(--accent2));
+	color: #fff;
+	text-align: left;
+	padding: 9px 12px;
+	font-size: 0.95em;
+	white-space: nowrap;
+}
+th code {
+	background: rgba(255, 255, 255, 0.16);
+	color: #fff;
+	border: none;
+}
+td {
+	padding: 9px 12px;
+	border-bottom: 1px solid var(--line);
+	vertical-align: top;
+	font-size: 0.95em;
+}
+tr:nth-child(even) td {
+	background: #fafbfe;
+}
+td.nw {
+	white-space: nowrap;
+}
+
+/* callout */
+.callout {
+	background: linear-gradient(180deg, var(--soft), #fff);
+	border-left: 6px solid var(--accent);
+	border-radius: 0 8px 8px 0;
+	padding: 12px 18px;
+	margin: 0 0 18px;
+}
+.callout strong {
+	color: var(--accent);
+}
+.callout p:last-child {
+	margin-bottom: 0;
+}
+
+/* バッジ */
+.badge {
+	display: inline-block;
+	padding: 1px 10px;
+	border-radius: 5px;
+	color: #fff;
+	font-size: 0.83em;
+	white-space: nowrap;
+}
+.b-ok   { background: linear-gradient(100deg, #1d7a3c, #45b56c); }
+.b-warn { background: linear-gradient(100deg, #b8620a, #f0a548); }
+.b-todo { background: linear-gradient(100deg, #5a6472, #97a1ae); }
+
+/* SVG */
+svg.fig {
+	max-width: 100%;
+	height: auto;
+	margin: 4px 0 18px;
+}
+</style>
+</head>
+<body>
+
+<div class="titlebar">
+	<div class="inner">
+		<h1>lightspeedc.com 構成と作業状況</h1>
+		<p class="sub">GitHub Pages リポジトリ <code>LightSpeedC/lightspeedc.github.io</code> の現状記録</p>
+		<p class="date">📅 作成: 2026-08-28 / 更新: 2026-08-28</p>
+	</div>
+</div>
+
+<div class="wrap">
+
+	<nav class="toc">
+		<h2>目次</h2>
+		<ol>
+			<li class="ch01"><a href="#now">現在の状態</a></li>
+			<li class="ch02"><a href="#structure">サイト構成</a></li>
+			<li class="ch03"><a href="#https">HTTPS 対応</a></li>
+			<li class="ch04"><a href="#branch">ブランチ運用</a></li>
+			<li class="ch05"><a href="#history">作業履歴</a></li>
+			<li class="ch06"><a href="#todo">今後の課題</a></li>
+		</ol>
+	</nav>
+
+	<section class="ch01" id="now">
+		<h1>現在の状態</h1>
+
+		<p>2026-08-27 に実施した作業により、公開ファイルの <code>docs/</code> への集約、HTTPS 化、ブランチ運用の整備、トップページの刷新が完了している。</p>
+
+		<div class="tablewrap">
+		<table>
+			<thead>
+				<tr><th>項目</th><th>値</th><th>状態</th></tr>
+			</thead>
+			<tbody>
+				<tr><td class="nw">公開URL</td><td class="nw">https://lightspeedc.com/</td><td><span class="badge b-ok">稼働中</span></td></tr>
+				<tr><td class="nw">リポジトリ</td><td class="nw">LightSpeedC/lightspeedc.github.io（public）</td><td><span class="badge b-ok">公開</span></td></tr>
+				<tr><td class="nw">Pages 公開ソース</td><td class="nw"><code>master</code> ブランチ / <code>/docs</code> フォルダ</td><td><span class="badge b-ok">built</span></td></tr>
+				<tr><td class="nw">カスタムドメイン</td><td class="nw">lightspeedc.com</td><td><span class="badge b-ok">設定済</span></td></tr>
+				<tr><td class="nw">証明書</td><td class="nw">approved（lightspeedc.com, www.lightspeedc.com）<br>有効期限 2026-11-25</td><td><span class="badge b-ok">発行済</span></td></tr>
+				<tr><td class="nw">Enforce HTTPS</td><td class="nw">有効（HTTP は 301 で HTTPS へ）</td><td><span class="badge b-ok">有効</span></td></tr>
+				<tr><td class="nw">Jekyll</td><td class="nw"><code>docs/.nojekyll</code> により無効化</td><td><span class="badge b-ok">無効化</span></td></tr>
+				<tr><td class="nw">ブランチ</td><td class="nw"><code>develop</code>（既定・作業用） / <code>master</code>（公開用）</td><td><span class="badge b-ok">2本構成</span></td></tr>
+				<tr><td class="nw">デフォルトブランチ</td><td class="nw"><code>develop</code></td><td><span class="badge b-ok">変更済</span></td></tr>
+				<tr><td class="nw">作業ディレクトリ</td><td class="nw">N:\2026\lightspeedc.github.io</td><td><span class="badge b-ok">クリーン</span></td></tr>
+			</tbody>
+		</table>
+		</div>
+	</section>
+
+	<section class="ch02" id="structure">
+		<h1>サイト構成</h1>
+
+		<p>GitHub Pages の公開ソースを <code>master</code> ブランチの <code>/docs</code> に設定しているため、<code>docs/</code> の中身がそのままサイトのルートとして配信される。<code>docs/</code> の外にあるファイルは公開されない。</p>
+
+		<h2>フォルダ構成</h2>
+
+<pre><code>docs/                公開されるファイル（サイトのルート）
+  index.html         トップページ（2026-08-27 に刷新）
+  index-old.html     刷新前のトップページ（履歴として保存）
+  index.json         旧トップページが読み込むリンク一覧
+  ie.html            Internet Explorer 向けのページ
+  CNAME              カスタムドメインの設定
+  favicon.ico        ファビコン
+  .nojekyll          Jekyll によるビルドを無効化
+  css/  js/          共通のスタイルとスクリプト
+  mui/  mdl/         UI フレームワークのサンプル
+  mithril/           Mithril.js のサンプル
+  react/             React のサンプル
+  public/            Firebase のサンプル
+  web-app-intro/     Web アプリ入門のサンプル
+
+app.js               ローカル確認用の静的サーバー（docs/ を配信）
+package.json         ローカル確認用の依存定義
+run.cmd              ローカル確認の起動スクリプト
+README.md            リポジトリの説明
+notes/status/        この文書（非公開）
+</code></pre>
+
+		<h2>公開されるもの・されないもの</h2>
+
+		<div class="tablewrap">
+		<table>
+			<thead>
+				<tr><th>区分</th><th>対象</th><th>理由</th></tr>
+			</thead>
+			<tbody>
+				<tr><td class="nw">公開される</td><td><code>docs/</code> 配下のすべて</td><td>Pages の公開ソースに指定されている</td></tr>
+				<tr><td class="nw">公開されない</td><td><code>README.md</code> / <code>app.js</code> / <code>package.json</code> / <code>run.cmd</code> / <code>notes/</code></td><td><code>docs/</code> の外にあるため。<code>/README.md</code> へのアクセスは 404 になることを確認済み</td></tr>
+			</tbody>
+		</table>
+		</div>
+
+		<div class="callout">
+			<p><strong>公開URLは 2026-08-27 の整理で一切変わっていない。</strong> ルート直下にあった <code>mui/</code> や <code>public/</code> をそのまま <code>docs/</code> の下へ移したため、<code>/mui/mui-ex.html</code> のような既存URLも、HTML 内の絶対パス（<code>/mui/...</code>）も書き換えずに機能している。</p>
+		</div>
+
+		<h2>ローカルでの確認</h2>
+
+		<p><code>run.cmd</code> を実行すると、依存パッケージのインストール後に http://localhost:3001/ でサイトが開く。<code>app.js</code> は <code>docs/</code> を配信するよう設定してあるため、本番と同じ見え方になる。</p>
+
+<pre><code>run.cmd            既定のポート 3001 で起動
+node app 8080      ポートを指定して起動
+</code></pre>
+	</section>
+
+	<section class="ch03" id="https">
+		<h1>HTTPS 対応</h1>
+
+		<h2>発端: 証明書が発行されない状態だった</h2>
+
+		<p>作業開始時点で <code>https://lightspeedc.com/</code> は証明書エラー（<code>SEC_E_WRONG_PRINCIPAL</code>）となり接続できなかった。原因は DNS の A レコードが <strong>GitHub Pages の旧IPアドレス</strong>を指していたことだった。</p>
+
+		<div class="callout">
+			<p><strong>旧IP（192.30.252.x）は Let's Encrypt による自動証明書発行の対象外。</strong> このため、待っていても証明書は永久に発行されない状態だった。CAA レコード・DNSSEC・<code>_acme-challenge</code> の残骸はいずれも無く、旧IP が唯一の原因だった。</p>
+		</div>
+
+		<h2>DNS の変更内容</h2>
+
+		<div class="tablewrap">
+		<table>
+			<thead>
+				<tr><th>レコード</th><th>変更前</th><th>変更後</th></tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="nw">lightspeedc.com<br>（A）</td>
+					<td class="nw">192.30.252.153<br>192.30.252.154</td>
+					<td class="nw">185.199.108.153<br>185.199.109.153<br>185.199.110.153<br>185.199.111.153</td>
+				</tr>
+				<tr>
+					<td class="nw">www.lightspeedc.com<br>（CNAME）</td>
+					<td class="nw">lightspeedc.com</td>
+					<td class="nw">lightspeedc.github.io<br>（GitHub 推奨形）</td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+
+		<p>ネームサーバーは <code>01〜04.dnsv.jp</code>。DNS の伝播は速く、変更から数分で主要な公開リゾルバ（Google Public DNS、Cloudflare）に反映されていた。証明書はその約1時間後に発行された。</p>
+
+		<h2>Enforce HTTPS の有効化</h2>
+
+		<p>証明書の発行を確認したのち、親リポジトリと公開資料4件のリポジトリすべてで Enforce HTTPS を有効にした。HTTP でのアクセスは 301 で HTTPS へリダイレクトされる。</p>
+
+<pre><code>gh api -X PUT repos/LightSpeedC/lightspeedc.github.io/pages -F https_enforced=true
+</code></pre>
+
+		<h2>混在コンテンツの確認</h2>
+
+		<p>HTTPS 化にあたり、<code>http://</code> で外部リソースを読み込んでいる箇所を調べた。<code>docs/react/</code> の3ファイルに <code>http://fb.me/...</code> のスクリプト読み込みがあったが、<strong>いずれも HTML コメント内で無効化</strong>されており、実際に読み込まれているのはローカルの <code>/react/js/react.min.js</code> だった。したがって HTTPS 化で壊れたページは無い。</p>
+	</section>
+
+	<section class="ch04" id="branch">
+		<h1>ブランチ運用</h1>
+
+		<p><code>develop</code> と <code>master</code> の2本構成とした。<code>release</code> は作っていない。このリポジトリでは <code>release</code> に置いても <code>develop</code> に置いても検証手段が同じ（ローカルの <code>run.cmd</code> のみ）で、通過点にしかならないため。</p>
+
+		<div class="callout">
+			<p><strong><code>master</code> は「公開ボタン」そのもの。</strong> Pages の公開ソースが <code>master/docs</code> なので、<code>master</code> への push はその時点で世界に公開される。<code>develop</code> に push している限りは公開されない。</p>
+		</div>
+
+		<h2>更新の流れ</h2>
+
+		<svg class="fig" viewBox="0 0 880 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="develop から master へマージし、push すると GitHub Pages が公開する流れ">
+			<defs>
+				<linearGradient id="g-st-04-dev" x1="0" y1="1" x2="0" y2="0">
+					<stop offset="0" stop-color="hsl(140, 78%, 25%)"/>
+					<stop offset="1" stop-color="hsl(140, 58%, 65%)"/>
+				</linearGradient>
+				<linearGradient id="g-st-04-mst" x1="0" y1="1" x2="0" y2="0">
+					<stop offset="0" stop-color="hsl(0, 78%, 25%)"/>
+					<stop offset="1" stop-color="hsl(0, 58%, 65%)"/>
+				</linearGradient>
+				<linearGradient id="g-st-04-pgs" x1="0" y1="1" x2="0" y2="0">
+					<stop offset="0" stop-color="hsl(220, 78%, 25%)"/>
+					<stop offset="1" stop-color="hsl(220, 58%, 65%)"/>
+				</linearGradient>
+				<marker id="m-st-04-arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+					<path d="M 0 0 L 10 5 L 0 10 z" fill="#4a5568"/>
+				</marker>
+			</defs>
+
+			<rect x="10" y="40" width="180" height="54" rx="8" fill="url(#g-st-04-dev)"/>
+			<text x="100" y="62" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold" font-family="sans-serif">develop</text>
+			<text x="100" y="82" text-anchor="middle" fill="#fff" font-size="12" font-family="sans-serif">編集・コミット（非公開）</text>
+
+			<line x1="196" y1="67" x2="316" y2="67" stroke="#4a5568" stroke-width="2" marker-end="url(#m-st-04-arw)"/>
+			<text x="256" y="56" text-anchor="middle" fill="#4a5568" font-size="12" font-family="sans-serif">merge --no-ff</text>
+
+			<rect x="326" y="40" width="180" height="54" rx="8" fill="url(#g-st-04-mst)"/>
+			<text x="416" y="62" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold" font-family="sans-serif">master</text>
+			<text x="416" y="82" text-anchor="middle" fill="#fff" font-size="12" font-family="sans-serif">push すると公開される</text>
+
+			<line x1="512" y1="67" x2="632" y2="67" stroke="#4a5568" stroke-width="2" marker-end="url(#m-st-04-arw)"/>
+			<text x="572" y="56" text-anchor="middle" fill="#4a5568" font-size="12" font-family="sans-serif">push</text>
+
+			<rect x="642" y="40" width="228" height="54" rx="8" fill="url(#g-st-04-pgs)"/>
+			<text x="756" y="62" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold" font-family="sans-serif">GitHub Pages</text>
+			<text x="756" y="82" text-anchor="middle" fill="#fff" font-size="12" font-family="sans-serif">自動ビルド → lightspeedc.com</text>
+		</svg>
+
+		<h2>手順</h2>
+
+<pre><code>1. develop で編集・コミット
+2. git push origin develop
+3. git switch master
+4. git merge --no-ff develop
+5. git push origin master        ← この push で公開される
+6. git switch develop            ← 作業後は develop に戻る
+</code></pre>
+
+		<p>マージは常に <code>--no-ff</code> を使い、fast-forward は行わない。どの単位の作業が公開されたかを履歴から追えるようにするため。</p>
+
+		<h2>設定変更とプッシュの順序に注意</h2>
+
+		<div class="callout">
+			<p><strong>Pages の設定変更は、プッシュより先に行う。</strong> <code>docs/</code> へ集約した際、先にプッシュしてから公開ソースを <code>/docs</code> に変更したところ、設定変更前に始まっていたビルドが古い設定（ルート）で走り、トップページが一時的に 404 になった。再ビルドをリクエストして復旧している。</p>
+		</div>
+
+<pre><code>gh api -X POST repos/LightSpeedC/lightspeedc.github.io/pages/builds
+</code></pre>
+	</section>
+
+	<section class="ch05" id="history">
+		<h1>作業履歴</h1>
+
+		<p>2026-08-27 のコミット。<code>master</code> のマージコミットは <code>develop</code> の対応するコミットと同時刻のため省略している。</p>
+
+		<div class="tablewrap">
+		<table>
+			<thead>
+				<tr><th>時刻</th><th>コミット</th><th>内容</th></tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="nw">12:31</td>
+					<td class="nw"><code>366df45</code></td>
+					<td>公開ファイル65件を <code>docs/</code> へ集約（すべて rename として記録）。<code>app.js</code> の配信先を <code>docs</code> に変更。<code>.gitignore</code> を Node.js 用に整理（170行→26行、<code>node_modules</code> 追加、<code>[Ee]xpress</code> 等の危険な行を削除）</td>
+				</tr>
+				<tr>
+					<td class="nw">15:23</td>
+					<td class="nw"><code>48a8303</code></td>
+					<td><code>docs/.nojekyll</code> 追加。<code>docs/index-old.html</code>（旧トップの控え）追加。README を日本語で刷新</td>
+				</tr>
+				<tr>
+					<td class="nw">16:06</td>
+					<td class="nw"><code>7e06322</code></td>
+					<td>トップページを作り直し。目次・公開資料・作者・このリポジトリの構成に。リポジトリURLに <code>#readme</code> を付与</td>
+				</tr>
+				<tr>
+					<td class="nw">16:24</td>
+					<td class="nw"><code>d0952d8</code></td>
+					<td>目次バッジの横幅を 310px から 205px に縮小</td>
+				</tr>
+				<tr>
+					<td class="nw">16:50</td>
+					<td class="nw"><code>1157bb3</code></td>
+					<td>PowerShell 学習資料に説明を追加（リポジトリ側に description が設定されたため）</td>
+				</tr>
+				<tr>
+					<td class="nw">18:01</td>
+					<td class="nw"><code>b951b91</code></td>
+					<td>公開資料4件に緑の「公開Web」バッジを追加（GitHub バッジの左）</td>
+				</tr>
+				<tr>
+					<td class="nw">18:55</td>
+					<td class="nw"><code>194fb53</code></td>
+					<td>README と package.json の自サイトURLを https に変更</td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+
+		<h2>コミット以外の作業</h2>
+
+		<div class="tablewrap">
+		<table>
+			<thead>
+				<tr><th>対象</th><th>内容</th></tr>
+			</thead>
+			<tbody>
+				<tr><td class="nw">GitHub Pages</td><td>公開ソースを <code>master</code> / <code>/</code> から <code>master</code> / <code>/docs</code> へ変更</td></tr>
+				<tr><td class="nw">GitHub リポジトリ</td><td>デフォルトブランチを <code>master</code> から <code>develop</code> へ変更</td></tr>
+				<tr><td class="nw">DNS</td><td>A レコードを現行IP 4件へ差し替え。<code>www</code> を GitHub 推奨形の CNAME へ変更</td></tr>
+				<tr><td class="nw">Enforce HTTPS</td><td>親リポジトリと公開資料4リポジトリで有効化</td></tr>
+			</tbody>
+		</table>
+		</div>
+
+		<h2>トップページに掲載している公開資料</h2>
+
+		<div class="tablewrap">
+		<table>
+			<thead>
+				<tr><th>資料</th><th>URL</th></tr>
+			</thead>
+			<tbody>
+				<tr><td class="nw">PowerShell 学習資料</td><td class="nw">/20260822-powershell-pwsh-learn/</td></tr>
+				<tr><td class="nw">DOSコマンド勉強会 資料</td><td class="nw">/20260824-dos-command-learn/</td></tr>
+				<tr><td class="nw">Node.js / Deno / Bun 比較検証</td><td class="nw">/20260824-node-deno-bun-compare/</td></tr>
+				<tr><td class="nw">ローカルLLM 実行環境</td><td class="nw">/20260824-local-llm-llama-cp/</td></tr>
+			</tbody>
+		</table>
+		</div>
+
+		<p>いずれも別リポジトリの GitHub Pages。ユーザーページ（<code>lightspeedc.github.io</code>）にカスタムドメインを設定しているため、同じアカウントのプロジェクトページも自動的に <code>lightspeedc.com</code> 配下で配信される。各資料へのリンクは絶対パスで記述しており、プロトコルは閲覧中のものを引き継ぐ。</p>
+	</section>
+
+	<section class="ch06" id="todo">
+		<h1>今後の課題</h1>
+
+		<div class="tablewrap">
+		<table>
+			<thead>
+				<tr><th>状態</th><th>項目</th><th>内容</th></tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="nw"><span class="badge b-todo">保留</span></td>
+					<td class="nw">旧サンプル群の整理</td>
+					<td><code>mui</code> / <code>mdl</code> / <code>react</code> / <code>mithril</code> / <code>web-app-intro</code> は 2016年頃の内容のまま <code>docs/</code> に残っている。新しいトップページからはリンクしておらず、URL は生存・HTTPS で配信中。<code>index-old.html</code> からは辿れる</td>
+				</tr>
+				<tr>
+					<td class="nw"><span class="badge b-warn">要確認</span></td>
+					<td class="nw">証明書の更新</td>
+					<td>有効期限は 2026-11-25。GitHub Pages の Let's Encrypt 証明書は自動更新されるが、DNS 設定を変更した場合は再発行が必要になる</td>
+				</tr>
+				<tr>
+					<td class="nw"><span class="badge b-todo">任意</span></td>
+					<td class="nw">AAAA レコード</td>
+					<td>IPv6 用の AAAA レコードは未設定。必要なら <code>2606:50c0:8000::153</code> 〜 <code>8003::153</code> の4件を追加する</td>
+				</tr>
+				<tr>
+					<td class="nw"><span class="badge b-todo">任意</span></td>
+					<td class="nw">index.json の扱い</td>
+					<td>旧トップページが読み込むリンク一覧。新しいトップページは静的にリンクを記述しているため参照していない。<code>index-old.html</code> が使っているので残してある</td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+	</section>
+
+</div>
+
+</body>
+</html>
