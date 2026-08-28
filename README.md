@@ -1,12 +1,48 @@
 LightSpeedC
 ===========
 
+> 📅 作成: 2026-08-27 / 更新: 2026-08-28
+
 LightSpeedC の GitHub Pages リポジトリです。
 
 ## 公開URL
 
 - https://lightspeedc.com/ — カスタムドメイン
 - https://lightspeedc.github.io/ — 上記へリダイレクトされます
+
+## 他のリポジトリの GitHub Pages も同じドメインで公開される
+
+このリポジトリはユーザーページ（`<ユーザー名>.github.io`）にあたり、カスタムドメイン
+`lightspeedc.com` を設定しています。GitHub の仕様により、同じアカウントの他のリポジトリで
+GitHub Pages を有効にすると、そのリポジトリのページも自動的に
+`https://lightspeedc.com/<リポジトリ名>/` で公開されます。
+
+つまり `lightspeedc.com` のURL空間は、このリポジトリの `docs/` だけで完結していません。
+リポジトリごとの Pages が同じドメインの下に並びます。
+
+| URL | 配信元 |
+|-----|--------|
+| https://lightspeedc.com/ | このリポジトリの `docs/` |
+| https://lightspeedc.com/20260822-powershell-pwsh-learn/ | リポジトリ `20260822-powershell-pwsh-learn` |
+| https://lightspeedc.com/20260824-dos-command-learn/ | リポジトリ `20260824-dos-command-learn` |
+| https://lightspeedc.com/20260824-node-deno-bun-compare/ | リポジトリ `20260824-node-deno-bun-compare` |
+| https://lightspeedc.com/20260824-local-llm-llama-cp/ | リポジトリ `20260824-local-llm-llama-cp` |
+
+新しいリポジトリで Pages を有効にすれば、設定を追加しなくてもリポジトリ名の
+パスで公開されます。
+
+> [!WARNING]
+> **`docs/` の直下に置くフォルダ名は、リポジトリ名と重複させないこと**。
+> 同じURLを取り合うことになり、どちらが配信されているのか分からなくなります。
+>
+> 例えば `docs/20260824-dos-command-learn/` というフォルダを作ると、
+> https://lightspeedc.com/20260824-dos-command-learn/ が
+> このリポジトリの `docs/` 配下を指すのか、リポジトリ
+> `20260824-dos-command-learn` の Pages を指すのかが曖昧になります。
+>
+> 逆方向も同じです。`docs/` に既にあるフォルダ名
+> （`css` `js` `mui` `mdl` `mithril` `react` `public` `web-app-intro`）と
+> 同じ名前のリポジトリを新しく作って Pages を有効にすると、同様に競合します。
 
 ## フォルダ構成
 
@@ -17,7 +53,8 @@ LightSpeedC の GitHub Pages リポジトリです。
 ```
 docs/                公開されるファイル（サイトのルート）
   index.html         トップページ
-  index.json         トップページのリンク一覧
+  index-old.html     刷新前のトップページ（履歴として保存）
+  index.json         index-old.html が読み込むリンク一覧
   ie.html            Internet Explorer 向けのページ
   CNAME              カスタムドメインの設定
   favicon.ico        ファビコン
@@ -31,9 +68,13 @@ docs/                公開されるファイル（サイトのルート）
   public/            Firebase のサンプル
   web-app-intro/     Web アプリ入門のサンプル
 
+notes/               公開されない記録
+  status/            構成と作業状況の記録
+
 app.js               ローカル確認用の静的サーバー（docs/ を配信する）
 package.json         ローカル確認用の依存定義
 run.cmd              ローカル確認の起動スクリプト
+README.md            この文書
 ```
 
 ## ローカルでの確認
