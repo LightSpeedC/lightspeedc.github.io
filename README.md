@@ -1,7 +1,7 @@
 LightSpeedC
 ===========
 
-> 📅 作成: 2026-08-27 / 更新: 2026-08-28
+> 📅 作成: 2026-08-27 / 更新: 2026-08-29
 
 LightSpeedC の GitHub Pages リポジトリです。
 
@@ -27,6 +27,7 @@ GitHub Pages を有効にすると、そのリポジトリのページも自動�
 | https://lightspeedc.com/20260824-dos-command-learn/ | リポジトリ `20260824-dos-command-learn` |
 | https://lightspeedc.com/20260824-node-deno-bun-compare/ | リポジトリ `20260824-node-deno-bun-compare` |
 | https://lightspeedc.com/20260824-local-llm-llama-cp/ | リポジトリ `20260824-local-llm-llama-cp` |
+| https://lightspeedc.com/20260828-typescript-learn/ | リポジトリ `20260828-typescript-learn` |
 
 新しいリポジトリで Pages を有効にすれば、設定を追加しなくてもリポジトリ名の
 パスで公開されます。
