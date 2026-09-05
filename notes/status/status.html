@@ -50,7 +50,7 @@ body {
 	margin: 0 0 6px;
 	color: #fff;
 }
-.titlebar .sub {
+.titlebar .lead {
 	margin: 0;
 	font-size: 1.02em;
 	color: #d5e0f5;
@@ -254,7 +254,7 @@ td.nw {
 }
 .b-ok   { background: linear-gradient(100deg, #1d7a3c, #45b56c); }
 .b-warn { background: linear-gradient(100deg, #b8620a, #f0a548); }
-.b-todo { background: linear-gradient(100deg, #5a6472, #97a1ae); }
+.b-none { background: linear-gradient(100deg, #5a6472, #97a1ae); }
 
 /* SVG */
 svg.fig {
@@ -269,8 +269,8 @@ svg.fig {
 <div class="titlebar">
 	<div class="inner">
 		<h1>lightspeedc.com 構成と作業状況</h1>
-		<p class="sub">GitHub Pages リポジトリ <code>LightSpeedC/lightspeedc.github.io</code> の現状記録</p>
-		<p class="date">📅 作成: 2026-08-28 / 更新: 2026-08-28</p>
+		<p class="lead">GitHub Pages リポジトリ <code>LightSpeedC/lightspeedc.github.io</code> の現状記録</p>
+		<p class="date">📅 作成: 2026-08-28 / 更新: 2026-09-05</p>
 	</div>
 </div>
 
@@ -308,7 +308,7 @@ svg.fig {
 				<tr><td class="nw">Jekyll</td><td class="nw"><code>docs/.nojekyll</code> により無効化</td><td><span class="badge b-ok">無効化</span></td></tr>
 				<tr><td class="nw">ブランチ</td><td class="nw"><code>develop</code>（既定・作業用） / <code>master</code>（公開用）</td><td><span class="badge b-ok">2本構成</span></td></tr>
 				<tr><td class="nw">デフォルトブランチ</td><td class="nw"><code>develop</code></td><td><span class="badge b-ok">変更済</span></td></tr>
-				<tr><td class="nw">作業ディレクトリ</td><td class="nw">N:\2026\lightspeedc.github.io</td><td><span class="badge b-ok">クリーン</span></td></tr>
+				<tr><td class="nw">作業ディレクトリ</td><td class="nw">N:/lightspeedc.github.io</td><td><span class="badge b-warn">未コミット3件</span></td></tr>
 			</tbody>
 		</table>
 		</div>
@@ -329,7 +329,8 @@ svg.fig {
   CNAME              カスタムドメインの設定
   favicon.ico        ファビコン
   .nojekyll          Jekyll によるビルドを無効化
-  css/  js/          共通のスタイルとスクリプト
+  css/style.css      共通のスタイル（docs/ 配下の HTML から参照）
+  js/                共通のスクリプト
   mui/  mdl/         UI フレームワークのサンプル
   mithril/           Mithril.js のサンプル
   react/             React のサンプル
@@ -491,48 +492,63 @@ node app 8080      ポートを指定して起動
 	<section class="ch05" id="history">
 		<h1>作業履歴</h1>
 
-		<p>2026-08-27 のコミット。<code>master</code> のマージコミットは <code>develop</code> の対応するコミットと同時刻のため省略している。</p>
+		<p>2026年のコミット（<code>develop</code> ブランチ）。<code>master</code> のマージコミットは <code>develop</code> の対応するコミットとほぼ同時刻のため省略している。</p>
 
 		<div class="tablewrap">
 		<table>
 			<thead>
-				<tr><th>時刻</th><th>コミット</th><th>内容</th></tr>
+				<tr><th>日時</th><th>コミット</th><th>内容</th></tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td class="nw">12:31</td>
+					<td class="nw">08-27 12:31</td>
 					<td class="nw"><code>366df45</code></td>
 					<td>公開ファイル65件を <code>docs/</code> へ集約（すべて rename として記録）。<code>app.js</code> の配信先を <code>docs</code> に変更。<code>.gitignore</code> を Node.js 用に整理（170行→26行、<code>node_modules</code> 追加、<code>[Ee]xpress</code> 等の危険な行を削除）</td>
 				</tr>
 				<tr>
-					<td class="nw">15:23</td>
+					<td class="nw">08-27 15:23</td>
 					<td class="nw"><code>48a8303</code></td>
 					<td><code>docs/.nojekyll</code> 追加。<code>docs/index-old.html</code>（旧トップの控え）追加。README を日本語で刷新</td>
 				</tr>
 				<tr>
-					<td class="nw">16:06</td>
+					<td class="nw">08-27 16:06</td>
 					<td class="nw"><code>7e06322</code></td>
 					<td>トップページを作り直し。目次・公開資料・作者・このリポジトリの構成に。リポジトリURLに <code>#readme</code> を付与</td>
 				</tr>
 				<tr>
-					<td class="nw">16:24</td>
+					<td class="nw">08-27 16:24</td>
 					<td class="nw"><code>d0952d8</code></td>
 					<td>目次バッジの横幅を 310px から 205px に縮小</td>
 				</tr>
 				<tr>
-					<td class="nw">16:50</td>
+					<td class="nw">08-27 16:50</td>
 					<td class="nw"><code>1157bb3</code></td>
 					<td>PowerShell 学習資料に説明を追加（リポジトリ側に description が設定されたため）</td>
 				</tr>
 				<tr>
-					<td class="nw">18:01</td>
+					<td class="nw">08-27 18:01</td>
 					<td class="nw"><code>b951b91</code></td>
 					<td>公開資料4件に緑の「公開Web」バッジを追加（GitHub バッジの左）</td>
 				</tr>
 				<tr>
-					<td class="nw">18:55</td>
+					<td class="nw">08-27 18:55</td>
 					<td class="nw"><code>194fb53</code></td>
 					<td>README と package.json の自サイトURLを https に変更</td>
+				</tr>
+				<tr>
+					<td class="nw">08-28 15:03</td>
+					<td class="nw"><code>9bfdb9c</code></td>
+					<td>この記録（<code>notes/status/status.html</code>）を新規作成。README に「同じアカウントの他リポジトリの Pages も同じドメインで公開される」仕様と、<code>docs/</code> 直下のフォルダ名をリポジトリ名と重複させない旨の警告を追記</td>
+				</tr>
+				<tr>
+					<td class="nw">08-28 15:21</td>
+					<td class="nw"><code>0c1c7fa</code></td>
+					<td>本文の折り返し幅を 1400px から 1600px へ変更（デザインルールの改定に追随）。体裁のみの変更のため更新日は据え置き</td>
+				</tr>
+				<tr>
+					<td class="nw">08-29 19:38</td>
+					<td class="nw"><code>88ee21a</code></td>
+					<td>トップページの公開資料に TypeScript 学習資料を追加（PowerShell の前）。説明文はリポジトリの description をそのまま転記</td>
 				</tr>
 			</tbody>
 		</table>
@@ -562,6 +578,7 @@ node app 8080      ポートを指定して起動
 				<tr><th>資料</th><th>URL</th></tr>
 			</thead>
 			<tbody>
+				<tr><td class="nw">TypeScript 学習資料</td><td class="nw">/20260828-typescript-learn/</td></tr>
 				<tr><td class="nw">PowerShell 学習資料</td><td class="nw">/20260822-powershell-pwsh-learn/</td></tr>
 				<tr><td class="nw">DOSコマンド勉強会 資料</td><td class="nw">/20260824-dos-command-learn/</td></tr>
 				<tr><td class="nw">Node.js / Deno / Bun 比較検証</td><td class="nw">/20260824-node-deno-bun-compare/</td></tr>
@@ -583,7 +600,7 @@ node app 8080      ポートを指定して起動
 			</thead>
 			<tbody>
 				<tr>
-					<td class="nw"><span class="badge b-todo">保留</span></td>
+					<td class="nw"><span class="badge b-none">保留</span></td>
 					<td class="nw">旧サンプル群の整理</td>
 					<td><code>mui</code> / <code>mdl</code> / <code>react</code> / <code>mithril</code> / <code>web-app-intro</code> は 2016年頃の内容のまま <code>docs/</code> に残っている。新しいトップページからはリンクしておらず、URL は生存・HTTPS で配信中。<code>index-old.html</code> からは辿れる</td>
 				</tr>
@@ -593,12 +610,12 @@ node app 8080      ポートを指定して起動
 					<td>有効期限は 2026-11-25。GitHub Pages の Let's Encrypt 証明書は自動更新されるが、DNS 設定を変更した場合は再発行が必要になる</td>
 				</tr>
 				<tr>
-					<td class="nw"><span class="badge b-todo">任意</span></td>
+					<td class="nw"><span class="badge b-none">任意</span></td>
 					<td class="nw">AAAA レコード</td>
 					<td>IPv6 用の AAAA レコードは未設定。必要なら <code>2606:50c0:8000::153</code> 〜 <code>8003::153</code> の4件を追加する</td>
 				</tr>
 				<tr>
-					<td class="nw"><span class="badge b-todo">任意</span></td>
+					<td class="nw"><span class="badge b-none">任意</span></td>
 					<td class="nw">index.json の扱い</td>
 					<td>旧トップページが読み込むリンク一覧。新しいトップページは静的にリンクを記述しているため参照していない。<code>index-old.html</code> が使っているので残してある</td>
 				</tr>
