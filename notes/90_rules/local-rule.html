@@ -1,0 +1,213 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>lightspeedc.com ローカルルール</title>
+<style>
+:root {
+	--navy1: #12224d;
+	--navy2: #2f5fbf;
+	--ink: #1c2330;
+	--ink-soft: #4a5568;
+	--line: #d9dfe8;
+	--code-bg: #f4f6fa;
+	--link: #1a4fa0;
+	--accent: var(--navy1, #12224d);
+	--accent2: var(--navy2, #2f5fbf);
+	--soft: #f2f5fb;
+}
+
+* { box-sizing: border-box; }
+
+body {
+	margin: 0;
+	background: #ffffff;
+	color: var(--ink, #1c2330);
+	font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", Meiryo, sans-serif;
+	font-size: 15.5px;
+	line-height: 1.85;
+}
+
+/* タイトルバー */
+.titlebar {
+	background: linear-gradient(135deg, var(--navy1, #12224d), var(--navy2, #2f5fbf));
+	color: #fff;
+	padding: 34px 30px 30px;
+}
+.titlebar .inner {
+	max-width: 1600px;
+	margin: 0 auto;
+}
+.titlebar h1 {
+	font-size: 2.1em;
+	margin: 0 0 6px;
+	background: none;
+	color: #fff;
+}
+.titlebar .lead {
+	margin: 0;
+	font-size: 1.02em;
+	background: none;
+	color: #d5e0f5;
+}
+.titlebar .date {
+	margin: 10px 0 0;
+	font-size: 0.86em;
+	background: none;
+	color: #b9c8e6;
+}
+.titlebar code {
+	background: rgba(255, 255, 255, 0.16);
+	color: #fff;
+	border: none;
+	padding: 1px 6px;
+	border-radius: 4px;
+}
+
+/* 本文 */
+.wrap {
+	max-width: 1600px;
+	margin: 0 auto;
+	padding: 0 30px;
+}
+
+/* 章 */
+section {
+	background: linear-gradient(180deg, var(--soft, #f2f5fb), #fff 55%);
+	border: 1px solid var(--line, #d9dfe8);
+	border-radius: 10px;
+	padding: 4px 26px 26px;
+	margin: 34px 0;
+	color: var(--ink, #1c2330);
+}
+section h1 {
+	font-size: 1.55em;
+	margin: 26px 0 20px;
+	padding: 14px 20px;
+	color: #fff;
+	background: linear-gradient(100deg, var(--accent, #12224d), var(--accent2, #2f5fbf));
+	border-radius: 8px;
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+}
+section h1 code {
+	background: rgba(255, 255, 255, 0.16);
+	color: #fff;
+	border: none;
+}
+section h2 {
+	font-size: 1.16em;
+	margin: 30px 0 12px;
+	padding: 6px 12px;
+	color: var(--accent, #12224d);
+	background: linear-gradient(90deg, var(--soft, #f2f5fb), #fff);
+	border-left: 6px solid var(--accent, #12224d);
+}
+p {
+	margin: 0 0 12px;
+}
+ul {
+	margin: 0 0 14px;
+	padding-left: 1.5em;
+}
+li {
+	margin: 0 0 6px;
+}
+a {
+	background: none;
+	color: var(--link, #1a4fa0);
+}
+
+/* コード */
+code {
+	background: var(--code-bg, #f4f6fa);
+	border: 1px solid var(--line, #d9dfe8);
+	color: #17335f;
+	padding: 1px 5px;
+	border-radius: 4px;
+	font-size: 0.92em;
+}
+pre {
+	background: linear-gradient(180deg, var(--soft, #f2f5fb), #fff);
+	border: 1px solid var(--line, #d9dfe8);
+	border-left: 5px solid var(--accent2, #2f5fbf);
+	border-radius: 0 8px 8px 0;
+	padding: 13px 16px;
+	overflow-x: auto;
+	margin: 0 0 16px;
+	line-height: 1.65;
+	color: var(--ink, #1c2330);
+}
+pre code {
+	background: none;
+	border: none;
+	padding: 0;
+	color: var(--ink, #1c2330);
+	font-size: 0.95em;
+}
+
+/* callout */
+.callout {
+	background: linear-gradient(180deg, var(--soft, #f2f5fb), #fff);
+	border-left: 6px solid var(--accent, #12224d);
+	border-radius: 0 8px 8px 0;
+	padding: 12px 18px;
+	margin: 0 0 18px;
+	color: var(--ink, #1c2330);
+}
+.callout strong {
+	background: none;
+	color: var(--accent, #12224d);
+}
+.callout p:last-child {
+	margin-bottom: 0;
+}
+</style>
+</head>
+<body>
+
+<div class="titlebar">
+	<div class="inner">
+		<h1>lightspeedc.com ローカルルール</h1>
+		<p class="lead">このリポジトリでだけ通る決めごと</p>
+		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-09-09</p>
+	</div>
+</div>
+
+<div class="wrap">
+
+	<section>
+		<h1>資料見出し（h2）にも虹色を割り当てる</h1>
+
+		<p>適用条件: <code>docs/index.html</code> の資料一覧を増減するとき。</p>
+
+		<ul>
+			<li>章（h1）とは別に、資料見出し（h2）にも 280°→0° の虹色を割り当てる</li>
+			<li><strong>刻みは「最も項目数が多い章の等分」で固定</strong>（<code>280 ÷ (最多件数 - 1)</code>）。項目の少ない章は途中で止まる</li>
+			<li>色相は <code>.dc01</code>〜 のクラスに <code>--dh</code> として持たせ、<code>section h2</code> が <code>hsl(var(--dh, 220), ...)</code> で参照する</li>
+			<li><strong>資料を増減したら刻みを計算し直し、全章の <code>.dcNN</code> を振り直す</strong></li>
+		</ul>
+	</section>
+
+	<section>
+		<h1>html2md では status を除外する</h1>
+
+		<p>適用条件: <code>html2md</code> を走らせるとき。</p>
+
+		<ul>
+			<li><strong><code>--exclude status.html</code> を必ず付ける</strong></li>
+			<li><code>notes/status/status.html</code> は HTML だけで運用する。Markdown 版は持たない</li>
+		</ul>
+
+<pre><code>html2md --root &lt;プロジェクトフォルダ&gt; --exclude status.html
+</code></pre>
+
+		<div class="callout">
+			<p><strong>付け忘れても成功して終わる。</strong> <code>notes/status/status.md</code> と、インライン SVG を切り出した <code>notes/status/images/status-fig01.svg</code> が黙って増える。検査も「指摘なし」で通る。</p>
+		</div>
+	</section>
+
+</div>
+
+</body>
+</html>
