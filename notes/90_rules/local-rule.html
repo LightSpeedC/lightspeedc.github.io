@@ -18,6 +18,10 @@
 	--soft: #f2f5fb;
 }
 
+.ch01 { --accent: hsl(280, 78%, 25%); --accent2: hsl(280, 58%, 55%); --soft: hsl(280, 28%, 95%); }
+.ch02 { --accent: hsl(140, 78%, 25%); --accent2: hsl(140, 58%, 55%); --soft: hsl(140, 28%, 95%); }
+.ch03 { --accent: hsl(0, 78%, 25%);   --accent2: hsl(0, 58%, 55%);   --soft: hsl(0, 28%, 95%); }
+
 * { box-sizing: border-box; }
 
 body {
@@ -176,7 +180,7 @@ pre code {
 
 <div class="wrap">
 
-	<section>
+	<section class="ch01" id="ch01">
 		<h1>資料見出し（h2）にも虹色を割り当てる</h1>
 
 		<p>適用条件: <code>docs/index.html</code> の資料一覧を増減するとき。</p>
@@ -189,7 +193,7 @@ pre code {
 		</ul>
 	</section>
 
-	<section>
+	<section class="ch02" id="ch02">
 		<h1>html2md では status を除外する</h1>
 
 		<p>適用条件: <code>html2md</code> を走らせるとき。</p>
@@ -205,6 +209,17 @@ pre code {
 		<div class="callout">
 			<p><strong>付け忘れても成功して終わる。</strong> <code>notes/status/status.md</code> と、インライン SVG を切り出した <code>notes/status/images/status-fig01.svg</code> が黙って増える。検査も「指摘なし」で通る。</p>
 		</div>
+	</section>
+
+	<section class="ch03" id="ch03">
+		<h1>ブランチは2本で運用する</h1>
+
+		<p>適用条件: このリポジトリで作業するとき。</p>
+
+		<ul>
+			<li><code>develop</code> と <code>master</code> の2本。<code>release</code> は使わない</li>
+			<li><code>master</code> が GitHub Pages の公開ソース（<code>master</code> ブランチ / <code>/docs</code>）</li>
+		</ul>
 	</section>
 
 </div>
