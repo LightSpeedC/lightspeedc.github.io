@@ -131,13 +131,13 @@ section h2 {
 	font-size: 1.16em;
 	margin: 30px 0 12px;
 	padding: 6px 12px;
-	color: var(--accent, #12224d);
-	background: linear-gradient(90deg, var(--soft, #f2f5fb), #fff);
-	border-left: 6px solid var(--accent, #12224d);
+	color: hsl(var(--dh, 220), 78%, 25%);
+	background: linear-gradient(90deg, hsl(var(--dh, 220), 28%, 95%), #fff);
+	border-left: 6px solid hsl(var(--dh, 220), 78%, 25%);
 }
 section h2 a {
 	background: none;
-	color: var(--accent, #12224d);
+	color: hsl(var(--dh, 220), 78%, 25%);
 	text-decoration: none;
 }
 section h2 a:hover {
