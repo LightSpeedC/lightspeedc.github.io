@@ -2,7 +2,7 @@
 
 このリポジトリでだけ通る決めごと
 
-> 📅 作成: 2026-09-09 / 更新: 2026-09-09
+> 📅 作成: 2026-09-09 / 更新: 2026-09-13
 
 ## 1. 資料見出し（h2）にも虹色を割り当てる
 
@@ -33,3 +33,17 @@ html2md --root <プロジェクトフォルダ> --exclude status.html
 
 - `develop` と `master` の2本。`release` は使わない
 - `master` が GitHub Pages の公開ソース（`master` ブランチ / `/docs`）
+
+## 4. push しても Pages のビルドが始まらないことがある
+
+適用条件: `master` を push したあと。
+
+- ビルドの完了は status だけで見ない。最新ビルドの commit が push したものと一致するまで待つ
+- 一致しないまま進まないときは、手動でリクエストする
+
+```
+gh api -X POST repos/LightSpeedC/lightspeedc.github.io/pages/builds
+```
+
+> [!NOTE]
+> **2 回続けて起きた。** force push のときと、通常の push のとき。どちらも status は built のままで、5 日前のコミットを指していた。公開されている中身は正しいので、URL を叩くだけでは気づけない。

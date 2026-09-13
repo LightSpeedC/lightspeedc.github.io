@@ -18,9 +18,10 @@
 	--soft: #f2f5fb;
 }
 
-.ch01 { --accent: hsl(280, 78%, 25%); --accent2: hsl(280, 58%, 55%); --soft: hsl(280, 28%, 95%); }
-.ch02 { --accent: hsl(140, 78%, 25%); --accent2: hsl(140, 58%, 55%); --soft: hsl(140, 28%, 95%); }
-.ch03 { --accent: hsl(0, 78%, 25%);   --accent2: hsl(0, 58%, 55%);   --soft: hsl(0, 28%, 95%); }
+.ch01 { --accent: hsl(280, 78%, 25%);   --accent2: hsl(280, 58%, 55%);   --soft: hsl(280, 28%, 95%); }
+.ch02 { --accent: hsl(186.7, 78%, 25%); --accent2: hsl(186.7, 58%, 55%); --soft: hsl(186.7, 28%, 95%); }
+.ch03 { --accent: hsl(93.3, 78%, 25%);  --accent2: hsl(93.3, 58%, 55%);  --soft: hsl(93.3, 28%, 95%); }
+.ch04 { --accent: hsl(0, 78%, 25%);     --accent2: hsl(0, 58%, 55%);     --soft: hsl(0, 28%, 95%); }
 
 * { box-sizing: border-box; }
 
@@ -174,7 +175,7 @@ pre code {
 	<div class="inner">
 		<h1>lightspeedc.com ローカルルール</h1>
 		<p class="lead">このリポジトリでだけ通る決めごと</p>
-		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-09-09</p>
+		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-09-13</p>
 	</div>
 </div>
 
@@ -220,6 +221,24 @@ pre code {
 			<li><code>develop</code> と <code>master</code> の2本。<code>release</code> は使わない</li>
 			<li><code>master</code> が GitHub Pages の公開ソース（<code>master</code> ブランチ / <code>/docs</code>）</li>
 		</ul>
+	</section>
+
+	<section class="ch04" id="ch04">
+		<h1>push しても Pages のビルドが始まらないことがある</h1>
+
+		<p>適用条件: <code>master</code> を push したあと。</p>
+
+		<ul>
+			<li>ビルドの完了は status だけで見ない。最新ビルドの commit が push したものと一致するまで待つ</li>
+			<li>一致しないまま進まないときは、手動でリクエストする</li>
+		</ul>
+
+<pre><code>gh api -X POST repos/LightSpeedC/lightspeedc.github.io/pages/builds
+</code></pre>
+
+		<div class="callout">
+			<p><strong>2 回続けて起きた。</strong> force push のときと、通常の push のとき。どちらも status は built のままで、5 日前のコミットを指していた。公開されている中身は正しいので、URL を叩くだけでは気づけない。</p>
+		</div>
 	</section>
 
 </div>
