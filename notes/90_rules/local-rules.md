@@ -26,3 +26,10 @@ html2md --root <プロジェクトフォルダ> --exclude status.html
 
 > [!NOTE]
 > **付け忘れても成功して終わる。** `notes/status/status.md` と、インライン SVG を切り出した `notes/status/images/status-fig01.svg` が黙って増える。検査も「指摘なし」で通る。
+
+## 3. ブランチは2本で運用する
+
+適用条件: このリポジトリで作業するとき。
+
+- `develop` と `master` の2本。`release` は使わない
+- `master` が GitHub Pages の公開ソース（`master` ブランチ / `/docs`）
