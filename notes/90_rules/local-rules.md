@@ -34,16 +34,25 @@ html2md --root <プロジェクトフォルダ> --exclude status.html
 - `develop` と `master` の2本。`release` は使わない
 - `master` が GitHub Pages の公開ソース（`master` ブランチ / `/docs`）
 
-## 4. push しても Pages のビルドが始まらないことがある
+## 4. Pages のビルドが queued で止まることがある
 
 適用条件: `master` を push したあと。
 
-- ビルドの完了は status だけで見ない。最新ビルドの commit が push したものと一致するまで待つ
-- 一致しないまま進まないときは、手動でリクエストする
+- ビルドの完了は Pages API の status で見ない。queued（ランナー待ち）も実行中も building と返るため、区別がつかない
+- 見るのは Actions 側
+- 最新ビルドの commit が push したものと一致することも確かめる
 
 ```
-gh api -X POST repos/LightSpeedC/lightspeedc.github.io/pages/builds
+gh run list --repo LightSpeedC/lightspeedc.github.io --limit 1
 ```
 
 > [!NOTE]
-> **2 回続けて起きた。** force push のときと、通常の push のとき。どちらも status は built のままで、5 日前のコミットを指していた。公開されている中身は正しいので、URL を叩くだけでは気づけない。
+> **手動の再リクエストでは直らない。** 走っているジョブを cancel して新しく積むだけで、待ち行列の先頭には入らない。滞留したときは Actions の画面で滞留ジョブを消してから積み直す。公開されている中身は旧版のまま正しいので、URL を叩いても気づけない。
+
+## 5. 新しい資料は章の先頭に入れる
+
+適用条件: `docs/index.html` の資料一覧に資料を足すとき。
+
+- 1章・2章とも、新しいものを上に置く
+- 既存の並びは動かさない。過去に追加した分を日付順に並べ直すことはしない
+- 関連する資料が続くときは、ひとまとまりのまま扱う（ai-chat 系3件）
