@@ -19,8 +19,10 @@
 }
 
 .ch01 { --accent: hsl(280, 78%, 25%); --accent2: hsl(280, 58%, 55%); --soft: hsl(280, 28%, 95%); }
-.ch02 { --accent: hsl(140, 78%, 25%); --accent2: hsl(140, 58%, 55%); --soft: hsl(140, 28%, 95%); }
-.ch03 { --accent: hsl(0, 78%, 25%);   --accent2: hsl(0, 58%, 55%);   --soft: hsl(0, 28%, 95%); }
+.ch02 { --accent: hsl(210, 78%, 25%); --accent2: hsl(210, 58%, 55%); --soft: hsl(210, 28%, 95%); }
+.ch03 { --accent: hsl(140, 78%, 25%); --accent2: hsl(140, 58%, 55%); --soft: hsl(140, 28%, 95%); }
+.ch04 { --accent: hsl(70, 78%, 25%);  --accent2: hsl(70, 58%, 55%);  --soft: hsl(70, 28%, 95%); }
+.ch05 { --accent: hsl(0, 78%, 25%);   --accent2: hsl(0, 58%, 55%);   --soft: hsl(0, 28%, 95%); }
 
 * { box-sizing: border-box; }
 
@@ -174,7 +176,7 @@ pre code {
 	<div class="inner">
 		<h1>lightspeedc.com ローカルルール</h1>
 		<p class="lead">このリポジトリでだけ通る決めごと</p>
-		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-09-09</p>
+		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-09-13</p>
 	</div>
 </div>
 
@@ -219,6 +221,37 @@ pre code {
 		<ul>
 			<li><code>develop</code> と <code>master</code> の2本。<code>release</code> は使わない</li>
 			<li><code>master</code> が GitHub Pages の公開ソース（<code>master</code> ブランチ / <code>/docs</code>）</li>
+		</ul>
+	</section>
+
+	<section class="ch04" id="ch04">
+		<h1>Pages のビルドが queued で止まることがある</h1>
+
+		<p>適用条件: <code>master</code> を push したあと。</p>
+
+		<ul>
+			<li>ビルドの完了は Pages API の status で見ない。queued（ランナー待ち）も実行中も building と返るため、区別がつかない</li>
+			<li>見るのは Actions 側</li>
+			<li>最新ビルドの commit が push したものと一致することも確かめる</li>
+		</ul>
+
+<pre><code>gh run list --repo LightSpeedC/lightspeedc.github.io --limit 1
+</code></pre>
+
+		<div class="callout">
+			<p><strong>手動の再リクエストでは直らない。</strong> 走っているジョブを cancel して新しく積むだけで、待ち行列の先頭には入らない。滞留したときは Actions の画面で滞留ジョブを消してから積み直す。公開されている中身は旧版のまま正しいので、URL を叩いても気づけない。</p>
+		</div>
+	</section>
+
+	<section class="ch05" id="ch05">
+		<h1>新しい資料は章の先頭に入れる</h1>
+
+		<p>適用条件: <code>docs/index.html</code> の資料一覧に資料を足すとき。</p>
+
+		<ul>
+			<li>1章・2章とも、新しいものを上に置く</li>
+			<li>既存の並びは動かさない。過去に追加した分を日付順に並べ直すことはしない</li>
+			<li>関連する資料が続くときは、ひとまとまりのまま扱う（ai-chat 系3件）</li>
 		</ul>
 	</section>
 
