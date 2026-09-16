@@ -19,10 +19,11 @@
 }
 
 .ch01 { --accent: hsl(280, 78%, 25%); --accent2: hsl(280, 58%, 55%); --soft: hsl(280, 28%, 95%); }
-.ch02 { --accent: hsl(210, 78%, 25%); --accent2: hsl(210, 58%, 55%); --soft: hsl(210, 28%, 95%); }
-.ch03 { --accent: hsl(140, 78%, 25%); --accent2: hsl(140, 58%, 55%); --soft: hsl(140, 28%, 95%); }
-.ch04 { --accent: hsl(70, 78%, 25%);  --accent2: hsl(70, 58%, 55%);  --soft: hsl(70, 28%, 95%); }
-.ch05 { --accent: hsl(0, 78%, 25%);   --accent2: hsl(0, 58%, 55%);   --soft: hsl(0, 28%, 95%); }
+.ch02 { --accent: hsl(224, 78%, 25%); --accent2: hsl(224, 58%, 55%); --soft: hsl(224, 28%, 95%); }
+.ch03 { --accent: hsl(168, 78%, 25%); --accent2: hsl(168, 58%, 55%); --soft: hsl(168, 28%, 95%); }
+.ch04 { --accent: hsl(112, 78%, 25%); --accent2: hsl(112, 58%, 55%); --soft: hsl(112, 28%, 95%); }
+.ch05 { --accent: hsl(56, 78%, 25%);  --accent2: hsl(56, 58%, 55%);  --soft: hsl(56, 28%, 95%); }
+.ch06 { --accent: hsl(0, 78%, 25%);   --accent2: hsl(0, 58%, 55%);   --soft: hsl(0, 28%, 95%); }
 
 * { box-sizing: border-box; }
 
@@ -176,7 +177,7 @@ pre code {
 	<div class="inner">
 		<h1>lightspeedc.com ローカルルール</h1>
 		<p class="lead">このリポジトリでだけ通る決めごと</p>
-		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-09-13</p>
+		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-09-17</p>
 	</div>
 </div>
 
@@ -252,6 +253,20 @@ pre code {
 			<li>1章・2章とも、新しいものを上に置く</li>
 			<li>既存の並びは動かさない。過去に追加した分を日付順に並べ直すことはしない</li>
 			<li>関連する資料が続くときは、ひとまとまりのまま扱う（ai-chat 系3件）</li>
+		</ul>
+	</section>
+
+	<section class="ch06" id="ch06">
+		<h1>公開依頼は確認を待たずに受け付ける</h1>
+
+		<p>適用条件: ai-chat-lite で他プロジェクトから掲載を依頼されたとき。</p>
+
+		<ul>
+			<li>依頼を受けたら、利用者の確認を待たずに <code>docs/index.html</code> へ反映する</li>
+			<li>入れる場所と並びは「新しい資料は章の先頭に入れる」に従う</li>
+			<li>説明は依頼元リポジトリの <code>description</code> を転記する。自分で書き起こさない</li>
+			<li><strong>commit ・ push は別</strong>。掲載の反映までを自動で進める範囲とし、公開は指示を待つ</li>
+			<li>返信は公開が済んでから送る</li>
 		</ul>
 	</section>
 
