@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -270,7 +270,7 @@ svg.fig {
 	<div class="inner">
 		<h1>lightspeedc.com 構成と作業状況</h1>
 		<p class="lead">GitHub Pages リポジトリ <code>LightSpeedC/lightspeedc.github.io</code> の現状記録</p>
-		<p class="date">📅 作成: 2026-08-28 / 更新: 2026-09-05</p>
+		<p class="date">📅 作成: 2026-08-28 / 更新: 2026-09-17</p>
 	</div>
 </div>
 
@@ -291,7 +291,7 @@ svg.fig {
 	<section class="ch01" id="now">
 		<h1>現在の状態</h1>
 
-		<p>2026-08-27 に実施した作業により、公開ファイルの <code>docs/</code> への集約、HTTPS 化、ブランチ運用の整備、トップページの刷新が完了している。</p>
+		<p>2026-08-27 に実施した作業により、公開ファイルの <code>docs/</code> への集約、HTTPS 化、ブランチ運用の整備、トップページの刷新が完了している。以降はトップページへの資料の掲載と、ローカルルールの整備が主な作業になっている。</p>
 
 		<div class="tablewrap">
 		<table>
@@ -309,6 +309,8 @@ svg.fig {
 				<tr><td class="nw">ブランチ</td><td class="nw"><code>develop</code>（既定・作業用） / <code>master</code>（公開用）</td><td><span class="badge b-ok">2本構成</span></td></tr>
 				<tr><td class="nw">デフォルトブランチ</td><td class="nw"><code>develop</code></td><td><span class="badge b-ok">変更済</span></td></tr>
 				<tr><td class="nw">作業ディレクトリ</td><td class="nw">N:/lightspeedc.github.io</td><td><span class="badge b-ok">クリーン</span></td></tr>
+				<tr><td class="nw">ローカルルール</td><td class="nw"><code>notes/90_rules/local-rules.html</code>（5章）</td><td><span class="badge b-ok">運用中</span></td></tr>
+				<tr><td class="nw">トップページの掲載件数</td><td class="nw">公開資料 6件 / その他の資料 8件</td><td><span class="badge b-ok">公開中</span></td></tr>
 			</tbody>
 		</table>
 		</div>
@@ -341,6 +343,8 @@ app.js               ローカル確認用の静的サーバー（docs/ を配�
 package.json         ローカル確認用の依存定義
 run.cmd              ローカル確認の起動スクリプト
 README.md            リポジトリの説明
+CLAUDE.md            ローカルルールを取り込む1行
+notes/90_rules/      ローカルルール（非公開）
 notes/status/        この文書（非公開）
 </code></pre>
 
@@ -353,7 +357,7 @@ notes/status/        この文書（非公開）
 			</thead>
 			<tbody>
 				<tr><td class="nw">公開される</td><td><code>docs/</code> 配下のすべて</td><td>Pages の公開ソースに指定されている</td></tr>
-				<tr><td class="nw">公開されない</td><td><code>README.md</code> / <code>app.js</code> / <code>package.json</code> / <code>run.cmd</code> / <code>notes/</code></td><td><code>docs/</code> の外にあるため。<code>/README.md</code> へのアクセスは 404 になることを確認済み</td></tr>
+				<tr><td class="nw">公開されない</td><td><code>README.md</code> / <code>CLAUDE.md</code> / <code>app.js</code> / <code>package.json</code> / <code>run.cmd</code> / <code>notes/</code></td><td><code>docs/</code> の外にあるため。<code>/README.md</code> へのアクセスは 404 になることを確認済み</td></tr>
 			</tbody>
 		</table>
 		</div>
@@ -470,14 +474,20 @@ node app 8080      ポートを指定して起動
 		<h2>手順</h2>
 
 <pre><code>1. develop で編集・コミット
-2. git push origin develop
-3. git switch master
-4. git merge --no-ff develop
-5. git push origin master        ← この push で公開される
-6. git switch develop            ← 作業後は develop に戻る
+2. git switch master
+3. git merge --no-ff develop
+4. git tag -a "yyyy/mm/dd_master"     ← 注釈付きタグ
+5. git switch develop                ← 先に develop へ戻しておく
+6. git push origin develop master "yyyy/mm/dd_master"
+                                     ← この push で公開される
+7. gh run list で Actions のビルド完了を確認
 </code></pre>
 
 		<p>マージは常に <code>--no-ff</code> を使い、fast-forward は行わない。どの単位の作業が公開されたかを履歴から追えるようにするため。</p>
+
+		<div class="callout">
+			<p><strong>push は 1 回にまとめる。</strong> develop ・ master ・タグを別々に送ると <code>master</code> が 2 度 push され、そのたびに Pages のビルドが積まれる。1 つのコマンドに並べれば 1 回で済む。</p>
+		</div>
 
 		<h2>設定変更とプッシュの順序に注意</h2>
 
@@ -494,6 +504,10 @@ node app 8080      ポートを指定して起動
 
 		<p>2026年のコミット（<code>develop</code> ブランチ）。<code>master</code> のマージコミットは <code>develop</code> の対応するコミットとほぼ同時刻のため省略している。</p>
 
+		<div class="callout">
+			<p><strong>2026-09-16 の履歴書き換えで、全コミットのハッシュが変わっている。</strong> コミットメッセージからセッションURLの行を消す際、末尾に改行のないメッセージが2件あり、そこに改行が1つ足された。うち1件が2012年の3番目のコミットだったため、以降の全92件が親の変化で連鎖して別のハッシュになった。ファイルの内容は書き換えの前後で完全に一致している。この表のハッシュは書き換え後の値。</p>
+		</div>
+
 		<div class="tablewrap">
 		<table>
 			<thead>
@@ -502,58 +516,113 @@ node app 8080      ポートを指定して起動
 			<tbody>
 				<tr>
 					<td class="nw">08-27 12:31</td>
-					<td class="nw"><code>366df45</code></td>
+					<td class="nw"><code>95d1aa2</code></td>
 					<td>公開ファイル65件を <code>docs/</code> へ集約（すべて rename として記録）。<code>app.js</code> の配信先を <code>docs</code> に変更。<code>.gitignore</code> を Node.js 用に整理（170行→26行、<code>node_modules</code> 追加、<code>[Ee]xpress</code> 等の危険な行を削除）</td>
 				</tr>
 				<tr>
 					<td class="nw">08-27 15:23</td>
-					<td class="nw"><code>48a8303</code></td>
+					<td class="nw"><code>5a5a10c</code></td>
 					<td><code>docs/.nojekyll</code> 追加。<code>docs/index-old.html</code>（旧トップの控え）追加。README を日本語で刷新</td>
 				</tr>
 				<tr>
 					<td class="nw">08-27 16:06</td>
-					<td class="nw"><code>7e06322</code></td>
+					<td class="nw"><code>2d9bbc2</code></td>
 					<td>トップページを作り直し。目次・公開資料・作者・このリポジトリの構成に。リポジトリURLに <code>#readme</code> を付与</td>
 				</tr>
 				<tr>
 					<td class="nw">08-27 16:24</td>
-					<td class="nw"><code>d0952d8</code></td>
+					<td class="nw"><code>ba5d5b2</code></td>
 					<td>目次バッジの横幅を 310px から 205px に縮小</td>
 				</tr>
 				<tr>
 					<td class="nw">08-27 16:50</td>
-					<td class="nw"><code>1157bb3</code></td>
+					<td class="nw"><code>08cb055</code></td>
 					<td>PowerShell 学習資料に説明を追加（リポジトリ側に description が設定されたため）</td>
 				</tr>
 				<tr>
 					<td class="nw">08-27 18:01</td>
-					<td class="nw"><code>b951b91</code></td>
+					<td class="nw"><code>3fa2a78</code></td>
 					<td>公開資料4件に緑の「公開Web」バッジを追加（GitHub バッジの左）</td>
 				</tr>
 				<tr>
 					<td class="nw">08-27 18:55</td>
-					<td class="nw"><code>194fb53</code></td>
+					<td class="nw"><code>cf74bc5</code></td>
 					<td>README と package.json の自サイトURLを https に変更</td>
 				</tr>
 				<tr>
 					<td class="nw">08-28 15:03</td>
-					<td class="nw"><code>9bfdb9c</code></td>
+					<td class="nw"><code>2427b3c</code></td>
 					<td>この記録（<code>notes/status/status.html</code>）を新規作成。README に「同じアカウントの他リポジトリの Pages も同じドメインで公開される」仕様と、<code>docs/</code> 直下のフォルダ名をリポジトリ名と重複させない旨の警告を追記</td>
 				</tr>
 				<tr>
 					<td class="nw">08-28 15:21</td>
-					<td class="nw"><code>0c1c7fa</code></td>
+					<td class="nw"><code>764d9e1</code></td>
 					<td>本文の折り返し幅を 1400px から 1600px へ変更（デザインルールの改定に追随）。体裁のみの変更のため更新日は据え置き</td>
 				</tr>
 				<tr>
 					<td class="nw">08-29 19:38</td>
-					<td class="nw"><code>88ee21a</code></td>
+					<td class="nw"><code>f41d063</code></td>
 					<td>トップページの公開資料に TypeScript 学習資料を追加（PowerShell の前）。説明文はリポジトリの description をそのまま転記</td>
 				</tr>
 				<tr>
 					<td class="nw">09-05 09:30</td>
 					<td class="nw"><code>46420d2</code></td>
-					<td>共通 CSS を <code>docs/css/style.css</code> へ分離。クラス名を規約に合わせた（<code>sub</code> → <code>lead</code>、<code>section</code> の id を <code>chNN</code> へ統一）。公開Web バッジを緑から紺へ変更（状態バッジの「良い・完了」と同じ色値だったため）。この記録の内容も実態へ追随させた</td>
+					<td>共通 CSS を <code>docs/css/style.css</code> へ分離。クラス名を規約に合わせた（<code>sub</code> → <code>lead</code>、<code>section</code> の id を <code>chNN</code> へ統一）。公開Web バッジを緑から紺へ変更（状態バッジの「良い・完了」と同じ色値だったため）</td>
+				</tr>
+				<tr>
+					<td class="nw">09-05 10:19</td>
+					<td class="nw"><code>1ddf0ba</code></td>
+					<td>この記録を実態へ追随させた</td>
+				</tr>
+				<tr>
+					<td class="nw">09-05 14:18</td>
+					<td class="nw"><code>ce33736</code></td>
+					<td>トップページに「その他の資料」の章を新設。章が3つから4つになったため、全章の色相を4章分（280 / 186.7 / 93.3 / 0）へ振り直した</td>
+				</tr>
+				<tr>
+					<td class="nw">09-05 14:23</td>
+					<td class="nw"><code>f972389</code></td>
+					<td>その他の資料に ai-chat 系3件（<code>ai-chat-lite</code> / <code>ai-chat-lite-reviewer</code> / <code>ai-chat-watcher</code>）を追加</td>
+				</tr>
+				<tr>
+					<td class="nw">09-09 05:04</td>
+					<td class="nw"><code>00cd77f</code></td>
+					<td>公開資料に MCP Server 学習資料を追加（先頭へ）。資料見出し（h2）にも虹色を割り当てる形にし、<code>section h2</code> が <code>--dh</code> を参照するよう共通 CSS を変更</td>
+				</tr>
+				<tr>
+					<td class="nw">09-09 05:04</td>
+					<td class="nw"><code>a501836</code></td>
+					<td>ローカルルールを新設（<code>notes/90_rules/</code>）。root の <code>CLAUDE.md</code> は取り込みの1行だけにした</td>
+				</tr>
+				<tr>
+					<td class="nw">09-09 05:14</td>
+					<td class="nw"><code>b379e18</code></td>
+					<td>ローカルルールに「ブランチは2本で運用する」を追加</td>
+				</tr>
+				<tr>
+					<td class="nw">09-13 10:12</td>
+					<td class="nw"><code>4bcc935</code></td>
+					<td>ローカルルールのファイル名を <code>local-rule</code> から <code>local-rules</code> へ変更（共通ルールの表記に合わせた）</td>
+				</tr>
+				<tr>
+					<td class="nw">09-13 10:16</td>
+					<td class="nw"><code>fafed4e</code></td>
+					<td>その他の資料に Claude Code インストール状況の整理を追加</td>
+				</tr>
+				<tr>
+					<td class="nw">09-13 16:24</td>
+					<td class="nw"><code>3ddaeb7</code></td>
+					<td>ローカルルールに「Pages のビルドが queued で止まることがある」を追加。あわせて「html2md では status を除外する」も整えた</td>
+				</tr>
+				<tr>
+					<td class="nw">09-16 07:25</td>
+					<td class="nw"><code>19d50f2</code></td>
+					<td>ローカルルールに「新しい資料は章の先頭に入れる」を追加し、2章を並べ替えて Claude Code の資料を先頭へ移した</td>
+				</tr>
+				<tr>
+					<td class="nw">09-16 08:17</td>
+					<td class="nw"><code>70b9754</code></td>
+					<td>その他の資料に AIエージェント向けモデル比較2件（by Claude / by Codex）を追加。2章が7件になり最多になったため、資料見出しの刻みを 280÷6 へ計算し直した</td>
 				</tr>
 			</tbody>
 		</table>
@@ -571,23 +640,34 @@ node app 8080      ポートを指定して起動
 				<tr><td class="nw">GitHub リポジトリ</td><td>デフォルトブランチを <code>master</code> から <code>develop</code> へ変更</td></tr>
 				<tr><td class="nw">DNS</td><td>A レコードを現行IP 4件へ差し替え。<code>www</code> を GitHub 推奨形の CNAME へ変更</td></tr>
 				<tr><td class="nw">Enforce HTTPS</td><td>親リポジトリと公開資料4リポジトリで有効化</td></tr>
+				<tr><td class="nw">タグ</td><td>公開のたびに <code>yyyy/mm/dd_master</code> 形式の注釈付きタグを打つ運用にした。現在5本</td></tr>
+				<tr><td class="nw">履歴の書き換え</td><td>2026-09-16、コミットメッセージからセッションURLの行を削除（14件）。タグ5本を打ち直し、<code>develop</code> ・ <code>master</code> とも force push した</td></tr>
 			</tbody>
 		</table>
 		</div>
 
-		<h2>トップページに掲載している公開資料</h2>
+		<h2>トップページに掲載している資料</h2>
 
 		<div class="tablewrap">
 		<table>
 			<thead>
-				<tr><th>資料</th><th>URL</th></tr>
+				<tr><th>章</th><th>資料</th><th>URL</th></tr>
 			</thead>
 			<tbody>
-				<tr><td class="nw">TypeScript 学習資料</td><td class="nw">/20260828-typescript-learn/</td></tr>
-				<tr><td class="nw">PowerShell 学習資料</td><td class="nw">/20260822-powershell-pwsh-learn/</td></tr>
-				<tr><td class="nw">DOSコマンド勉強会 資料</td><td class="nw">/20260824-dos-command-learn/</td></tr>
-				<tr><td class="nw">Node.js / Deno / Bun 比較検証</td><td class="nw">/20260824-node-deno-bun-compare/</td></tr>
-				<tr><td class="nw">ローカルLLM 実行環境</td><td class="nw">/20260824-local-llm-llama-cp/</td></tr>
+				<tr><td class="nw">公開資料</td><td class="nw">MCP Server 学習資料</td><td class="nw">/20260907-ai-mcp-servers-learn/</td></tr>
+				<tr><td class="nw">公開資料</td><td class="nw">TypeScript 学習資料</td><td class="nw">/20260828-typescript-learn/</td></tr>
+				<tr><td class="nw">公開資料</td><td class="nw">PowerShell 学習資料</td><td class="nw">/20260822-powershell-pwsh-learn/</td></tr>
+				<tr><td class="nw">公開資料</td><td class="nw">DOSコマンド勉強会 資料</td><td class="nw">/20260824-dos-command-learn/</td></tr>
+				<tr><td class="nw">公開資料</td><td class="nw">Node.js / Deno / Bun 比較検証</td><td class="nw">/20260824-node-deno-bun-compare/</td></tr>
+				<tr><td class="nw">公開資料</td><td class="nw">ローカルLLM 実行環境</td><td class="nw">/20260824-local-llm-llama-cp/</td></tr>
+				<tr><td class="nw">その他の資料</td><td class="nw">クラウド環境の比較調査（無料枠・32GBメモリ・GPU）</td><td class="nw">/20260912-research-cloud-service/</td></tr>
+				<tr><td class="nw">その他の資料</td><td class="nw">AIエージェント向けモデル比較(by Claude)</td><td class="nw">/20260915-ai-model-selection-cc/</td></tr>
+				<tr><td class="nw">その他の資料</td><td class="nw">AIエージェント向けモデル比較（by Codex）</td><td class="nw">/20260915-ai-model-selection-cx/</td></tr>
+				<tr><td class="nw">その他の資料</td><td class="nw">Claude Code インストール状況の整理</td><td class="nw">/20260912-claude-code-cleanup/</td></tr>
+				<tr><td class="nw">その他の資料</td><td class="nw">目玉焼き・半熟卵メーカー</td><td class="nw">/20260905-medamayaki-maker/</td></tr>
+				<tr><td class="nw">その他の資料</td><td class="nw">ai-chat-lite</td><td class="nw">/ai-chat-lite/</td></tr>
+				<tr><td class="nw">その他の資料</td><td class="nw">ai-chat-lite-reviewer</td><td class="nw">/ai-chat-lite-reviewer/</td></tr>
+				<tr><td class="nw">その他の資料</td><td class="nw">ai-chat-watcher</td><td class="nw">/ai-chat-watcher/</td></tr>
 			</tbody>
 		</table>
 		</div>
