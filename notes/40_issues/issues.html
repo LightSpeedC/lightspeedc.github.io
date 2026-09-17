@@ -171,14 +171,17 @@ details.issue li {
 		<h2>公開・運用</h2>
 
 		<details class="issue md-flat" open>
-			<summary><span class="no">i260917-01</span>Pages のビルドが push で自動的に積まれない <span class="badge b-none">未</span></summary>
+			<summary><span class="no">i260917-01</span>Pages のビルドが push で自動的に積まれない <span class="badge b-warn">着手</span></summary>
 			<div class="body">
-				<p>2026-09-17 に2回連続で確認した。<code>master</code> への通常の push だけでは GitHub Actions の run が積まれず、<code>gh api -X POST repos/OWNER/REPO/pages/builds</code> の手動リクエストで初めてビルドが走っている。原因は未特定（webhook の失効・リポジトリ設定の変化が疑われるが未確認）。</p>
+				<p>2026-09-17 に2回連続で確認した。<code>master</code> への通常の push だけでは GitHub Actions の run が積まれず、<code>gh api -X POST repos/OWNER/REPO/pages/builds</code> の手動リクエストで初めてビルドが走っている。</p>
 				<p>ローカルルール4「Pages のビルドが queued で止まることがある」とは別の事象。あちらは積まれたジョブが滞留する話で、こちらはそもそも積まれない話。</p>
+				<p><strong>原因を特定した。</strong> ビルド履歴を古い順に並べたところ、2026-09-16 の履歴書き換え（force push）の前後で切り替わっていた。書き換え前の <code>8de9462</code> は自動でビルドされ、書き換え後の <code>9899a1f</code> ・ <code>87de007</code> はどちらも自動で積まれず、手動リクエストが必要だった。<code>gh api repos/OWNER/REPO/hooks</code> は空で、通常の webhook 経由ではない（legacy Pages ビルドは GitHub 内部の仕組みで動く）。</p>
+				<p>対処として、Pages のソース設定を同じ値で PUT し直し、内部連携の再同期を試みた（設定自体は変えていない）。</p>
 				<ul>
-					<li>状態: 未</li>
-					<li>次の push でも再現するか確かめる（未）</li>
-					<li>再現するなら GitHub 側の webhook 設定を確認する（未）</li>
+					<li>状態: 着手</li>
+					<li>force push の前後で切り替わったことを確認した（済）</li>
+					<li>Pages のソース設定を PUT し直した（済）</li>
+					<li>次の push で自動的に積まれるか確かめる（未）</li>
 					<li>直らないなら、公開手順に手動リクエストを恒久的に組み込むかを検討する（未）</li>
 				</ul>
 			</div>
@@ -197,6 +200,7 @@ details.issue li {
 			<summary><span class="no">i260917-03</span>証明書の自動更新の確認 <span class="badge b-none">未</span></summary>
 			<div class="body">
 				<p>有効期限は 2026-11-25。GitHub Pages の Let's Encrypt 証明書は自動更新されるが、DNS 設定を変更した場合は再発行が必要になる。</p>
+				<p>2026-09-17 に実測。<code>state: approved</code>、有効期限は 2026-11-25 のまま変わっていない（DNS も変更していないため想定どおり）。次に確認が要るのは有効期限が近づいてから。</p>
 			</div>
 		</details>
 
@@ -211,6 +215,7 @@ details.issue li {
 			<summary><span class="no">i260917-05</span>index.json の扱い <span class="badge b-none">未</span></summary>
 			<div class="body">
 				<p>旧トップページが読み込むリンク一覧。新しいトップページは静的にリンクを記述しているため参照していない。<code>index-old.html</code> が使っているので残してある。</p>
+				<p>2026-09-17 に確認。<code>docs/index-old.html</code> の Mithril コードが <code>m.request</code> で今も読み込んでいる。新しいトップページ（<code>docs/index.html</code>）からのリンクは無いが、URL は生存しており実測で 200。<strong>i260917-02（旧サンプル群の整理）の決着に従属する</strong>。<code>index-old.html</code> を残す間はこのファイルも残す</p>
 			</div>
 		</details>
 
