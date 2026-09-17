@@ -678,35 +678,7 @@ node app 8080      ポートを指定して起動
 	<section class="ch06" id="todo">
 		<h1>今後の課題</h1>
 
-		<div class="tablewrap">
-		<table>
-			<thead>
-				<tr><th>状態</th><th>項目</th><th>内容</th></tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td class="nw"><span class="badge b-none">保留</span></td>
-					<td class="nw">旧サンプル群の整理</td>
-					<td><code>mui</code> / <code>mdl</code> / <code>react</code> / <code>mithril</code> / <code>web-app-intro</code> は 2016年頃の内容のまま <code>docs/</code> に残っている。新しいトップページからはリンクしておらず、URL は生存・HTTPS で配信中。<code>index-old.html</code> からは辿れる</td>
-				</tr>
-				<tr>
-					<td class="nw"><span class="badge b-warn">要確認</span></td>
-					<td class="nw">証明書の更新</td>
-					<td>有効期限は 2026-11-25。GitHub Pages の Let's Encrypt 証明書は自動更新されるが、DNS 設定を変更した場合は再発行が必要になる</td>
-				</tr>
-				<tr>
-					<td class="nw"><span class="badge b-none">任意</span></td>
-					<td class="nw">AAAA レコード</td>
-					<td>IPv6 用の AAAA レコードは未設定。必要なら <code>2606:50c0:8000::153</code> 〜 <code>8003::153</code> の4件を追加する</td>
-				</tr>
-				<tr>
-					<td class="nw"><span class="badge b-none">任意</span></td>
-					<td class="nw">index.json の扱い</td>
-					<td>旧トップページが読み込むリンク一覧。新しいトップページは静的にリンクを記述しているため参照していない。<code>index-old.html</code> が使っているので残してある</td>
-				</tr>
-			</tbody>
-		</table>
-		</div>
+		<p>課題は <a href="../40_issues/issues.html">notes/40_issues/issues.html</a> に集約している。status には「いまどうなっているか」だけを書き、これから解決することは issues 側で管理する。</p>
 	</section>
 
 </div>
