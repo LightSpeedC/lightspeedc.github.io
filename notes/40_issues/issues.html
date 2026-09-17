@@ -157,7 +157,7 @@ details.issue li {
 	<div class="inner">
 		<h1>lightspeedc.com 課題一覧</h1>
 		<p class="lead">これから解決することの記録</p>
-		<p class="date">📅 作成: 2026-09-17 / 更新: 2026-09-17</p>
+		<p class="date">📅 作成: 2026-09-17 / 更新: 2026-09-18</p>
 	</div>
 </div>
 
@@ -171,18 +171,20 @@ details.issue li {
 		<h2>公開・運用</h2>
 
 		<details class="issue md-flat" open>
-			<summary><span class="no">i260917-01</span>Pages のビルドが push で自動的に積まれない <span class="badge b-warn">着手</span></summary>
+			<summary><span class="no">i260917-01</span>Pages のビルドが push で自動的に積まれない <span class="badge b-none">未</span></summary>
 			<div class="body">
 				<p>2026-09-17 に2回連続で確認した。<code>master</code> への通常の push だけでは GitHub Actions の run が積まれず、<code>gh api -X POST repos/OWNER/REPO/pages/builds</code> の手動リクエストで初めてビルドが走っている。</p>
 				<p>ローカルルール4「Pages のビルドが queued で止まることがある」とは別の事象。あちらは積まれたジョブが滞留する話で、こちらはそもそも積まれない話。</p>
 				<p><strong>原因を特定した。</strong> ビルド履歴を古い順に並べたところ、2026-09-16 の履歴書き換え（force push）の前後で切り替わっていた。書き換え前の <code>8de9462</code> は自動でビルドされ、書き換え後の <code>9899a1f</code> ・ <code>87de007</code> はどちらも自動で積まれず、手動リクエストが必要だった。<code>gh api repos/OWNER/REPO/hooks</code> は空で、通常の webhook 経由ではない（legacy Pages ビルドは GitHub 内部の仕組みで動く）。</p>
-				<p>対処として、Pages のソース設定を同じ値で PUT し直し、内部連携の再同期を試みた（設定自体は変えていない）。</p>
+				<p>対処として、Pages のソース設定を同じ値で PUT し直し、内部連携の再同期を試みた（設定自体は変えていない）。<strong>2026-09-17 の次の push で確認したが、効果はなかった。</strong> push 直後120秒監視しても run は積まれず、Pages の最新ビルドは push 前のコミットを指したまま。手動リクエストで初めて反映した。3回連続（9/16・9/17・今回）で自動トリガーが働いていない</p>
+				<p>利用者が GitHub 側の設定で build type を一度 Actions に変更し、<code>master</code> / <code>/docs</code> の legacy へ戻す操作を行った。次回の push で自動的に積まれるか確認する。</p>
 				<ul>
-					<li>状態: 着手</li>
+					<li>状態: 未</li>
 					<li>force push の前後で切り替わったことを確認した（済）</li>
-					<li>Pages のソース設定を PUT し直した（済）</li>
-					<li>次の push で自動的に積まれるか確かめる（未）</li>
-					<li>直らないなら、公開手順に手動リクエストを恒久的に組み込むかを検討する（未）</li>
+					<li>Pages のソース設定を PUT し直す（済・効果なし）</li>
+					<li>build type を Actions → legacy（master/docs）へ切り替え直した（済・次の push で確認）</li>
+					<li>公開手順に手動リクエストを恒久的に組み込む（未）</li>
+					<li>GitHub サポートへの問い合わせを検討する（未）</li>
 				</ul>
 			</div>
 		</details>
@@ -204,10 +206,11 @@ details.issue li {
 			</div>
 		</details>
 
-		<details class="issue md-flat" open>
-			<summary><span class="no">i260917-04</span>AAAA レコードの追加 <span class="badge b-none">未</span></summary>
+		<details class="issue md-flat">
+			<summary><span class="no">i260917-04</span>AAAA レコードの追加 <span class="badge b-ok">済</span></summary>
 			<div class="body">
-				<p>IPv6 用の AAAA レコードは未設定。必要なら <code>2606:50c0:8000::153</code> 〜 <code>8003::153</code> の4件を追加する。</p>
+				<p>IPv6 用の AAAA レコードは未設定だった。<code>2606:50c0:8000::153</code> 〜 <code>8003::153</code> の4件を追加した。</p>
+				<p>2026-09-18 に設定。権威 DNS（<code>01.dnsv.jp</code>）・Google（8.8.8.8）・Cloudflare（1.1.1.1）のいずれでも4件とも反映を確認した。IPv6 経由の HTTPS アクセスも実測で 200。</p>
 			</div>
 		</details>
 
