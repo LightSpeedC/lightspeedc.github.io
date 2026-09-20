@@ -10,7 +10,7 @@
 
 ### 公開・運用
 
-### i260917-01 Pages のビルドが push で自動的に積まれない **未**
+### i260917-01 Pages のビルドが push で自動的に積まれない ✅ **済**
 
 2026-09-17 に2回連続で確認した。`master` への通常の push だけでは GitHub Actions の run が積まれず、`gh api -X POST repos/OWNER/REPO/pages/builds` の手動リクエストで初めてビルドが走っている。
 
@@ -24,16 +24,16 @@
 
 利用者が Pages のソースを `develop` / `/docs` に変更した。2026-09-18 の develop push（Active Directory グループ資料の掲載）で確認したところ、**今度は自動でビルドが積まれた。** push 直後に run が `in_progress` で現れ、手動リクエストなしで反映している。`master` ブランチ側にだけ何かが残っていて、`develop` ブランチには影響していなかった、という見立てが成り立つ。
 
-確認後、利用者が Pages のソースを `master` / `/docs` に戻した。**master に戻して以降はまだ push しておらず、master 側が直っているかは未確認。** 次に master へ push した時点で確認する。
+確認後、利用者が Pages のソースを `master` / `/docs` に戻した。2026-09-20 の master push（AI PC 調査プロジェクトの掲載）で確認したところ、**master 側も自動でビルドが積まれるようになっていた。** push 直後に run が `in_progress` で現れ、手動リクエストなしで反映している。
 
-- 状態: 未
+**解決とする。** 原因は断定できないが、develop へ切り替えた操作が内部の連携を再同期させ、master に戻した後も直ったままになったと見ている。実害（手動リクエストが要る）は解消した。
+
+- 状態: 済
 - force push の前後で切り替わったことを確認した（済）
 - Pages のソース設定を PUT し直す（済・効果なし）
 - build type を Actions → legacy（master/docs）へ切り替え直す（済・効果なし）
 - Pages のソースを develop / /docs に変更して確認する（済・自動で積まれた）
-- Pages のソースを master / /docs に戻し、次の master push で再確認する（未）
-- 直らないなら、公開手順に手動リクエストを恒久的に組み込む（未）
-- GitHub サポートへの問い合わせを検討する（未）
+- Pages のソースを master / /docs に戻し、次の master push で再確認する（済・自動で積まれた）
 
 ### サイト整理（旧 status.html「今後の課題」から移行）
 
