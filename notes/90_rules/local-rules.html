@@ -18,12 +18,13 @@
 	--soft: #f2f5fb;
 }
 
-.ch01 { --accent: hsl(280, 78%, 25%); --accent2: hsl(280, 58%, 55%); --soft: hsl(280, 28%, 95%); }
-.ch02 { --accent: hsl(224, 78%, 25%); --accent2: hsl(224, 58%, 55%); --soft: hsl(224, 28%, 95%); }
-.ch03 { --accent: hsl(168, 78%, 25%); --accent2: hsl(168, 58%, 55%); --soft: hsl(168, 28%, 95%); }
-.ch04 { --accent: hsl(112, 78%, 25%); --accent2: hsl(112, 58%, 55%); --soft: hsl(112, 28%, 95%); }
-.ch05 { --accent: hsl(56, 78%, 25%);  --accent2: hsl(56, 58%, 55%);  --soft: hsl(56, 28%, 95%); }
-.ch06 { --accent: hsl(0, 78%, 25%);   --accent2: hsl(0, 58%, 55%);   --soft: hsl(0, 28%, 95%); }
+.ch01 { --accent: hsl(280, 78%, 25%);   --accent2: hsl(280, 58%, 55%);   --soft: hsl(280, 28%, 95%); }
+.ch02 { --accent: hsl(233.3, 78%, 25%); --accent2: hsl(233.3, 58%, 55%); --soft: hsl(233.3, 28%, 95%); }
+.ch03 { --accent: hsl(186.7, 78%, 25%); --accent2: hsl(186.7, 58%, 55%); --soft: hsl(186.7, 28%, 95%); }
+.ch04 { --accent: hsl(140, 78%, 25%);   --accent2: hsl(140, 58%, 55%);   --soft: hsl(140, 28%, 95%); }
+.ch05 { --accent: hsl(93.3, 78%, 25%);  --accent2: hsl(93.3, 58%, 55%);  --soft: hsl(93.3, 28%, 95%); }
+.ch06 { --accent: hsl(46.7, 78%, 25%);  --accent2: hsl(46.7, 58%, 55%);  --soft: hsl(46.7, 28%, 95%); }
+.ch07 { --accent: hsl(0, 78%, 25%);     --accent2: hsl(0, 58%, 55%);     --soft: hsl(0, 28%, 95%); }
 
 * { box-sizing: border-box; }
 
@@ -177,7 +178,7 @@ pre code {
 	<div class="inner">
 		<h1>lightspeedc.com ローカルルール</h1>
 		<p class="lead">このリポジトリでだけ通る決めごと</p>
-		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-09-17</p>
+		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-09-23</p>
 	</div>
 </div>
 
@@ -268,6 +269,27 @@ pre code {
 			<li><strong>commit ・ push は別</strong>。掲載の反映までを自動で進める範囲とし、公開は指示を待つ</li>
 			<li>返信は公開が済んでから送る</li>
 		</ul>
+	</section>
+
+	<section class="ch07" id="ch07">
+		<h1>ビルド確認は実時間の sleep で待つ</h1>
+
+		<p>適用条件: <code>master</code> を push したあと、Pages のビルドが自動で積まれたかを確認するとき。</p>
+
+		<ul>
+			<li><strong>AI は経過時間の感覚を持たない。</strong>「15秒間隔で6回」のような自己ペースの巡回を指示しても、実際には指定どおりの間隔・回数を守れないことが多い</li>
+			<li><strong>単発の <code>sleep</code> コマンドで実時間を強制する。</strong> ループで様子見をしない</li>
+			<li>待ち時間は <strong>5〜10分（300〜600秒）</strong>。それでも run が現れなければ手動リクエストする</li>
+			<li><strong>push した時刻と確認した時刻を、どちらも「月/日 時:分」（JST）で表示する。</strong> 実際にどれだけ待ったかを利用者が見て確かめられるようにする</li>
+		</ul>
+
+<pre><code>date "+push: %m/%d %H:%M"
+sleep 300 &amp;&amp; date "+確認: %m/%d %H:%M（5分待った）" &amp;&amp; gh run list --repo LightSpeedC/lightspeedc.github.io --limit 1 --json databaseId,headSha,createdAt
+</code></pre>
+
+		<div class="callout">
+			<p><strong>過去の「再発」判定は、待ち時間が短すぎた疑いがある。</strong> 2026-09-17・9-18・9-21 の記録はいずれも120〜150秒の監視で「積まれない」と判定し、手動リクエストに切り替えていた。手動リクエストで作られた run と自動で積まれた run は Actions の一覧では見分けがつかないため、実際にはもっと待てば自動で積まれていた可能性を否定できない（詳細は <code>notes/40_issues/issues.html</code> の i260917-01 を参照）。</p>
+		</div>
 	</section>
 
 </div>
