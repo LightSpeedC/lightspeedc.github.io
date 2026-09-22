@@ -157,7 +157,7 @@ details.issue li {
 	<div class="inner">
 		<h1>lightspeedc.com 課題一覧</h1>
 		<p class="lead">これから解決することの記録</p>
-		<p class="date">📅 作成: 2026-09-17 / 更新: 2026-09-20</p>
+		<p class="date">📅 作成: 2026-09-17 / 更新: 2026-09-21</p>
 	</div>
 </div>
 
@@ -170,8 +170,8 @@ details.issue li {
 
 		<h2>公開・運用</h2>
 
-		<details class="issue md-flat">
-			<summary><span class="no">i260917-01</span>Pages のビルドが push で自動的に積まれない <span class="badge b-ok">済</span></summary>
+		<details class="issue md-flat" open>
+			<summary><span class="no">i260917-01</span>Pages のビルドが push で自動的に積まれない <span class="badge b-none">未</span></summary>
 			<div class="body">
 				<p>2026-09-17 に2回連続で確認した。<code>master</code> への通常の push だけでは GitHub Actions の run が積まれず、<code>gh api -X POST repos/OWNER/REPO/pages/builds</code> の手動リクエストで初めてビルドが走っている。</p>
 				<p>ローカルルール4「Pages のビルドが queued で止まることがある」とは別の事象。あちらは積まれたジョブが滞留する話で、こちらはそもそも積まれない話。</p>
@@ -180,14 +180,16 @@ details.issue li {
 				<p>利用者が GitHub 側の設定で build type を一度 Actions に変更し、<code>master</code> / <code>/docs</code> の legacy へ戻す操作を行った。2026-09-18 の次の push で確認したが、<strong>これも効果はなかった。</strong> push 直後120秒監視しても run は積まれず、手動リクエストで初めて反映した。master 側への push は4回連続（9/16・9/17・9/17・9/18）で自動トリガーが働いていない。</p>
 				<p>利用者が Pages のソースを <code>develop</code> / <code>/docs</code> に変更した。2026-09-18 の develop push（Active Directory グループ資料の掲載）で確認したところ、<strong>今度は自動でビルドが積まれた。</strong> push 直後に run が <code>in_progress</code> で現れ、手動リクエストなしで反映している。<code>master</code> ブランチ側にだけ何かが残っていて、<code>develop</code> ブランチには影響していなかった、という見立てが成り立つ。</p>
 				<p>確認後、利用者が Pages のソースを <code>master</code> / <code>/docs</code> に戻した。2026-09-20 の master push（AI PC 調査プロジェクトの掲載）で確認したところ、<strong>master 側も自動でビルドが積まれるようになっていた。</strong> push 直後に run が <code>in_progress</code> で現れ、手動リクエストなしで反映している。</p>
-				<p><strong>解決とする。</strong> 原因は断定できないが、develop へ切り替えた操作が内部の連携を再同期させ、master に戻した後も直ったままになったと見ている。実害（手動リクエストが要る）は解消した。</p>
+				<p>2026-09-20 時点でいったん「解決」としたが、<strong>2026-09-21 の master push（Bun買収記事の掲載）で再発した。</strong> push 直後150秒監視しても run は積まれず、手動リクエストで初めて反映した。develop への切り替えは恒久対策ではなく、一時的に直っただけだったことになる。</p>
 				<ul>
-					<li>状態: 済</li>
+					<li>状態: 未</li>
 					<li>force push の前後で切り替わったことを確認した（済）</li>
 					<li>Pages のソース設定を PUT し直す（済・効果なし）</li>
 					<li>build type を Actions → legacy（master/docs）へ切り替え直す（済・効果なし）</li>
-					<li>Pages のソースを develop / /docs に変更して確認する（済・自動で積まれた）</li>
-					<li>Pages のソースを master / /docs に戻し、次の master push で再確認する（済・自動で積まれた）</li>
+					<li>Pages のソースを develop / /docs に変更して確認する（済・そのときは自動で積まれた）</li>
+					<li>Pages のソースを master / /docs に戻し、次の master push で再確認する（済・そのときは自動で積まれたが、次の push で再発）</li>
+					<li>手動リクエストを公開手順に恒久的に組み込む（未）</li>
+					<li>GitHub サポートへの問い合わせを検討する（未）</li>
 				</ul>
 			</div>
 		</details>
