@@ -93,3 +93,19 @@ sleep 300 && date "+確認: %m/%d %H:%M（5分待った）" && gh run list --rep
 - **受けた発言のうち当リポジトリに関係するものは、概要を表示する。** 関係の有無・報告の要不要の判断は共通ルール「ai-chat-lite（AI 間チャット）の利用」に従う
 - 張り直し・カウント・止めてよい範囲も同じ共通ルールに従う。ここで決めるのは頻度と、起きたときに時刻・概要を出すことだけ
 - **cron はセッションの中だけで生きる。** セッションを開き直したら、共通ルール「セッションを開き直したとき」に従い指示を待たず張り直す
+
+## 9. master へのマージ・push は publish-master.ps1 を使う
+
+適用条件: `develop` から `master` へマージして公開するとき。
+
+- 手作業でコマンドを並べない。`tools/80_ops/publish-master.ps1` を使う
+- マージメッセージは事前にファイルへ書き、`-MergeMessageFile` に渡す
+- タグ名は共通ルール「タグ名」の形（`yyyy/mm/dd_master` 等）に従う
+- **各ステップの成否を確認してから次に進む。** 失敗したらそこで止まる。改行区切りでコマンドを並べて失敗を見逃す事故を防ぐ
+
+```
+tools/80_ops/publish-master.ps1 `
+  -MergeMessageFile tmp/merge-message.txt `
+  -TagName "2026/09/23_master-02" `
+  -TagMessage "AGENTS.md移行・sleepルール・cron待受けルールを反映"
+```

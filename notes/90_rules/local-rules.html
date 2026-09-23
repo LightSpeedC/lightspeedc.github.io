@@ -19,13 +19,14 @@
 }
 
 .ch01 { --accent: hsl(280, 78%, 25%); --accent2: hsl(280, 58%, 55%); --soft: hsl(280, 28%, 95%); }
-.ch02 { --accent: hsl(240, 78%, 25%); --accent2: hsl(240, 58%, 55%); --soft: hsl(240, 28%, 95%); }
-.ch03 { --accent: hsl(200, 78%, 25%); --accent2: hsl(200, 58%, 55%); --soft: hsl(200, 28%, 95%); }
-.ch04 { --accent: hsl(160, 78%, 25%); --accent2: hsl(160, 58%, 55%); --soft: hsl(160, 28%, 95%); }
-.ch05 { --accent: hsl(120, 78%, 25%); --accent2: hsl(120, 58%, 55%); --soft: hsl(120, 28%, 95%); }
-.ch06 { --accent: hsl(80, 78%, 25%);  --accent2: hsl(80, 58%, 55%);  --soft: hsl(80, 28%, 95%); }
-.ch07 { --accent: hsl(40, 78%, 25%);  --accent2: hsl(40, 58%, 55%);  --soft: hsl(40, 28%, 95%); }
-.ch08 { --accent: hsl(0, 78%, 25%);   --accent2: hsl(0, 58%, 55%);   --soft: hsl(0, 28%, 95%); }
+.ch02 { --accent: hsl(245, 78%, 25%); --accent2: hsl(245, 58%, 55%); --soft: hsl(245, 28%, 95%); }
+.ch03 { --accent: hsl(210, 78%, 25%); --accent2: hsl(210, 58%, 55%); --soft: hsl(210, 28%, 95%); }
+.ch04 { --accent: hsl(175, 78%, 25%); --accent2: hsl(175, 58%, 55%); --soft: hsl(175, 28%, 95%); }
+.ch05 { --accent: hsl(140, 78%, 25%); --accent2: hsl(140, 58%, 55%); --soft: hsl(140, 28%, 95%); }
+.ch06 { --accent: hsl(105, 78%, 25%); --accent2: hsl(105, 58%, 55%); --soft: hsl(105, 28%, 95%); }
+.ch07 { --accent: hsl(70, 78%, 25%);  --accent2: hsl(70, 58%, 55%);  --soft: hsl(70, 28%, 95%); }
+.ch08 { --accent: hsl(35, 78%, 25%);  --accent2: hsl(35, 58%, 55%);  --soft: hsl(35, 28%, 95%); }
+.ch09 { --accent: hsl(0, 78%, 25%);   --accent2: hsl(0, 58%, 55%);   --soft: hsl(0, 28%, 95%); }
 
 * { box-sizing: border-box; }
 
@@ -305,6 +306,25 @@ sleep 300 &amp;&amp; date "+確認: %m/%d %H:%M（5分待った）" &amp;&amp; g
 			<li>張り直し・カウント・止めてよい範囲も同じ共通ルールに従う。ここで決めるのは頻度と、起きたときに時刻・概要を出すことだけ</li>
 			<li><strong>cron はセッションの中だけで生きる。</strong> セッションを開き直したら、共通ルール「セッションを開き直したとき」に従い指示を待たず張り直す</li>
 		</ul>
+	</section>
+
+	<section class="ch09" id="ch09">
+		<h1>master へのマージ・push は publish-master.ps1 を使う</h1>
+
+		<p>適用条件: <code>develop</code> から <code>master</code> へマージして公開するとき。</p>
+
+		<ul>
+			<li>手作業でコマンドを並べない。<code>tools/80_ops/publish-master.ps1</code> を使う</li>
+			<li>マージメッセージは事前にファイルへ書き、<code>-MergeMessageFile</code> に渡す</li>
+			<li>タグ名は共通ルール「タグ名」の形（<code>yyyy/mm/dd_master</code> 等）に従う</li>
+			<li><strong>各ステップの成否を確認してから次に進む。</strong> 失敗したらそこで止まる。改行区切りでコマンドを並べて失敗を見逃す事故を防ぐ</li>
+		</ul>
+
+<pre><code>tools/80_ops/publish-master.ps1 `
+  -MergeMessageFile tmp/merge-message.txt `
+  -TagName "2026/09/23_master-02" `
+  -TagMessage "AGENTS.md移行・sleepルール・cron待受けルールを反映"
+</code></pre>
 	</section>
 
 </div>
