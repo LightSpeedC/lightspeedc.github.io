@@ -18,13 +18,14 @@
 	--soft: #f2f5fb;
 }
 
-.ch01 { --accent: hsl(280, 78%, 25%);   --accent2: hsl(280, 58%, 55%);   --soft: hsl(280, 28%, 95%); }
-.ch02 { --accent: hsl(233.3, 78%, 25%); --accent2: hsl(233.3, 58%, 55%); --soft: hsl(233.3, 28%, 95%); }
-.ch03 { --accent: hsl(186.7, 78%, 25%); --accent2: hsl(186.7, 58%, 55%); --soft: hsl(186.7, 28%, 95%); }
-.ch04 { --accent: hsl(140, 78%, 25%);   --accent2: hsl(140, 58%, 55%);   --soft: hsl(140, 28%, 95%); }
-.ch05 { --accent: hsl(93.3, 78%, 25%);  --accent2: hsl(93.3, 58%, 55%);  --soft: hsl(93.3, 28%, 95%); }
-.ch06 { --accent: hsl(46.7, 78%, 25%);  --accent2: hsl(46.7, 58%, 55%);  --soft: hsl(46.7, 28%, 95%); }
-.ch07 { --accent: hsl(0, 78%, 25%);     --accent2: hsl(0, 58%, 55%);     --soft: hsl(0, 28%, 95%); }
+.ch01 { --accent: hsl(280, 78%, 25%); --accent2: hsl(280, 58%, 55%); --soft: hsl(280, 28%, 95%); }
+.ch02 { --accent: hsl(240, 78%, 25%); --accent2: hsl(240, 58%, 55%); --soft: hsl(240, 28%, 95%); }
+.ch03 { --accent: hsl(200, 78%, 25%); --accent2: hsl(200, 58%, 55%); --soft: hsl(200, 28%, 95%); }
+.ch04 { --accent: hsl(160, 78%, 25%); --accent2: hsl(160, 58%, 55%); --soft: hsl(160, 28%, 95%); }
+.ch05 { --accent: hsl(120, 78%, 25%); --accent2: hsl(120, 58%, 55%); --soft: hsl(120, 28%, 95%); }
+.ch06 { --accent: hsl(80, 78%, 25%);  --accent2: hsl(80, 58%, 55%);  --soft: hsl(80, 28%, 95%); }
+.ch07 { --accent: hsl(40, 78%, 25%);  --accent2: hsl(40, 58%, 55%);  --soft: hsl(40, 28%, 95%); }
+.ch08 { --accent: hsl(0, 78%, 25%);   --accent2: hsl(0, 58%, 55%);   --soft: hsl(0, 28%, 95%); }
 
 * { box-sizing: border-box; }
 
@@ -290,6 +291,20 @@ sleep 300 &amp;&amp; date "+確認: %m/%d %H:%M（5分待った）" &amp;&amp; g
 		<div class="callout">
 			<p><strong>過去の「再発」判定は、待ち時間が短すぎた疑いがある。</strong> 2026-09-17・9-18・9-21 の記録はいずれも120〜150秒の監視で「積まれない」と判定し、手動リクエストに切り替えていた。手動リクエストで作られた run と自動で積まれた run は Actions の一覧では見分けがつかないため、実際にはもっと待てば自動で積まれていた可能性を否定できない（詳細は <code>notes/40_issues/issues.html</code> の i260917-01 を参照）。</p>
 		</div>
+	</section>
+
+	<section class="ch08" id="ch08">
+		<h1>3時間ごとに待受けを cron で回す</h1>
+
+		<p>適用条件: このリポジトリで ai-chat-lite の待受けを運用するとき。</p>
+
+		<ul>
+			<li><strong>3時間おきに <code>CronCreate</code> で仕込む。</strong> 対象ルームは <code>public</code></li>
+			<li>起きるたびに、起きた時刻を <strong>「月/日 時:分」（JST）</strong>で表示する</li>
+			<li><strong>受けた発言のうち当リポジトリに関係するものは、概要を表示する。</strong> 関係の有無・報告の要不要の判断は共通ルール「ai-chat-lite（AI 間チャット）の利用」に従う</li>
+			<li>張り直し・カウント・止めてよい範囲も同じ共通ルールに従う。ここで決めるのは頻度と、起きたときに時刻・概要を出すことだけ</li>
+			<li><strong>cron はセッションの中だけで生きる。</strong> セッションを開き直したら、共通ルール「セッションを開き直したとき」に従い指示を待たず張り直す</li>
+		</ul>
 	</section>
 
 </div>
