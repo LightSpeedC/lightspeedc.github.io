@@ -42,7 +42,7 @@ GitHub Pages を有効にすると、そのリポジトリのページも自動�
 > `20260824-dos-command-learn` の Pages を指すのかが曖昧になります。
 >
 > 逆方向も同じです。`docs/` に既にあるフォルダ名
-> （`css` `js` `mui` `mdl` `mithril` `react` `public` `web-app-intro`）と
+> （`css` `js` `public`）と
 > 同じ名前のリポジトリを新しく作って Pages を有効にすると、同様に競合します。
 
 ## フォルダ構成
@@ -54,20 +54,13 @@ GitHub Pages を有効にすると、そのリポジトリのページも自動�
 ```
 docs/                公開されるファイル（サイトのルート）
   index.html         トップページ
-  index-old.html     刷新前のトップページ（履歴として保存）
-  index.json         index-old.html が読み込むリンク一覧
   ie.html            Internet Explorer 向けのページ
   CNAME              カスタムドメインの設定
   favicon.ico        ファビコン
   .nojekyll          Jekyll によるビルドを無効化（ファイルをそのまま配信する）
   css/               共通のスタイル
   js/                共通のスクリプト
-  mui/               MUI CSS のサンプル
-  mdl/               Material Design Lite のサンプル
-  mithril/           Mithril.js のサンプル
-  react/             React のサンプル
   public/            Firebase のサンプル
-  web-app-intro/     Web アプリ入門のサンプル
 
 notes/               公開されない記録
   status/            構成と作業状況の記録
