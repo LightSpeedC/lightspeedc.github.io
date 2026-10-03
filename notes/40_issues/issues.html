@@ -203,10 +203,11 @@ details.issue li {
 
 		<h2>サイト整理（旧 status.html「今後の課題」から移行）</h2>
 
-		<details class="issue md-flat" open>
-			<summary><span class="no">i260917-02</span>旧サンプル群の整理 <span class="badge b-none">未</span></summary>
+		<details class="issue md-flat">
+			<summary><span class="no">i260917-02</span>旧サンプル群の整理 <span class="badge b-ok">済</span></summary>
 			<div class="body">
 				<p><code>mui</code> / <code>mdl</code> / <code>react</code> / <code>mithril</code> / <code>web-app-intro</code> は2016年頃の内容のまま <code>docs/</code> に残っている。新しいトップページからはリンクしておらず、URL は生存・HTTPS で配信中。<code>index-old.html</code> からは辿れる。</p>
+				<p>2026-09-24 に利用者の判断で削除した。5フォルダと <code>index-old.html</code>、依存する <code>index.json</code>（i260917-05）を合わせて削除。現行の <code>docs/index.html</code> はいずれも参照していないことを確認済み。</p>
 			</div>
 		</details>
 
@@ -226,11 +227,12 @@ details.issue li {
 			</div>
 		</details>
 
-		<details class="issue md-flat" open>
-			<summary><span class="no">i260917-05</span>index.json の扱い <span class="badge b-none">未</span></summary>
+		<details class="issue md-flat">
+			<summary><span class="no">i260917-05</span>index.json の扱い <span class="badge b-ok">済</span></summary>
 			<div class="body">
 				<p>旧トップページが読み込むリンク一覧。新しいトップページは静的にリンクを記述しているため参照していない。<code>index-old.html</code> が使っているので残してある。</p>
 				<p>2026-09-17 に確認。<code>docs/index-old.html</code> の Mithril コードが <code>m.request</code> で今も読み込んでいる。新しいトップページ（<code>docs/index.html</code>）からのリンクは無いが、URL は生存しており実測で 200。<strong>i260917-02（旧サンプル群の整理）の決着に従属する</strong>。<code>index-old.html</code> を残す間はこのファイルも残す</p>
+				<p>2026-09-24 に i260917-02 と合わせて削除した。</p>
 			</div>
 		</details>
 
