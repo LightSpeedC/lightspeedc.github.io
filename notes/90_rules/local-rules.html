@@ -180,7 +180,7 @@ pre code {
 	<div class="inner">
 		<h1>lightspeedc.com ローカルルール</h1>
 		<p class="lead">このリポジトリでだけ通る決めごと</p>
-		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-09-24</p>
+		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-10-04</p>
 	</div>
 </div>
 
@@ -281,12 +281,19 @@ pre code {
 		<ul>
 			<li><strong>AI は経過時間の感覚を持たない。</strong>「15秒間隔で6回」のような自己ペースの巡回を指示しても、実際には指定どおりの間隔・回数を守れないことが多い</li>
 			<li><strong>単発の <code>sleep</code> コマンドで実時間を強制する。</strong> ループで様子見をしない</li>
-			<li>待ち時間は <strong>5〜10分（300〜600秒）</strong>。それでも run が現れなければ手動リクエストする</li>
+			<li>待ち時間は <strong>5分（300秒）</strong>。push した commit の run が現れなければ、<strong>確認を待たずに手動でビルドを依頼する</strong></li>
+			<li>自動で積まれる回と積まれない回が不規則に出ている（i260917-01）。積まれたかどうかに関わらず、<strong>公開の確認は「該当 commit の run が <code>success</code>」まで取る</strong></li>
+			<li>手動で依頼したときは、その時刻も「月/日 時:分」で表示する</li>
 			<li><strong>push した時刻と確認した時刻を、どちらも「月/日 時:分」（JST）で表示する。</strong> 実際にどれだけ待ったかを利用者が見て確かめられるようにする</li>
 		</ul>
 
 <pre><code>date "+push: %m/%d %H:%M"
 sleep 300 &amp;&amp; date "+確認: %m/%d %H:%M（5分待った）" &amp;&amp; gh run list --repo LightSpeedC/lightspeedc.github.io --limit 1 --json databaseId,headSha,createdAt
+</code></pre>
+
+<p>該当 commit の run が現れなければ、手動で依頼する。</p>
+
+<pre><code>date "+手動ビルド依頼: %m/%d %H:%M" &amp;&amp; gh api -X POST repos/LightSpeedC/lightspeedc.github.io/pages/builds --jq ".status"
 </code></pre>
 
 		<div class="callout">

@@ -2,7 +2,7 @@
 
 このリポジトリでだけ通る決めごと
 
-> 📅 作成: 2026-09-09 / 更新: 2026-09-24
+> 📅 作成: 2026-09-09 / 更新: 2026-10-04
 
 ## 1. 資料見出し（h2）にも虹色を割り当てる
 
@@ -73,12 +73,20 @@ gh run list --repo LightSpeedC/lightspeedc.github.io --limit 1
 
 - **AI は経過時間の感覚を持たない。**「15秒間隔で6回」のような自己ペースの巡回を指示しても、実際には指定どおりの間隔・回数を守れないことが多い
 - **単発の `sleep` コマンドで実時間を強制する。** ループで様子見をしない
-- 待ち時間は **5〜10分（300〜600秒）**。それでも run が現れなければ手動リクエストする
+- 待ち時間は **5分（300秒）**。push した commit の run が現れなければ、**確認を待たずに手動でビルドを依頼する**
+- 自動で積まれる回と積まれない回が不規則に出ている（i260917-01）。積まれたかどうかに関わらず、**公開の確認は「該当 commit の run が `success`」まで取る**
+- 手動で依頼したときは、その時刻も「月/日 時:分」で表示する
 - **push した時刻と確認した時刻を、どちらも「月/日 時:分」（JST）で表示する。** 実際にどれだけ待ったかを利用者が見て確かめられるようにする
 
 ```
 date "+push: %m/%d %H:%M"
 sleep 300 && date "+確認: %m/%d %H:%M（5分待った）" && gh run list --repo LightSpeedC/lightspeedc.github.io --limit 1 --json databaseId,headSha,createdAt
+```
+
+該当 commit の run が現れなければ、手動で依頼する。
+
+```
+date "+手動ビルド依頼: %m/%d %H:%M" && gh api -X POST repos/LightSpeedC/lightspeedc.github.io/pages/builds --jq ".status"
 ```
 
 > [!NOTE]
