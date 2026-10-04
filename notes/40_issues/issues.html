@@ -157,7 +157,7 @@ details.issue li {
 	<div class="inner">
 		<h1>lightspeedc.com 課題一覧</h1>
 		<p class="lead">これから解決することの記録</p>
-		<p class="date">📅 作成: 2026-09-17 / 更新: 2026-09-24</p>
+		<p class="date">📅 作成: 2026-09-17 / 更新: 2026-10-03</p>
 	</div>
 </div>
 
@@ -186,6 +186,7 @@ details.issue li {
 				<p>対策として、ローカルルールに「ビルド確認は実時間の sleep で待つ」を新設した。次回以降は単発の <code>sleep 300〜600</code>（実時間5〜10分）で待ってから run の有無を確認する。</p>
 				<p>2026-09-23 の次の master push（AGENTS.md 移行、commit <code>55a3d96</code>）で、新設した運用で確認した。push 18:23 → 実時間5分の <code>sleep</code> を挟んで確認 18:29、<code>gh run list</code> で該当 commit の run が <code>success</code> になっていることを確認した。手動リクエストは不要だった（<strong>訂正</strong>: この2つの時刻は当初「09:23」「09:29」とJSTを名乗って記録していたが、実際は、自分が個別に付け足した<code>TZ=Asia/Tokyo</code>指定がこの実行環境で認識されずUTCにフォールバックしていたための誤りだった。正しいJSTは18:23・18:29。ローカルルール7のコマンド例（<code>TZ</code>指定なしの素の<code>date</code>）は元々正しく、直す必要はなかった）。</p>
 				<p><strong>同日中のもう一段あとの master push（<code>766c43a</code>、publish-master.ps1 の追加）で、あらためて再発した。</strong> push 直後（実時間5分の sleep を挟んだ確認を含む）だけでなく、その後21時間以上経過しても run が積まれなかった（確認時点で最新runは1つ前の <code>55a3d96</code> のまま）。今回は待ち時間不足では説明できない。2026-09-24 に手動リクエストで反映した（run <code>35975352227</code>、<code>success</code>）。</p>
+				<p><strong>3回目の再発（2026-10-03）。</strong> master push（<code>7baac49</code>、Google サービスの開始日の掲載）後、push 10/03 14:52 → 実時間5分の <code>sleep</code> を挟んだ確認 14:57、さらに 14:58 にも確認したが、最新 run は旧 <code>9b44263</code> のままだった。待ち時間は push から約8分。手動リクエスト（15:00）で run <code>37101655094</code> が作られ、15:02 に <code>success</code>。公開サイトへの反映も確認した。</p>
 				<ul>
 					<li>状態: 未</li>
 					<li>force push の前後で切り替わったことを確認した（済）</li>
