@@ -130,18 +130,24 @@ section h1 {
 section h2 {
 	font-size: 1.16em;
 	margin: 30px 0 12px;
-	padding: 6px 12px;
-	color: hsl(var(--dh, 220), 78%, 25%);
-	background: linear-gradient(90deg, hsl(var(--dh, 220), 28%, 95%), #fff);
-	border-left: 6px solid hsl(var(--dh, 220), 78%, 25%);
+	padding: 0;
 }
+/* 資料へのリンクは横長のバッジ。色相は --dh（資料ごとの虹色） */
 section h2 a {
-	background: none;
-	color: hsl(var(--dh, 220), 78%, 25%);
+	display: block;
+	box-sizing: border-box;
+	width: 90%;
+	min-width: 320px;
+	max-width: 100%;
+	padding: 6px 14px;
+	border-radius: 6px;
+	background: linear-gradient(100deg, hsl(var(--dh, 220), 78%, 25%), hsl(var(--dh, 220), 58%, 55%));
+	color: #fff;
 	text-decoration: none;
 }
 section h2 a:hover {
-	text-decoration: underline;
+	background: linear-gradient(100deg, hsl(var(--dh, 220), 78%, 32%), hsl(var(--dh, 220), 58%, 62%));
+	color: #fff;
 }
 p {
 	margin: 0 0 12px;
