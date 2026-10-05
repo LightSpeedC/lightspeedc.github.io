@@ -19,14 +19,11 @@
 }
 
 .ch01 { --accent: hsl(280, 78%, 25%); --accent2: hsl(280, 58%, 55%); --soft: hsl(280, 28%, 95%); }
-.ch02 { --accent: hsl(245, 78%, 25%); --accent2: hsl(245, 58%, 55%); --soft: hsl(245, 28%, 95%); }
-.ch03 { --accent: hsl(210, 78%, 25%); --accent2: hsl(210, 58%, 55%); --soft: hsl(210, 28%, 95%); }
-.ch04 { --accent: hsl(175, 78%, 25%); --accent2: hsl(175, 58%, 55%); --soft: hsl(175, 28%, 95%); }
-.ch05 { --accent: hsl(140, 78%, 25%); --accent2: hsl(140, 58%, 55%); --soft: hsl(140, 28%, 95%); }
-.ch06 { --accent: hsl(105, 78%, 25%); --accent2: hsl(105, 58%, 55%); --soft: hsl(105, 28%, 95%); }
-.ch07 { --accent: hsl(70, 78%, 25%);  --accent2: hsl(70, 58%, 55%);  --soft: hsl(70, 28%, 95%); }
-.ch08 { --accent: hsl(35, 78%, 25%);  --accent2: hsl(35, 58%, 55%);  --soft: hsl(35, 28%, 95%); }
-.ch09 { --accent: hsl(0, 78%, 25%);   --accent2: hsl(0, 58%, 55%);   --soft: hsl(0, 28%, 95%); }
+.ch02 { --accent: hsl(224, 78%, 25%); --accent2: hsl(224, 58%, 55%); --soft: hsl(224, 28%, 95%); }
+.ch03 { --accent: hsl(168, 78%, 25%); --accent2: hsl(168, 58%, 55%); --soft: hsl(168, 28%, 95%); }
+.ch04 { --accent: hsl(112, 78%, 25%); --accent2: hsl(112, 58%, 55%); --soft: hsl(112, 28%, 95%); }
+.ch05 { --accent: hsl(56, 78%, 25%);  --accent2: hsl(56, 58%, 55%);  --soft: hsl(56, 28%, 95%); }
+.ch06 { --accent: hsl(0, 78%, 25%);   --accent2: hsl(0, 58%, 55%);   --soft: hsl(0, 28%, 95%); }
 
 * { box-sizing: border-box; }
 
@@ -180,26 +177,56 @@ pre code {
 	<div class="inner">
 		<h1>lightspeedc.com ローカルルール</h1>
 		<p class="lead">このリポジトリでだけ通る決めごと</p>
-		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-10-04</p>
+		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-10-05</p>
 	</div>
 </div>
 
 <div class="wrap">
 
 	<section class="ch01" id="ch01">
-		<h1>資料見出し（h2）にも虹色を割り当てる</h1>
+		<h1>ブランチは2本で運用する</h1>
 
-		<p>適用条件: <code>docs/index.html</code> の資料一覧を増減するとき。</p>
+		<p>適用条件: このリポジトリで作業するとき。</p>
 
 		<ul>
-			<li>章（h1）とは別に、資料見出し（h2）にも 280°→0° の虹色を割り当てる</li>
-			<li><strong>刻みは「最も項目数が多い章の等分」で固定</strong>（<code>280 ÷ (最多件数 - 1)</code>）。項目の少ない章は途中で止まる</li>
-			<li>色相は <code>.dc01</code>〜 のクラスに <code>--dh</code> として持たせ、<code>section h2</code> が <code>hsl(var(--dh, 220), ...)</code> で参照する</li>
-			<li><strong>資料を増減したら刻みを計算し直し、全章の <code>.dcNN</code> を振り直す</strong></li>
+			<li><code>develop</code> と <code>master</code> の2本。<code>release</code> は使わない</li>
+			<li><code>master</code> が GitHub Pages の公開ソース（<code>master</code> ブランチ / <code>/docs</code>）</li>
 		</ul>
 	</section>
 
 	<section class="ch02" id="ch02">
+		<h1>トップページへの掲載</h1>
+
+		<p>適用条件: ai-chat-lite で他プロジェクトから掲載を依頼されたとき、および <code>docs/index.html</code> の資料一覧を増減するとき。</p>
+
+		<h2>依頼の受け付け</h2>
+
+		<ul>
+			<li>依頼を受けたら、利用者の確認を待たずに <code>docs/index.html</code> へ反映する</li>
+			<li>説明は依頼元リポジトリの <code>description</code> を転記する。自分で書き起こさない</li>
+			<li><strong>commit ・ push は別</strong>。掲載の反映までを自動で進める範囲とし、公開は指示を待つ</li>
+			<li>返信は公開が済んでから送る</li>
+		</ul>
+
+		<h2>並び</h2>
+
+		<ul>
+			<li>1章・2章とも、新しいものを上に置く</li>
+			<li>既存の並びは動かさない。過去に追加した分を日付順に並べ直すことはしない</li>
+			<li>関連する資料が続くときは、ひとまとまりのまま扱う（ai-chat 系3件）</li>
+		</ul>
+
+		<h2>資料見出し（h2）の虹色</h2>
+
+		<ul>
+			<li>章（h1）とは別に、資料見出し（h2）にも 280°→0° の虹色を割り当てる</li>
+			<li><strong>刻みは「最も項目数が多い章の等分」で固定</strong>（<code>280 ÷ (最多件数 - 1)</code>）。項目の少ない章は途中で止まる</li>
+			<li>色相は <code>.dc01</code>〜 のクラスに <code>--dh</code> として持たせ、<code>section h2 a</code>（資料へのリンクのバッジ）が <code>hsl(var(--dh, 220), ...)</code> で参照する</li>
+			<li><strong>資料を増減したら刻みを計算し直し、全章の <code>.dcNN</code> を振り直す</strong></li>
+		</ul>
+	</section>
+
+	<section class="ch03" id="ch03">
 		<h1>html2md では status を除外する</h1>
 
 		<p>適用条件: <code>html2md</code> を走らせるとき。</p>
@@ -217,106 +244,7 @@ pre code {
 		</div>
 	</section>
 
-	<section class="ch03" id="ch03">
-		<h1>ブランチは2本で運用する</h1>
-
-		<p>適用条件: このリポジトリで作業するとき。</p>
-
-		<ul>
-			<li><code>develop</code> と <code>master</code> の2本。<code>release</code> は使わない</li>
-			<li><code>master</code> が GitHub Pages の公開ソース（<code>master</code> ブランチ / <code>/docs</code>）</li>
-		</ul>
-	</section>
-
 	<section class="ch04" id="ch04">
-		<h1>Pages のビルドが queued で止まることがある</h1>
-
-		<p>適用条件: <code>master</code> を push したあと。</p>
-
-		<ul>
-			<li>ビルドの完了は Pages API の status で見ない。queued（ランナー待ち）も実行中も building と返るため、区別がつかない</li>
-			<li>見るのは Actions 側</li>
-			<li>最新ビルドの commit が push したものと一致することも確かめる</li>
-		</ul>
-
-<pre><code>gh run list --repo LightSpeedC/lightspeedc.github.io --limit 1
-</code></pre>
-
-		<div class="callout">
-			<p><strong>手動の再リクエストでは直らない。</strong> 走っているジョブを cancel して新しく積むだけで、待ち行列の先頭には入らない。滞留したときは Actions の画面で滞留ジョブを消してから積み直す。公開されている中身は旧版のまま正しいので、URL を叩いても気づけない。</p>
-		</div>
-	</section>
-
-	<section class="ch05" id="ch05">
-		<h1>新しい資料は章の先頭に入れる</h1>
-
-		<p>適用条件: <code>docs/index.html</code> の資料一覧に資料を足すとき。</p>
-
-		<ul>
-			<li>1章・2章とも、新しいものを上に置く</li>
-			<li>既存の並びは動かさない。過去に追加した分を日付順に並べ直すことはしない</li>
-			<li>関連する資料が続くときは、ひとまとまりのまま扱う（ai-chat 系3件）</li>
-		</ul>
-	</section>
-
-	<section class="ch06" id="ch06">
-		<h1>公開依頼は確認を待たずに受け付ける</h1>
-
-		<p>適用条件: ai-chat-lite で他プロジェクトから掲載を依頼されたとき。</p>
-
-		<ul>
-			<li>依頼を受けたら、利用者の確認を待たずに <code>docs/index.html</code> へ反映する</li>
-			<li>入れる場所と並びは「新しい資料は章の先頭に入れる」に従う</li>
-			<li>説明は依頼元リポジトリの <code>description</code> を転記する。自分で書き起こさない</li>
-			<li><strong>commit ・ push は別</strong>。掲載の反映までを自動で進める範囲とし、公開は指示を待つ</li>
-			<li>返信は公開が済んでから送る</li>
-		</ul>
-	</section>
-
-	<section class="ch07" id="ch07">
-		<h1>ビルド確認は実時間の sleep で待つ</h1>
-
-		<p>適用条件: <code>master</code> を push したあと、Pages のビルドが自動で積まれたかを確認するとき。</p>
-
-		<ul>
-			<li><strong>AI は経過時間の感覚を持たない。</strong>「15秒間隔で6回」のような自己ペースの巡回を指示しても、実際には指定どおりの間隔・回数を守れないことが多い</li>
-			<li><strong>単発の <code>sleep</code> コマンドで実時間を強制する。</strong> ループで様子見をしない</li>
-			<li>待ち時間は <strong>5分（300秒）</strong>。push した commit の run が現れなければ、<strong>確認を待たずに手動でビルドを依頼する</strong></li>
-			<li>自動で積まれる回と積まれない回が不規則に出ている（i260917-01）。積まれたかどうかに関わらず、<strong>公開の確認は「該当 commit の run が <code>success</code>」まで取る</strong></li>
-			<li>手動で依頼したときは、その時刻も「月/日 時:分」で表示する</li>
-			<li><strong>push した時刻と確認した時刻を、どちらも「月/日 時:分」（JST）で表示する。</strong> 実際にどれだけ待ったかを利用者が見て確かめられるようにする</li>
-		</ul>
-
-<pre><code>date "+push: %m/%d %H:%M"
-sleep 300 &amp;&amp; date "+確認: %m/%d %H:%M（5分待った）" &amp;&amp; gh run list --repo LightSpeedC/lightspeedc.github.io --limit 1 --json databaseId,headSha,createdAt
-</code></pre>
-
-<p>該当 commit の run が現れなければ、手動で依頼する。</p>
-
-<pre><code>date "+手動ビルド依頼: %m/%d %H:%M" &amp;&amp; gh api -X POST repos/LightSpeedC/lightspeedc.github.io/pages/builds --jq ".status"
-</code></pre>
-
-		<div class="callout">
-			<p><strong>過去の「再発」判定は、待ち時間が短すぎた疑いがある。</strong> 2026-09-17・9-18・9-21 の記録はいずれも120〜150秒の監視で「積まれない」と判定し、手動リクエストに切り替えていた。手動リクエストで作られた run と自動で積まれた run は Actions の一覧では見分けがつかないため、実際にはもっと待てば自動で積まれていた可能性を否定できない（詳細は <code>notes/40_issues/issues.html</code> の i260917-01 を参照）。</p>
-		</div>
-	</section>
-
-	<section class="ch08" id="ch08">
-		<h1>3時間ごとに待受けを cron で回す</h1>
-
-		<p>適用条件: このリポジトリで ai-chat-lite の待受けを運用するとき。</p>
-
-		<ul>
-			<li><strong>3時間おきに <code>CronCreate</code> で仕込む。</strong> 対象ルームは <code>public</code></li>
-			<li>起きるたびに、起きた時刻を <strong>「月/日 時:分」（JST）</strong>で表示する</li>
-			<li><strong>受けた発言のうち当リポジトリに関係するものは、概要を表示する。</strong> 関係の有無・報告の要不要の判断は共通ルール「ai-chat-lite（AI 間チャット）の利用」に従う</li>
-			<li>張り直し・カウント・止めてよい範囲も同じ共通ルールに従う。ここで決めるのは頻度と、起きたときに時刻・概要を出すことだけ</li>
-			<li><strong>cron はセッションの中だけで生きる。</strong> セッションを開き直したら、共通ルール「セッションを開き直したとき」に従い指示を待たず張り直す</li>
-			<li><strong>待受け・cron はどちらも自動的には永続しない。</strong> セッションを閉じれば両方消え、cron は最大7日で失効する。次にセッションを開いたときは、指示を待たず自分で両方を張り直す（待受けは <code>waiters</code> で数えてから、cron はこの章の頻度で作り直す）</li>
-		</ul>
-	</section>
-
-	<section class="ch09" id="ch09">
 		<h1>master へのマージ・push は publish-master.ps1 を使う</h1>
 
 		<p>適用条件: <code>develop</code> から <code>master</code> へマージして公開するとき。</p>
@@ -333,6 +261,47 @@ sleep 300 &amp;&amp; date "+確認: %m/%d %H:%M（5分待った）" &amp;&amp; g
   -TagName "2026/09/23_master-02" `
   -TagMessage "AGENTS.md移行・sleepルール・cron待受けルールを反映"
 </code></pre>
+	</section>
+
+	<section class="ch05" id="ch05">
+		<h1>ビルド確認は実時間の sleep で待つ</h1>
+
+		<p>適用条件: <code>master</code> を push したあと、Pages のビルドを確認するとき。</p>
+
+		<ul>
+			<li>ビルドの完了は Pages API の status で見ない。queued（ランナー待ち）も実行中も building と返るため、区別がつかない。<strong>見るのは Actions 側</strong>で、最新ビルドの commit が push したものと一致することも確かめる</li>
+			<li><strong>AI は経過時間の感覚を持たない。</strong>「15秒間隔で6回」のような自己ペースの巡回を指示しても、実際には指定どおりの間隔・回数を守れないことが多い。<strong>単発の <code>sleep</code> コマンドで実時間を強制する。</strong> ループで様子見をしない</li>
+			<li>待ち時間は <strong>5分（300秒）</strong>。push した commit の run が現れなければ、<strong>確認を待たずに手動でビルドを依頼する</strong></li>
+			<li>自動で積まれる回と積まれない回が不規則に出る（i260917-01）。積まれたかどうかに関わらず、<strong>公開の確認は「該当 commit の run が <code>success</code>」まで取る</strong></li>
+			<li><strong>push した時刻・確認した時刻・手動で依頼した時刻を、いずれも「月/日 時:分」（JST）で表示する。</strong> 実際にどれだけ待ったかを利用者が見て確かめられるようにする</li>
+		</ul>
+
+<pre><code>date "+push: %m/%d %H:%M"
+sleep 300 &amp;&amp; date "+確認: %m/%d %H:%M（5分待った）" &amp;&amp; gh run list --repo LightSpeedC/lightspeedc.github.io --limit 1 --json databaseId,headSha,createdAt
+</code></pre>
+
+		<p>該当 commit の run が現れなければ、手動で依頼する。</p>
+
+<pre><code>date "+手動ビルド依頼: %m/%d %H:%M" &amp;&amp; gh api -X POST repos/LightSpeedC/lightspeedc.github.io/pages/builds --jq ".status"
+</code></pre>
+
+		<div class="callout">
+			<p><strong>run が queued のまま滞留したときは、手動の再リクエストでは直らない。</strong> 走っているジョブを cancel して新しく積むだけで、待ち行列の先頭には入らない。Actions の画面で滞留ジョブを消してから積み直す。公開されている中身は旧版のまま正しいので、URL を叩いても気づけない。</p>
+		</div>
+	</section>
+
+	<section class="ch06" id="ch06">
+		<h1>4時間ごと（8〜24時）に待受けを cron で回す</h1>
+
+		<p>適用条件: このリポジトリで ai-chat-lite の待受けを運用するとき。</p>
+
+		<ul>
+			<li><strong>4時間おき、8・12・16・20・24（0）時に <code>CronCreate</code> で仕込む。</strong> 式は <code>43 0,8,12,16,20 * * *</code>。対象ルームは <code>public</code></li>
+			<li>起きるたびに、起きた時刻を <strong>「月/日 時:分」（JST）</strong>で表示する</li>
+			<li><strong>受けた発言のうち当リポジトリに関係するものは、概要を表示する。</strong> 関係の有無・報告の要不要の判断は共通ルール「ai-chat-lite（AI 間チャット）の利用」に従う</li>
+			<li>張り直し・カウント・止めてよい範囲も同じ共通ルールに従う。ここで決めるのは頻度と、起きたときに時刻・概要を出すことだけ</li>
+			<li><strong>待受けも cron も、セッションを閉じれば消える。cron は最大7日で失効する。</strong> 開き直したら、共通ルール「セッションを開き直したとき」に従い、指示を待たず両方を張り直す（待受けは <code>waiters</code> で数えてから、cron はこの章の式で作り直す）</li>
+		</ul>
 	</section>
 
 </div>
