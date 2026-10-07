@@ -177,7 +177,7 @@ pre code {
 	<div class="inner">
 		<h1>lightspeedc.com ローカルルール</h1>
 		<p class="lead">このリポジトリでだけ通る決めごと</p>
-		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-10-05</p>
+		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-10-07</p>
 	</div>
 </div>
 
@@ -269,10 +269,9 @@ pre code {
 		<p>適用条件: <code>master</code> を push したあと、Pages のビルドを確認するとき。</p>
 
 		<ul>
-			<li>ビルドの完了は Pages API の status で見ない。queued（ランナー待ち）も実行中も building と返るため、区別がつかない。<strong>見るのは Actions 側</strong>で、最新ビルドの commit が push したものと一致することも確かめる</li>
-			<li><strong>AI は経過時間の感覚を持たない。</strong>「15秒間隔で6回」のような自己ペースの巡回を指示しても、実際には指定どおりの間隔・回数を守れないことが多い。<strong>単発の <code>sleep</code> コマンドで実時間を強制する。</strong> ループで様子見をしない</li>
-			<li>待ち時間は <strong>5分（300秒）</strong>。push した commit の run が現れなければ、<strong>確認を待たずに手動でビルドを依頼する</strong></li>
-			<li>自動で積まれる回と積まれない回が不規則に出る（i260917-01）。積まれたかどうかに関わらず、<strong>公開の確認は「該当 commit の run が <code>success</code>」まで取る</strong></li>
+			<li>待ち方・手動依頼・流し直しは、共通ルール「GitHub Pages 公開ルール」＞「push のあとに公開を確かめる」に従う</li>
+			<li><strong>上書き: 確かめるのは <code>pages/builds/latest</code> ではなく、Actions の run。</strong> Pages API の status は、queued（ランナー待ち）も実行中も <code>building</code> と返り、区別がつかないため。見るのは <code>gh run list</code> の <code>headSha</code> が、push した commit と一致するか</li>
+			<li>自動で積まれる回と積まれない回が不規則に出る（i260917-01）。待ち時間は <strong>5分（300秒）</strong>で、公開の確認は「該当 commit の run が <code>success</code>」まで取る</li>
 			<li><strong>push した時刻・確認した時刻・手動で依頼した時刻を、いずれも「月/日 時:分」（JST）で表示する。</strong> 実際にどれだけ待ったかを利用者が見て確かめられるようにする</li>
 		</ul>
 
