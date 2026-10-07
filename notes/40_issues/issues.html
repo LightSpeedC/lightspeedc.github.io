@@ -157,7 +157,7 @@ details.issue li {
 	<div class="inner">
 		<h1>lightspeedc.com 課題一覧</h1>
 		<p class="lead">これから解決することの記録</p>
-		<p class="date">📅 作成: 2026-09-17 / 更新: 2026-10-04</p>
+		<p class="date">📅 作成: 2026-09-17 / 更新: 2026-10-05</p>
 	</div>
 </div>
 
@@ -174,7 +174,7 @@ details.issue li {
 			<summary><span class="no">i260917-01</span>Pages のビルドが push で自動的に積まれない <span class="badge b-none">未</span></summary>
 			<div class="body">
 				<p>2026-09-17 に2回連続で確認した。<code>master</code> への通常の push だけでは GitHub Actions の run が積まれず、<code>gh api -X POST repos/OWNER/REPO/pages/builds</code> の手動リクエストで初めてビルドが走っている。</p>
-				<p>ローカルルール4「Pages のビルドが queued で止まることがある」とは別の事象。あちらは積まれたジョブが滞留する話で、こちらはそもそも積まれない話。</p>
+				<p>ローカルルール5「ビルド確認は実時間の sleep で待つ」の、queued のまま滞留する注記とは別の事象。あちらは積まれたジョブが滞留する話で、こちらはそもそも積まれない話。</p>
 				<p><strong>原因を特定した。</strong> ビルド履歴を古い順に並べたところ、2026-09-16 の履歴書き換え（force push）の前後で切り替わっていた。書き換え前の <code>8de9462</code> は自動でビルドされ、書き換え後の <code>9899a1f</code> ・ <code>87de007</code> はどちらも自動で積まれず、手動リクエストが必要だった。<code>gh api repos/OWNER/REPO/hooks</code> は空で、通常の webhook 経由ではない（legacy Pages ビルドは GitHub 内部の仕組みで動く）。</p>
 				<p>対処として、Pages のソース設定を同じ値で PUT し直し、内部連携の再同期を試みた（設定自体は変えていない）。<strong>2026-09-17 の次の push で確認したが、効果はなかった。</strong> push 直後120秒監視しても run は積まれず、Pages の最新ビルドは push 前のコミットを指したまま。手動リクエストで初めて反映した。3回連続（9/16・9/17・今回）で自動トリガーが働いていない</p>
 				<p>利用者が GitHub 側の設定で build type を一度 Actions に変更し、<code>master</code> / <code>/docs</code> の legacy へ戻す操作を行った。2026-09-18 の次の push で確認したが、<strong>これも効果はなかった。</strong> push 直後120秒監視しても run は積まれず、手動リクエストで初めて反映した。master 側への push は4回連続（9/16・9/17・9/17・9/18）で自動トリガーが働いていない。</p>
@@ -184,10 +184,11 @@ details.issue li {
 				<p>2026-09-23 の master push（目次バッジの border-radius 修正）でも確認したところ、自動でビルドが積まれた（push 直後、約90秒の監視で <code>in_progress</code> を確認）。</p>
 				<p><strong>判定方法そのものに疑いが見つかった。</strong> 9/17・9/18・9/21 の「再発」判定は、いずれも push 後120〜150秒の監視で「積まれない」と判断し、そのあと手動リクエストしていた。手動リクエストで作られた run と、自動で積まれた run は Actions の一覧では見分けがつかない。9/21 に記録した run（<code>5d167a8</code>）は commit から約3分後に作成されており、150秒の監視を打ち切った直後の手動リクエストで作られた可能性が高い。つまり<strong>もっと待てば自動で積まれていたかどうかを、これまでの記録では確認できていない</strong>。この監視は AI が自己ペースで秒数を数えるループで行っており、実際には指定した間隔・回数どおりに待てていなかった疑いもある。</p>
 				<p>対策として、ローカルルールに「ビルド確認は実時間の sleep で待つ」を新設した。次回以降は単発の <code>sleep 300〜600</code>（実時間5〜10分）で待ってから run の有無を確認する。</p>
-				<p>2026-09-23 の次の master push（AGENTS.md 移行、commit <code>55a3d96</code>）で、新設した運用で確認した。push 18:23 → 実時間5分の <code>sleep</code> を挟んで確認 18:29、<code>gh run list</code> で該当 commit の run が <code>success</code> になっていることを確認した。手動リクエストは不要だった（<strong>訂正</strong>: この2つの時刻は当初「09:23」「09:29」とJSTを名乗って記録していたが、実際は、自分が個別に付け足した<code>TZ=Asia/Tokyo</code>指定がこの実行環境で認識されずUTCにフォールバックしていたための誤りだった。正しいJSTは18:23・18:29。ローカルルール7のコマンド例（<code>TZ</code>指定なしの素の<code>date</code>）は元々正しく、直す必要はなかった）。</p>
+				<p>2026-09-23 の次の master push（AGENTS.md 移行、commit <code>55a3d96</code>）で、新設した運用で確認した。push 18:23 → 実時間5分の <code>sleep</code> を挟んで確認 18:29、<code>gh run list</code> で該当 commit の run が <code>success</code> になっていることを確認した。手動リクエストは不要だった（<strong>訂正</strong>: この2つの時刻は当初「09:23」「09:29」とJSTを名乗って記録していたが、実際は、自分が個別に付け足した<code>TZ=Asia/Tokyo</code>指定がこの実行環境で認識されずUTCにフォールバックしていたための誤りだった。正しいJSTは18:23・18:29。ローカルルール5のコマンド例（<code>TZ</code>指定なしの素の<code>date</code>）は元々正しく、直す必要はなかった）。</p>
 				<p><strong>同日中のもう一段あとの master push（<code>766c43a</code>、publish-master.ps1 の追加）で、あらためて再発した。</strong> push 直後（実時間5分の sleep を挟んだ確認を含む）だけでなく、その後21時間以上経過しても run が積まれなかった（確認時点で最新runは1つ前の <code>55a3d96</code> のまま）。今回は待ち時間不足では説明できない。2026-09-24 に手動リクエストで反映した（run <code>35975352227</code>、<code>success</code>）。</p>
 				<p><strong>3回目の再発（2026-10-03）。</strong> master push（<code>7baac49</code>、Google サービスの開始日の掲載）後、push 10/03 14:52 → 実時間5分の <code>sleep</code> を挟んだ確認 14:57、さらに 14:58 にも確認したが、最新 run は旧 <code>9b44263</code> のままだった。待ち時間は push から約8分。手動リクエスト（15:00）で run <code>37101655094</code> が作られ、15:02 に <code>success</code>。公開サイトへの反映も確認した。</p>
 				<p><strong>次の master push（2026-10-04、<code>c01b2e8</code>、パーソナルAIアシスタント調査・紙芝居アニメーションの掲載）は自動で積まれた。</strong> push 10/04 14:54 → 実時間5分の <code>sleep</code> を挟んだ確認 15:00 で、該当 commit の run が <code>success</code>。run の作成は push 直後（14:54）で、手動リクエストは不要だった。観測は、自動で積まれた 1回目〈55a3d96〉・積まれなかった 2回目〈766c43a〉・積まれなかった 3回目〈7baac49〉・自動で積まれた 4回目〈c01b2e8〉となり、再発は不規則なまま。</p>
+				<p><strong>5回目（2026-10-04、<code>8af2a85</code>、資料へのリンクのバッジ化）は自動で積まれなかった。</strong> push 10/04 15:29 → 実時間5分の <code>sleep</code> を挟んだ確認 15:34 で、最新 run は旧 <code>c01b2e8</code> のまま。ローカルルール5（手動依頼を確認なしで行う）に従い 15:35 に手動で依頼し、run <code>37183229119</code> が 15:36 に <code>success</code>。ここまでの観測は、自動 ・ 手動 ・ 手動 ・ 自動 ・ 手動の順。</p>
 				<ul>
 					<li>状態: 未</li>
 					<li>force push の前後で切り替わったことを確認した（済）</li>
@@ -197,7 +198,7 @@ details.issue li {
 					<li>Pages のソースを master / /docs に戻し、次の master push で再確認する（済・そのときは自動で積まれたが、次の push で再発と判定した記録がある。ただし判定時間が短く、確度に疑いあり）</li>
 					<li>ビルド確認の監視時間を実時間5〜10分（sleep コマンド）に延ばす（済・ローカルルールに反映）</li>
 					<li>延ばした監視時間で再度「積まれない」ケースが起きるか確認する（済・1回目〈55a3d96〉は自動で積まれたが、2回目〈766c43a〉は21時間経っても積まれず再発した。実時間で十分待っても再発するため、「待ち時間不足」という仮説は否定された）</li>
-					<li>手動リクエストを公開手順に恒久的に組み込む（済・ローカルルール7に反映。5分待って該当 commit の run が無ければ、確認を待たずに手動で依頼する）</li>
+					<li>手動リクエストを公開手順に恒久的に組み込む（済・ローカルルール5に反映。5分待って該当 commit の run が無ければ、確認を待たずに手動で依頼する）</li>
 					<li>GitHub サポートへの問い合わせを検討する（未）</li>
 				</ul>
 			</div>
