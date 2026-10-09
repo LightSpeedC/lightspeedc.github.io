@@ -202,10 +202,13 @@ pre code {
 		<h2>依頼の受け付け</h2>
 
 		<ul>
-			<li>依頼を受けたら、利用者の確認を待たずに <code>docs/index.html</code> へ反映する</li>
+			<li><strong>掲載依頼は、受け付けた時点から公開・返信まで、確認を待たずに自動で進める。</strong> 順序は、反映（<code>docs/index.html</code>・status）→ commit → <code>publish-master.ps1</code> で master へマージ・push → ビルド確認 → 依頼元へ返信</li>
+			<li><strong>上書き: 共通ルール「重大な操作の確認方法」では、commit・push は実行語の指示を待つが、掲載依頼に限り、受け付けた依頼を指示とみなして進める。</strong> 理由は、掲載が定型で、中身が依頼元の公開済みリポジトリの <code>description</code> の転記に限られ、取り消しも利くため</li>
+			<li><strong>対象は掲載依頼だけ。</strong> ほかの変更の commit・push・公開は、これまでどおり指示を待つ</li>
 			<li>説明は依頼元リポジトリの <code>description</code> を転記する。自分で書き起こさない</li>
-			<li><strong>commit ・ push は別</strong>。掲載の反映までを自動で進める範囲とし、公開は指示を待つ</li>
-			<li>返信は公開が済んでから送る</li>
+			<li>反映の前に、依頼元が public で、公開 URL が 200 を返すことを確かめる。満たさなければ、反映せずに報告して止まる。既に載っている依頼（再送）は、再掲載せず、公開済みと返信する</li>
+			<li>依頼が重なったときは、1回の commit・公開にまとめる</li>
+			<li>返信は、ビルド確認（該当 commit の run が <code>success</code>）と、公開 URL での反映の確認が済んでから送る</li>
 		</ul>
 
 		<h2>並び</h2>
