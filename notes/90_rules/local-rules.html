@@ -177,7 +177,7 @@ pre code {
 	<div class="inner">
 		<h1>lightspeedc.com ローカルルール</h1>
 		<p class="lead">このリポジトリでだけ通る決めごと</p>
-		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-10-09</p>
+		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-10-10</p>
 	</div>
 </div>
 
@@ -202,7 +202,7 @@ pre code {
 		<h2>依頼の受け付け</h2>
 
 		<ul>
-			<li><strong>掲載依頼は、受け付けた時点から公開・返信まで、確認を待たずに自動で進める。</strong> 順序は、反映（<code>docs/index.html</code>・status）→ commit → <code>publish-master.ps1</code> で master へマージ・push → ビルド確認 → 依頼元へ返信</li>
+			<li><strong>掲載依頼は、受け付けた時点から公開・返信まで、確認を待たずに自動で進める。</strong> 順序は、反映（<code>docs/index.html</code>・status。日付は「作成日・公開日」）→ commit → <code>publish-master.ps1</code> で master へマージ・push → ビルド確認 → 依頼元へ返信</li>
 			<li><strong>上書き: 共通ルール「重大な操作の確認方法」では、commit・push は実行語の指示を待つが、掲載依頼に限り、受け付けた依頼を指示とみなして進める。</strong> 理由は、掲載が定型で、中身が依頼元の公開済みリポジトリの <code>description</code> の転記に限られ、取り消しも利くため</li>
 			<li><strong>対象は掲載依頼だけ。</strong> ほかの変更の commit・push・公開は、これまでどおり指示を待つ</li>
 			<li>説明は依頼元リポジトリの <code>description</code> を転記する。自分で書き起こさない</li>
@@ -217,6 +217,16 @@ pre code {
 			<li>1章・2章とも、新しいものを上に置く</li>
 			<li>既存の並びは動かさない。過去に追加した分を日付順に並べ直すことはしない</li>
 			<li>関連する資料が続くときは、ひとまとまりのまま扱う（ai-chat 系3件）</li>
+			<li>1章の MCP Server 学習資料は、依頼により最後に置く（例外）</li>
+		</ul>
+
+		<h2>作成日・公開日</h2>
+
+		<ul>
+			<li><strong>各資料の <code>公開Web</code>・<code>GitHub</code> バッジの右に、<code>📅 作成: yyyy-mm-dd / 公開: yyyy-mm-dd</code> を置く。</strong> 書くのは <code>p.links</code> の末尾の <code>span.pubdate</code>（1・2章とも）</li>
+			<li><strong>作成日は、リポジトリ名の先頭の日付（<code>yyyymmdd-</code>）。</strong> 名前に日付が無いリポジトリは、GitHub のリポジトリ作成日を JST に直して書く</li>
+			<li><strong>公開日は、このリポジトリの master で、その資料が <code>docs/index.html</code> に最初に載った commit の日。</strong> 取り方は <code>git log master --reverse --format=%aI -S&lt;リポジトリ名&gt; -- docs/index.html</code> の先頭行</li>
+			<li>掲載依頼を受けて資料を足すときも、同じ形で日付を付ける。公開日は、公開する日になる</li>
 		</ul>
 
 		<h2>資料見出し（h2）の虹色</h2>

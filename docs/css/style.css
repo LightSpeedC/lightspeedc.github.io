@@ -164,6 +164,15 @@ p {
 	gap: 8px;
 }
 
+/* 作成日・公開日（バッジの右） */
+.pubdate {
+	align-self: center;
+	background: none;
+	color: var(--ink-soft, #4a5568);
+	font-size: 0.86em;
+	white-space: nowrap;
+}
+
 /* バッジ（公開Web・GitHub 共通） */
 .webbadge,
 .ghbadge {
