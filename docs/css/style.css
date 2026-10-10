@@ -164,6 +164,25 @@ p {
 	gap: 8px;
 }
 
+/* 説明とバッジの行をまとめる枠（淡い背景＋左バー。色相は --dh） */
+.item {
+	box-sizing: border-box;
+	width: 90%;
+	min-width: 320px;
+	max-width: 100%;
+	margin: 0 0 22px;
+	padding: 10px 16px 12px;
+	background: hsl(var(--dh, 220), 28%, 95%);
+	border-left: 5px solid hsl(var(--dh, 220), 58%, 55%);
+	border-radius: 0 6px 6px 0;
+}
+.item .desc {
+	margin: 0 0 10px;
+}
+.item .links {
+	margin: 0;
+}
+
 /* 作成日・公開日（バッジの右） */
 .pubdate {
 	align-self: center;
