@@ -93,7 +93,7 @@ tools/80_ops/publish-master.ps1 `
 適用条件: `master` を push したあと、Pages のビルドを確認するとき。
 
 - 待ち方・手動依頼・流し直しは、共通ルール「GitHub Pages 公開ルール」＞「push のあとに公開を確かめる」に従う
-- **上書き: 確かめるのは `pages/builds/latest` ではなく、Actions の run。** Pages API の status は、queued（ランナー待ち）も実行中も `building` と返り、区別がつかないため。見るのは `gh run list` の `headSha` が、push した commit と一致するか
+- **上書き: 確かめるのは `pages/builds/latest` ではなく、Actions の run。** Pages API の status は、queued（ランナ待ち）も実行中も `building` と返り、区別がつかないため。見るのは `gh run list` の `headSha` が、push した commit と一致するか
 - 自動で積まれる回と積まれない回が不規則に出る（i260917-01）。待ち時間は <strong>5分（300秒）</strong>で、公開の確認は「該当 commit の run が `success`」まで取る
 - **push した時刻・確認した時刻・手動で依頼した時刻を、いずれも「月/日 時:分」（JST）で表示する。** 実際にどれだけ待ったかを利用者が見て確かめられるようにする
 
