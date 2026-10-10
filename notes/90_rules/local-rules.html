@@ -243,6 +243,15 @@ pre code {
 			<li>色相は <code>.dc01</code>〜 のクラスに <code>--dh</code> として持たせ、<code>section h2 a</code>（資料へのリンクのバッジ）が <code>hsl(var(--dh, 220), ...)</code> で参照する</li>
 			<li><strong>資料を増減したら刻みを計算し直し、全章の <code>.dcNN</code> を振り直す</strong></li>
 		</ul>
+
+		<h2>説明とバッジの枠</h2>
+
+		<ul>
+			<li><strong>各資料の説明と、<code>公開Web</code>・<code>GitHub</code> のバッジの行（日付を含む）は、1つの枠でまとめる。</strong> 1・2章とも</li>
+			<li>背景は見出しバッジと同じ色相の淡い色（<code>hsl(var(--dh), 28%, 95%)</code>）。左に同じ色相の 5px のバー（<code>hsl(var(--dh), 58%, 55%)</code>）を置く。幅は見出しバッジに揃える（90%、最小 320px、最大 100%）</li>
+			<li>骨格は <code>h2.dcNN &gt; a</code> の下に <code>div.item.dcNN</code>、その中に <code>p.desc</code> と <code>p.links</code>。CSS は <code>docs/css/style.css</code> の <code>.item</code></li>
+			<li>掲載依頼で資料を足すときも、この形で書く</li>
+		</ul>
 	</section>
 
 	<section class="ch03" id="ch03">
