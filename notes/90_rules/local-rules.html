@@ -19,11 +19,12 @@
 }
 
 .ch01 { --accent: hsl(280, 78%, 25%); --accent2: hsl(280, 58%, 55%); --soft: hsl(280, 28%, 95%); }
-.ch02 { --accent: hsl(224, 78%, 25%); --accent2: hsl(224, 58%, 55%); --soft: hsl(224, 28%, 95%); }
-.ch03 { --accent: hsl(168, 78%, 25%); --accent2: hsl(168, 58%, 55%); --soft: hsl(168, 28%, 95%); }
-.ch04 { --accent: hsl(112, 78%, 25%); --accent2: hsl(112, 58%, 55%); --soft: hsl(112, 28%, 95%); }
-.ch05 { --accent: hsl(56, 78%, 25%);  --accent2: hsl(56, 58%, 55%);  --soft: hsl(56, 28%, 95%); }
-.ch06 { --accent: hsl(0, 78%, 25%);   --accent2: hsl(0, 58%, 55%);   --soft: hsl(0, 28%, 95%); }
+.ch02 { --accent: hsl(233.3, 78%, 25%); --accent2: hsl(233.3, 58%, 55%); --soft: hsl(233.3, 28%, 95%); }
+.ch03 { --accent: hsl(186.7, 78%, 25%); --accent2: hsl(186.7, 58%, 55%); --soft: hsl(186.7, 28%, 95%); }
+.ch04 { --accent: hsl(140, 78%, 25%);   --accent2: hsl(140, 58%, 55%);   --soft: hsl(140, 28%, 95%); }
+.ch05 { --accent: hsl(93.3, 78%, 25%);  --accent2: hsl(93.3, 58%, 55%);  --soft: hsl(93.3, 28%, 95%); }
+.ch06 { --accent: hsl(46.7, 78%, 25%);  --accent2: hsl(46.7, 58%, 55%);  --soft: hsl(46.7, 28%, 95%); }
+.ch07 { --accent: hsl(0, 78%, 25%);   --accent2: hsl(0, 58%, 55%);   --soft: hsl(0, 28%, 95%); }
 
 * { box-sizing: border-box; }
 
@@ -203,10 +204,10 @@ pre code {
 
 		<ul>
 			<li><strong>掲載依頼は、受け付けた時点から公開・返信まで、確認を待たずに自動で進める。</strong> 順序は、反映（<code>docs/index.html</code>・status。日付は「作成日・公開日」）→ commit → <code>publish-master.ps1</code> で master へマージ・push → ビルド確認 → 依頼元へ返信</li>
-			<li><strong>上書き: 共通ルール「重大な操作の確認方法」では、commit・push は実行語の指示を待つが、掲載依頼に限り、受け付けた依頼を指示とみなして進める。</strong> 理由は、掲載が定型で、中身が依頼元の公開済みリポジトリの <code>description</code> の転記に限られ、取り消しも利くため</li>
-			<li><strong>対象は掲載依頼だけ。</strong> ほかの変更の commit・push・公開は、これまでどおり指示を待つ</li>
+			<li>共通ルールとの違い（commit・push を指示なしで進める理由）は、「作業の区切りでの commit・公開」に書く</li>
 			<li>説明は依頼元リポジトリの <code>description</code> を転記する。自分で書き起こさない</li>
 			<li>反映の前に、依頼元が public で、公開 URL が 200 を返すことを確かめる。満たさなければ、反映せずに報告して止まる。既に載っている依頼（再送）は、再掲載せず、公開済みと返信する</li>
+			<li><strong>掲載先の章は、依頼が「1章または2章」とあっても、自動で2章にする（先頭に置く）。</strong> 依頼元が章を指定していないときも同じ。後でレビューして1章へ移すことはあるが、判断待ちでフローを止めない</li>
 			<li>依頼が重なったときは、1回の commit・公開にまとめる</li>
 			<li>返信は、ビルド確認（該当 commit の run が <code>success</code>）と、公開 URL での反映の確認が済んでから送る</li>
 		</ul>
@@ -227,6 +228,11 @@ pre code {
 			<li><strong>作成日は、リポジトリ名の先頭の日付（<code>yyyymmdd-</code>）。</strong> 名前に日付が無いリポジトリは、GitHub のリポジトリ作成日を JST に直して書く</li>
 			<li><strong>公開日は、このリポジトリの master で、その資料が <code>docs/index.html</code> に最初に載った commit の日。</strong> 取り方は <code>git log master --reverse --format=%aI -S&lt;リポジトリ名&gt; -- docs/index.html</code> の先頭行</li>
 			<li>掲載依頼を受けて資料を足すときも、同じ形で日付を付ける。公開日は、公開する日になる</li>
+			<li><strong>更新日は、公開日のあとに <code> / 更新: yyyy-mm-dd</code> を付ける。</strong> 形は <code>📅 作成: … / 公開: … / 更新: …</code>。更新日が公開日と同じか、取れないときは付けない</li>
+			<li><strong>更新日は、リンク先リポジトリの最後の push の日（<code>pushed_at</code> を JST に直したもの）。</strong> README と <code>docs/</code> だけの更新に絞るのは難しいため、リポジトリ全体の最終更新日で足りるとする。取り方は <code>gh api repos/LightSpeedC/&lt;リポジトリ名&gt; --jq .pushed_at</code></li>
+			<li><strong>毎朝5時台に、<code>CronCreate</code> の定期実行で、全リンク先の更新日を見て反映する。</strong> 式は <code>3 5 * * *</code>。起きたら、1・2章の各資料の更新日を取り、<code>span.pubdate</code> と違う資料があれば書き換える</li>
+			<li><strong>更新日が変わった資料があれば、その場で commit・push・master への公開・ビルド確認まで進める。</strong> 変わった資料が無ければ、何もしない。起きた時刻は「月/日 時:分」（JST）で表示する</li>
+			<li>この cron も、セッションを閉じれば消え、最大7日で失効する。開き直したら、共通ルール「セッションを開き直したとき」に従い、指示を待たず張り直す</li>
 		</ul>
 
 		<h2>資料見出し（h2）の虹色</h2>
@@ -303,6 +309,21 @@ sleep 300 &amp;&amp; date "+確認: %m/%d %H:%M（5分待った）" &amp;&amp; g
 	</section>
 
 	<section class="ch06" id="ch06">
+		<h1>作業の区切りで commit・push、まとまったら公開まで自動で進める</h1>
+
+		<p>適用条件: このリポジトリの <code>docs/</code>・<code>notes/</code> の変更を扱うとき。</p>
+
+		<ul>
+			<li><strong>上書き: 共通ルール「重大な操作の確認方法」・「修正は1点ずつ、確認を重視」では、commit・push は実行語の指示を待つが、このリポジトリでは指示を待たずに進める。</strong> 理由は、中身が自分の資料の変更に限られ、<code>develop</code> と <code>master</code> の履歴から戻せるため</li>
+			<li><strong>作業が一区切りしたら、<code>develop</code> に commit・push する。</strong> 載せるファイルは名指しで <code>git add</code> する。メッセージの付け方は共通ルール「git の使い方」に従う</li>
+			<li><strong>まとまった作業が完了したら、<code>master</code> へのマージ・push・ビルド確認まで自動で進める。</strong> 手順は「master へのマージ・push は publish-master.ps1 を使う」と「ビルド確認は実時間の sleep で待つ」に従う</li>
+			<li>「まとまった作業が完了した」とは、依頼1件が済んだときと、記録（issues・status）の反映まで済んだときをいう</li>
+			<li>掲載依頼と、毎朝の更新日の反映（「作成日・公開日」）は、見つかった時点でこの章の「完了」とみなし、公開まで進める</li>
+			<li><strong>範囲は、このリポジトリの <code>docs/</code>・<code>notes/</code> の変更だけ。</strong> ほかのリポジトリ、<code>git reset</code>、履歴の書き換え、ファイルの削除は含めない。それらは、これまでどおり指示を待つ</li>
+		</ul>
+	</section>
+
+	<section class="ch07" id="ch07">
 		<h1>待受けを cron で回す</h1>
 
 		<p>適用条件: このリポジトリで ai-chat-lite の待受けを運用するとき。</p>
