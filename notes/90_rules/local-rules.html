@@ -179,7 +179,7 @@ pre code {
 	<div class="inner">
 		<h1>lightspeedc.com ローカルルール</h1>
 		<p class="lead">このリポジトリでだけ通る決めごと</p>
-		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-10-10</p>
+		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-10-25</p>
 	</div>
 </div>
 
@@ -252,6 +252,19 @@ pre code {
 			<li>背景は見出しバッジと同じ色相の淡い色（<code>hsl(var(--dh), 28%, 95%)</code>）。左に同じ色相の 5px のバー（<code>hsl(var(--dh), 58%, 55%)</code>）を置く。幅は見出しバッジに揃える（90%、最小 320px、最大 100%）</li>
 			<li>骨格は <code>h2.dcNN &gt; a</code> の下に <code>div.item.dcNN</code>、その中に <code>p.desc</code> と <code>p.links</code>。CSS は <code>docs/css/style.css</code> の <code>.item</code></li>
 			<li>掲載依頼で資料を足すときも、この形で書く</li>
+		</ul>
+
+		<h2>公開を止めた資料（一時的なリンクの除外）</h2>
+
+		<p>適用条件: 掲載している資料の公開 URL・リポジトリが一時的に見られなくなったとき（利用者の指示があったとき）。</p>
+
+		<ul>
+			<li><strong>項目は消さずに残し、リンクを外して灰色にする。</strong> 復活することがあるため</li>
+			<li>見出し・<code>公開Web</code>・<code>GitHub</code> の <code>a</code> を <code>span</code> にし、<code>href</code> を <code>data-href</code> に移す。見出しと枠に <code>offline</code> のクラスを足す。項目の直前に、戻し方を書いたコメントを置く</li>
+			<li>灰色の見た目は <code>docs/css/style.css</code> の <code>.offline</code></li>
+			<li>並び・<code>dcNN</code> の番号・色相は、ほかの資料と同じに扱う（件数に含める）</li>
+			<li>復活するときは、逆の手順で戻す</li>
+			<li>status の一覧には残す</li>
 		</ul>
 	</section>
 

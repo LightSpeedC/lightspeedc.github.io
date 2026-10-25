@@ -32,10 +32,17 @@ $newItem = (@(
 	"",
 	"`t`t<h2 class=`"dc02`">"
 ) -join "`n")
-$tailPart = ([regex]::new('<h2 class="dc02">')).Replace($tailPart, $newItem, 1)
+# 見出しには offline 等の別のクラスが付くことがある（公開を止めた資料）。後ろのクラスごと残して差し込む
+$h2Pattern = [regex]::new('<h2 class="dc02([ "])')
+if (-not $h2Pattern.IsMatch($tailPart)) { throw '2章の先頭の見出し（dc02）が見つからない' }
+$newItem = $newItem.Substring(0, $newItem.Length - '<h2 class="dc02">'.Length) + '<h2 class="dc02$1'
+$tailPart = $h2Pattern.Replace($tailPart, $newItem, 1)
 # 色相を最多件数で振り直す
-$itemCount = [regex]::Matches($tailPart, '<h2 class="dc\d{2}"').Count
-$chapter1Count = [regex]::Matches($headPart, '<h2 class="dc\d{2}"').Count
+$itemCount = [regex]::Matches($tailPart, '<h2 class="dc\d{2}[ "]').Count
+$chapter1Count = [regex]::Matches($headPart, '<h2 class="dc\d{2}[ "]').Count
+# 2章の番号が 1 から抜けずに続くかを確かめる（差し込みの失敗を黙って通さない）
+$itemNumbers = @([regex]::Matches($tailPart, '<div class="item dc(\d{2})[ "]') | ForEach-Object { [int]$_.Groups[1].Value })
+if ($itemNumbers.Count -ne $itemCount -or (Compare-Object $itemNumbers (1..$itemCount))) { throw "2章の番号が連番になっていない（見出し $itemCount 件、枠 $($itemNumbers.Count) 件）" }
 $maxCount = [math]::Max($itemCount, $chapter1Count)
 $hueLines = (1..$maxCount | ForEach-Object { $hueValue = [math]::Round(280 - 280 / ($maxCount - 1) * ($_ - 1), 1); '.dc{0:D2} {{ --dh: {1,5}; }}' -f $_, $hueValue }) -join "`n"
 $headPart = [regex]::Replace($headPart, '(?m)^\.dc01 \{[\s\S]*?(?=\n(?!\.dc\d{2} ))', $hueLines)
