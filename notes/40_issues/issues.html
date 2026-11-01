@@ -158,7 +158,7 @@ details.issue li {
 	<div class="inner">
 		<h1>lightspeedc.com 課題一覧</h1>
 		<p class="lead">これから解決することの記録</p>
-		<p class="date">📅 作成: 2026-09-17 / 更新: 2026-10-09</p>
+		<p class="date">📅 作成: 2026-09-17 / 更新: 2026-11-01</p>
 	</div>
 </div>
 
@@ -241,6 +241,14 @@ details.issue li {
 				<p>旧トップページが読み込むリンク一覧。新しいトップページは静的にリンクを記述しているため参照していない。<code>index-old.html</code> が使っているので残してある。</p>
 				<p>2026-09-17 に確認。<code>docs/index-old.html</code> の Mithril コードが <code>m.request</code> で今も読み込んでいる。新しいトップページ（<code>docs/index.html</code>）からのリンクは無いが、URL は生存しており実測で 200。<strong>i260917-02（旧サンプル群の整理）の決着に従属する</strong>。<code>index-old.html</code> を残す間はこのファイルも残す</p>
 				<p>2026-09-24 に i260917-02 と合わせて削除した。</p>
+			</div>
+		</details>
+
+		<details class="issue md-flat" open>
+			<summary><span class="no">i261101-01</span>README を README.html を正とする形にする <span class="badge b-none">未</span></summary>
+			<div class="body">
+				<p>共通ルールでは、README は <code>README.html</code> を正とし、<code>README.md</code> は html2md で生成する。このリポジトリには <code>README.html</code> が無く、<code>README.md</code> を直接書いている。</p>
+				<p>2026-11-01 に確認。root の <code>README.md</code> の本文は、同日に実際のフォルダ構成に合わせて直した（<code>README.html</code> 化はしていない）。判断が要る点: このリポジトリの配信は <code>docs/</code> だけなので、root の <code>README.html</code> は公開されない。html2md の対象に root の README を足し、<code>status.html</code> の除外（ローカルルール「html2md では status を除外する」）と両立させる必要がある。</p>
 			</div>
 		</details>
 
