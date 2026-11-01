@@ -1,9 +1,9 @@
 LightSpeedC
 ===========
 
-> 📅 作成: 2026-08-27 / 更新: 2026-09-24
+> 📅 作成: 2026-08-27 / 更新: 2026-11-01
 
-LightSpeedC の GitHub Pages リポジトリです。
+LightSpeedC の GitHub Pages リポジトリです。他のプロジェクトが公開した資料を、トップページ（`docs/index.html`）の一覧に載せています。掲載は、ai-chat-lite で届く依頼を受けて行います。
 
 ## 公開URL
 
@@ -25,9 +25,8 @@ GitHub Pages を有効にすると、そのリポジトリのページも自動�
 | https://lightspeedc.com/ | このリポジトリの `docs/` |
 | https://lightspeedc.com/20260822-powershell-pwsh-learn/ | リポジトリ `20260822-powershell-pwsh-learn` |
 | https://lightspeedc.com/20260824-dos-command-learn/ | リポジトリ `20260824-dos-command-learn` |
-| https://lightspeedc.com/20260824-node-deno-bun-compare/ | リポジトリ `20260824-node-deno-bun-compare` |
-| https://lightspeedc.com/20260824-local-llm-llama-cp/ | リポジトリ `20260824-local-llm-llama-cp` |
-| https://lightspeedc.com/20260828-typescript-learn/ | リポジトリ `20260828-typescript-learn` |
+
+上の 2 行は例です。公開している資料の全体は、トップページの一覧にあります。
 
 新しいリポジトリで Pages を有効にすれば、設定を追加しなくてもリポジトリ名の
 パスで公開されます。
@@ -44,6 +43,12 @@ GitHub Pages を有効にすると、そのリポジトリのページも自動�
 > 逆方向も同じです。`docs/` に既にあるフォルダ名
 > （`css` `js` `public`）と
 > 同じ名前のリポジトリを新しく作って Pages を有効にすると、同様に競合します。
+
+## 掲載と公開
+
+- ブランチは `develop` と `master` の 2 本です。GitHub Pages は `master` の `/docs` から配信します。
+- 掲載の追加は `tools/80_ops/add-chapter2-item.ps1`、公開は `tools/80_ops/publish-master.ps1` で行います。
+- 取り決めの詳細は、[ローカルルール](notes/90_rules/local-rules.md)に書いてあります。
 
 ## フォルダ構成
 
@@ -63,8 +68,14 @@ docs/                公開されるファイル（サイトのルート）
   public/            Firebase のサンプル
 
 notes/               公開されない記録
+  40_issues/         課題
+  90_rules/          このリポジトリのローカルルール
   status/            構成と作業状況の記録
 
+tools/               運用の補助スクリプト
+  80_ops/            掲載の追加・更新日の反映・master への公開
+
+AGENTS.md            作業開始時に読むローカルルールの入口
 app.js               ローカル確認用の静的サーバー（docs/ を配信する）
 package.json         ローカル確認用の依存定義
 run.cmd              ローカル確認の起動スクリプト
