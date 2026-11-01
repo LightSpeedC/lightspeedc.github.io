@@ -179,7 +179,7 @@ pre code {
 	<div class="inner">
 		<h1>lightspeedc.com ローカルルール</h1>
 		<p class="lead">このリポジトリでだけ通る決めごと</p>
-		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-10-25</p>
+		<p class="date">📅 作成: 2026-09-09 / 更新: 2026-11-01</p>
 	</div>
 </div>
 
@@ -233,6 +233,7 @@ pre code {
 			<li><strong>更新日は、リンク先リポジトリの最後の push の日（<code>pushed_at</code> を JST に直したもの）。</strong> README と <code>docs/</code> だけの更新に絞るのは難しいため、リポジトリ全体の最終更新日で足りるとする。取り方は <code>gh api repos/LightSpeedC/&lt;リポジトリ名&gt; --jq .pushed_at</code></li>
 			<li><strong>毎朝5時台に、<code>CronCreate</code> の定期実行で、全リンク先の更新日を見て反映する。</strong> 式は <code>3 5 * * *</code>。起きたら、1・2章の各資料の更新日を取り、<code>span.pubdate</code> と違う資料があれば書き換える</li>
 			<li><strong>更新日が変わった資料があれば、その場で commit・push・master への公開・ビルド確認まで進める。</strong> 変わった資料が無ければ、何もしない。起きた時刻は「月/日 時:分」（JST）で表示する</li>
+			<li><strong><code>docs/index.html</code> のタイトルバーの更新日（<code>p.date</code>）は、本文を書き換えた日にする。</strong> 掲載の追加・削除・並べ替え、資料の更新日の反映を commit するときに、同じ commit で、その日に直す。体裁だけの変更では変えない（共通ルール「ドキュメントの作成日・更新日」に従う）</li>
 			<li>この cron も、セッションを閉じれば消え、最大7日で失効する。開き直したら、共通ルール「セッションを開き直したとき」に従い、指示を待たず張り直す</li>
 		</ul>
 
