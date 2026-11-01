@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<title>lightspeedc.com 2026-11-01 の失敗の振り返り</title>
+<style>
+:root { --navy1: #12224d; --navy2: #2f5fbf; --ink: #1c2330; --line: #d9dfe8; --accent: #12224d; --accent2: #2f5fbf; --soft: #f2f5fb; }
+body { background: #fff; color: #1c2330; font: 15.5px/1.85 sans-serif; margin: 0; }
+.titlebar { background: #12224d; background: linear-gradient(135deg, var(--navy1, #12224d), var(--navy2, #2f5fbf)); color: #fff; padding: 34px 30px 30px; }
+.titlebar h1 { font-size: 1.5em; margin: 0; color: #fff; }
+.titlebar .date { color: #dfe7fb; font-size: .85em; margin: 6px 0 0; }
+.wrap { max-width: 1600px; margin: 0 auto; padding: 0 30px 30px; }
+h2 { background: #12224d; background: linear-gradient(100deg, var(--navy1, #12224d), var(--navy2, #2f5fbf)); color: #fff; border-radius: 8px; padding: 6px 12px; margin: 30px 0 12px; font-size: 1.15em; }
+table { border-collapse: separate; border-spacing: 0; border: 1px solid #d9dfe8; border-radius: 8px; overflow: hidden; }
+th { background: #12224d; background: linear-gradient(100deg, var(--navy1, #12224d), var(--navy2, #2f5fbf)); color: #fff; padding: 9px 12px; text-align: left; }
+td { background: #fff; color: #1c2330; padding: 9px 12px; vertical-align: top; border-top: 1px solid #d9dfe8; }
+tr:nth-child(even) td { background: #fafbfe; }
+.tablewrap { overflow-x: auto; }
+</style>
+</head>
+<body>
+<div class="titlebar"><div class="inner">
+<h1>lightspeedc.com 2026-11-01 の失敗の振り返り</h1>
+<p class="date">📅 作成: 2026-11-02 / 更新: 2026-11-02</p>
+</div></div>
+<div class="wrap">
+
+<section class="ch01" id="ch01">
+<h2>範囲と方法</h2>
+<ul>
+<li>対象は、会話の記録 (JSONL) の 11/01 (JST) 分。記録は 22127 行で、全行を読めた (読めなかった行は 0)。作業があったのは 21:42 以降だけ。</li>
+<li>前の振り返りが無いため、この日の全体を見た。読んだのはサブエージェント 1 本。件数と時刻は、その報告による。</li>
+<li>原因は、確かめたものを除いて見込み。</li>
+</ul>
+</section>
+
+<section class="ch02" id="ch02">
+<h2>拾った失敗と、防ぐ手立て</h2>
+<div class="tablewrap">
+<table>
+<thead><tr><th>#</th><th>失敗</th><th>回数</th><th>防ぐ手立て</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>ビルド確認を、ローカルルールの 5 分でなく 3 分で待った。確認時刻の表示も一部省いた (見込み: 共通ルールの 3 分を優先した)</td><td>4</td><td>⚠️ 一部。ローカルルールと共通ルールの数字が食い違っている</td></tr>
+<tr><td>2</td><td>トップページのタイトルバーと README の更新日を直さず、利用者に指摘された</td><td>3 (指摘 2)</td><td>✅ ローカルルールに追記済み (11/01)。README の日付は ⚠️ 引き金が無い</td></tr>
+<tr><td>3</td><td>Edit の <code>old_string</code> にインデントのタブを 1 つ多く写し、2 回失敗した</td><td>2</td><td>⚠️ 共通ルールに書いてあるが、守れなかった。フックは無い</td></tr>
+<tr><td>4</td><td>Bash で <code>cat</code> ・ <code>grep</code> ・ <code>head</code> ・ <code>ls</code> を使った (<code>sed</code> だけフックが止めた)</td><td>14 前後</td><td>⚠️ <code>sed</code> だけ ✅。ほかはフックを通る</td></tr>
+<tr><td>5</td><td>背面コマンドの出力ファイルを読むコマンドに、ユーザプロファイル配下のパスを書いた</td><td>7 以上</td><td>⚠️ 共通ルールはあるが、通知に出たパスを写してしまう。フックは無い</td></tr>
+</tbody>
+</table>
+</div>
+<p>軽微なものとして、22:21 のビルド確認で公開 URL での反映確認を省いた (<code>docs/</code> に変更が無かったため)。1 回きりなので候補にしない。</p>
+</section>
+
+<section class="ch03" id="ch03">
+<h2>ルール化の候補</h2>
+<p>2 回以上起きたもの、ルールがあって破られたものを挙げる。文だけで止まらなかったものは、フックを先に置く。</p>
+
+<h3>1. ビルド確認の待ち時間の食い違い (失敗 1)</h3>
+<ul>
+<li><strong>1-A (推奨、恒久)</strong>: ローカルルールの「5 分」を、共通ルールに合わせて 3 分に直す。数字が 1 箇所になり、どちらを読んでも同じになる。<strong>利用者の判断が要る</strong> (5 分と 3 分の未決の件)。</li>
+<li><strong>1-B (恒久)</strong>: 5 分のまま残し、共通ルールとの違いと理由をローカルルールに書き足す。上書きの形は既にある。</li>
+</ul>
+
+<h3>2. Bash の素のシェル利用 (失敗 4)</h3>
+<ul>
+<li><strong>2-A (恒久)</strong>: PreToolUse フックで、<code>cat</code> ・ <code>grep</code> ・ <code>head</code> ・ <code>ls</code> の単独実行も止める。<code>git</code> ・ <code>aichat</code> ・ <code>gh</code> に付く <code>grep</code> の絞り込みは通す必要があり、判定が難しい。共通ルール側の作業になる。</li>
+<li><strong>2-B (暫定)</strong>: 文面を足す。すでに書いてあって破られたので、暫定にもならない見込み。</li>
+</ul>
+
+<h3>3. フルパスの記載 (失敗 5) と Edit のタブ (失敗 3)</h3>
+<ul>
+<li><strong>3-A (恒久)</strong>: 背面コマンドの出力は、通知のパスを写さず、環境変数で組み立てる形を共通ルールの見出しに 1 行足す。</li>
+<li><strong>3-B</strong>: フックは作らない。Edit の失敗は 1 日 2 回で、再取得ですぐ直る。</li>
+</ul>
+
+<h3>4. 更新日の引き金 (失敗 2)</h3>
+<ul>
+<li><strong>4-A (恒久)</strong>: README の更新日にも、トップページと同じ「本文を書き換えたら同じ commit で直す」を、ローカルルールに 1 行足す。トップページ側は済。</li>
+</ul>
+</section>
+
+</div>
+</body>
+</html>
